@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DiabetesTests
 {
     [TestClass]
-    public class UnitTest1
+    public class UserTests
     {
         [TestMethod]
         public void TestMethod1()
