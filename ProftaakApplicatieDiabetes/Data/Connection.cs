@@ -9,8 +9,7 @@ namespace Data
     {
         public static SqlConnection GetConnection()
         {
-            return new SqlConnection(
-                );
+            return new SqlConnection();
         }
     }
 }
