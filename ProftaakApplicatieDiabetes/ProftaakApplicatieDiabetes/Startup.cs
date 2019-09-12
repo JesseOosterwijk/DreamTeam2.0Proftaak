@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data.Contexts;
+using Data.Interfaces;
+using Logic;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,8 +35,24 @@ namespace ProftaakApplicatieDiabetes
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                    {
+                        options.AccessDeniedPath = "/Home/ErrorForbidden";
+                        options.LoginPath = "/Home/ErrorNotLoggedIn";
+                    });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", p => p.RequireAuthenticatedUser().RequireRole("Admin"));
+                options.AddPolicy("CareRecipient", p => p.RequireAuthenticatedUser().RequireRole("CareRecipient"));
+                options.AddPolicy("Professional", p => p.RequireAuthenticatedUser().RequireRole("Professional"));
+            });
+
+            services.AddSingleton<IUserContext, UserContextSQL>();
+
+            services.AddSingleton<UserLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
