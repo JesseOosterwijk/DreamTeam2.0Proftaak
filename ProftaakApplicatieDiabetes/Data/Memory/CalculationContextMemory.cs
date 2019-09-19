@@ -1,11 +1,17 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Data.Memory
 {
-    class CalculationContextMemory
+    public class CalculationContextMemory
     {
+        public CalculationContextMemory()
+        {
+            MakeTestValues();
+        }
+        
         public double CalculateMealtimeDose(double Weight, double TotalCarbs, double CurrentBloodSugar, double TargetBloodSugar)
         {
             double mealtimedose = CalculateCHO(TotalCarbs, Weight) + CalculateSugarCorrection(CurrentBloodSugar, TargetBloodSugar, Weight);
@@ -41,6 +47,11 @@ namespace Data.Memory
             double TDI;
             TDI = Weight * 0.55;
             return TDI;
+        }
+
+        private void MakeTestValues()
+        {
+            Calculation values = new Calculation(70, 60, 220, 120);
         }
     }
 }
