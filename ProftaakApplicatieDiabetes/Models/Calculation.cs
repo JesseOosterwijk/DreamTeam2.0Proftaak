@@ -14,12 +14,5 @@ namespace Models
 
         public double TargetBloodSugar { get; set; }
 
-        public Calculation(double weight, double totalCarbs, double currentBloodSugar, double targetBloodSugar)
-        {
-            Weight = weight;
-            TotalCarbs = totalCarbs;
-            CurrentBloodsugar = currentBloodSugar;
-            TargetBloodSugar = targetBloodSugar;
-        }
     }
 }

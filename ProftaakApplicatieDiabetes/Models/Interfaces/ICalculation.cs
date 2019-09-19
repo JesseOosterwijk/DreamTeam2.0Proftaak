@@ -2,9 +2,9 @@
 {
     public interface ICalculation
     {
-        double Weight { get; }
-        double TotalCarbs { get; }
-        double CurrentBloodsugar { get; }
-        double TargetBloodSugar { get; }
+        double Weight { get; set; }
+        double TotalCarbs { get; set; }
+        double CurrentBloodsugar { get; set; }
+        double TargetBloodSugar { get; set; }
     }
 }

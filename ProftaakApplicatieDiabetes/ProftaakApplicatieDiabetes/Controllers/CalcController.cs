@@ -20,15 +20,20 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             return View();
         }
+
         public IActionResult Calculate()
         {
+            CalcModel model = new CalcModel();
+            model.Result = 0;
             return View();
         }
+
         [HttpPost]
         public IActionResult Calculate(CalcModel model)
         {
-            calcLogic.CalculateMealtimeDose(model.Weight, model.TotalCarbs, model.CurrentBloodsugar, model.TargetBloodSugar);
-            return RedirectToAction("Calculate");
+            model.Result = calcLogic.CalculateMealtimeDose(model.Weight, model.TotalCarbs, model.CurrentBloodsugar, model.TargetBloodSugar);
+            return Redirect(Url.Action("Calculate/" + model.Result));
+            //return RedirectToAction("Calculate");
         }
     }
 }

@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 using Data.Contexts;
+using Data.Interfaces;
 using Data.Memory;
 
 namespace Logic
 {
-    class CalculationLogic : ICalculationLogic
+    public class CalculationLogic : ICalculationLogic
     {
-        private readonly IMeasurementContext _context;
-        private readonly CalculationContextMemory calMemory;
+        private readonly ICalculationContext _context;
+        private readonly IMemory calMemory;
 
-        public CalculationLogic(IMeasurementContext context, CalculationContextMemory _calMemory)
+        public CalculationLogic(ICalculationContext context, IMemory _calMemory)
         {
             _context = context;
             calMemory = _calMemory;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Data.Contexts;
 using Data.Interfaces;
+using Data.Memory;
 using Logic;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -51,6 +52,9 @@ namespace ProftaakApplicatieDiabetes
             });
 
             services.AddSingleton<IUserContext, UserContextSQL>();
+            services.AddSingleton<ICalculationContext, CalculationContext>();
+            services.AddSingleton<IMemory, CalculationContextMemory>();
+            services.AddSingleton<ICalculationLogic, CalculationLogic>();
 
             services.AddSingleton<UserLogic>();
         }

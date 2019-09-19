@@ -14,5 +14,7 @@ namespace ProftaakApplicatieDiabetes.Models
         public double CurrentBloodsugar { get; set; }
 
         public double TargetBloodSugar { get; set; }
+
+        public double Result { get; set; }
     }
 }

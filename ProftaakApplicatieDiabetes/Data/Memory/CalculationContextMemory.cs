@@ -1,11 +1,12 @@
-﻿using Models;
+﻿using Data.Interfaces;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Data.Memory
 {
-    public class CalculationContextMemory
+    public class CalculationContextMemory : IMemory
     {
         public CalculationContextMemory()
         {
@@ -51,7 +52,7 @@ namespace Data.Memory
 
         private void MakeTestValues()
         {
-            Calculation values = new Calculation(70, 60, 220, 120);
+            //Calculation values = new Calculation(70, 60, 220, 120);
         }
     }
 }
