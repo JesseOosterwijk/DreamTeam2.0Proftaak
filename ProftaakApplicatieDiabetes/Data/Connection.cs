@@ -7,9 +7,9 @@ namespace Data
 {
     class Connection
     {
-        public static SqlConnection GetConnection()
-        {
-            return new SqlConnection();
-        }
+        //public static SqlConnection GetConnection()
+        //{
+        //    return new SqlConnection();
+        //}
     }
 }
