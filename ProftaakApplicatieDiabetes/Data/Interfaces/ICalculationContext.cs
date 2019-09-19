@@ -1,6 +1,6 @@
 ﻿namespace Data.Contexts
 {
-    public interface IMeasurementContext
+    public interface ICalculationContext
     {
         decimal CalculateInsulin(decimal carbohydrates, decimal bloodsugar);
     }

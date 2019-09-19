@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Data.Contexts
 {
-    class MeasurementContext : IMeasurementContext
+    class CalculationContext : ICalculationContext
     {
         //private readonly SqlConnection _con = Connection.GetConnection();
 

@@ -6,6 +6,5 @@
         double TotalCarbs { get; }
         double CurrentBloodsugar { get; }
         double TargetBloodSugar { get; }
-
     }
 }
