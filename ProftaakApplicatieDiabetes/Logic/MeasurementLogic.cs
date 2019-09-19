@@ -14,7 +14,6 @@ namespace Logic
             _context = context;
         }
 
-        //hoi
         public decimal CalculateInulin(decimal carbohydrates, decimal bloodsugar)
         {
             return _context.CalculateInsulin(carbohydrates, bloodsugar);
