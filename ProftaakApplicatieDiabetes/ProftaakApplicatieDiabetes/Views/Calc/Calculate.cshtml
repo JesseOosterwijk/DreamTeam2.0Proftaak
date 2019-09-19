@@ -13,14 +13,24 @@
         <form asp-action="Calculate">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Carbohydrates" class="control-label"></label>
-                <input asp-for="Carbohydrates" class="form-control" />
-                <span asp-validation-for="Carbohydrates" class="text-danger"></span>
+                <label asp-for="Weight" class="control-label"></label>
+                <input asp-for="Weight" class="form-control" />
+                <span asp-validation-for="Weight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Bloodsugar" class="control-label"></label>
-                <input asp-for="Bloodsugar" class="form-control" />
-                <span asp-validation-for="Bloodsugar" class="text-danger"></span>
+                <label asp-for="TotalCarbs" class="control-label"></label>
+                <input asp-for="TotalCarbs" class="form-control" />
+                <span asp-validation-for="TotalCarbs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrentBloodsugar" class="control-label"></label>
+                <input asp-for="CurrentBloodsugar" class="form-control" />
+                <span asp-validation-for="CurrentBloodsugar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TargetBloodSugar" class="control-label"></label>
+                <input asp-for="TargetBloodSugar" class="form-control" />
+                <span asp-validation-for="TargetBloodSugar" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
