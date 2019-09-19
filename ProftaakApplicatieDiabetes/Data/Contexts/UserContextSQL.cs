@@ -5,6 +5,6 @@ namespace Data.Contexts
 {
     public class UserContextSQL : IUserContext
     {
-        private readonly SqlConnection _conn = Connection.GetConnection();
+        //private readonly SqlConnection _conn = Connection.GetConnection();
     }
 }
