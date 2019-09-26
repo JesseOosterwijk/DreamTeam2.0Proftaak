@@ -32,6 +32,8 @@
                 <input asp-for="TargetBloodSugar" class="form-control" />
                 <span asp-validation-for="TargetBloodSugar" class="text-danger"></span>
             </div>
+            <h2>Result: @ViewBag.Result</h2>
+
             <div class="form-group">
                 @*<a asp-controller="Calc" asp-action="Result">Calculate</a>*@
                 <input type="submit" value="Calculate" class="btn btn-default" />

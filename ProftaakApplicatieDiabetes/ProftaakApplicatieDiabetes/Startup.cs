@@ -52,8 +52,6 @@ namespace ProftaakApplicatieDiabetes
             });
 
             services.AddSingleton<IUserContext, UserContextSQL>();
-            services.AddSingleton<ICalculationContext, CalculationContext>();
-            services.AddSingleton<IMemory, CalculationContextMemory>();
             services.AddSingleton<ICalculationLogic, CalculationLogic>();
 
             services.AddSingleton<UserLogic>();

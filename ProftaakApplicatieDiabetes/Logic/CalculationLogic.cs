@@ -4,23 +4,22 @@ using System.Text;
 using Data.Contexts;
 using Data.Interfaces;
 using Data.Memory;
+using Models;
 
 namespace Logic
 {
     public class CalculationLogic : ICalculationLogic
     {
         private readonly ICalculationContext _context;
-        private readonly IMemory calMemory;
 
-        public CalculationLogic(ICalculationContext context, IMemory _calMemory)
+        public CalculationLogic(ICalculationContext context)
         {
             _context = context;
-            calMemory = _calMemory;
         }
 
-        public double CalculateMealtimeDose(double Weight, double TotalCarbs, double CurrentBloodSugar, double TargetBloodSugar)
+        public double CalculateMealtimeDose(ICalculation calc)
         {
-            return calMemory.CalculateMealtimeDose(Weight, TotalCarbs, CurrentBloodSugar, TargetBloodSugar);
+            return _context.CalculateMealtimeDose(calc);
         }
     }
 }
