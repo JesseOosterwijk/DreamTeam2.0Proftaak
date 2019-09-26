@@ -19,7 +19,7 @@ namespace Data.Memory
             return mealtimedose;
         }
 
-        private double CalculateCHO(double TotalCarbs, double Weight)
+        public double CalculateCHO(double TotalCarbs, double Weight)
         {
             double coverage;
             double carbsPerInsuline = 500 / CalculateTotalDoseInsuline(Weight);
@@ -27,7 +27,7 @@ namespace Data.Memory
             return coverage;
         }
 
-        private double CalculateSugarCorrection(double CurrentBloodSugar, double TargetBloodSugar, double Weight)
+        public double CalculateSugarCorrection(double CurrentBloodSugar, double TargetBloodSugar, double Weight)
         {
             double sugardifference;
             sugardifference = CurrentBloodSugar - TargetBloodSugar;
@@ -36,21 +36,21 @@ namespace Data.Memory
             return sugarcorrection;
         }
 
-        private double CalculateCorrectionFactor(double Weight)
+        public double CalculateCorrectionFactor(double Weight)
         {
             double correctionfactor;
             correctionfactor = 1800 / CalculateTotalDoseInsuline(Weight);
             return correctionfactor;
         }
 
-        private double CalculateTotalDoseInsuline(double Weight)
+        public double CalculateTotalDoseInsuline(double Weight)
         {
             double TDI;
             TDI = Weight * 0.55;
             return TDI;
         }
 
-        private void MakeTestValues()
+        public void MakeTestValues()
         {
             //Calculation values = new Calculation(70, 60, 220, 120);
         }
