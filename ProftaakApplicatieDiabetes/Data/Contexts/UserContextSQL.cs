@@ -1,5 +1,5 @@
-﻿using System.Data.SqlClient;
-using Data.Interfaces;
+﻿using Data.Interfaces;
+using System.Data.SqlClient;
 
 namespace Data.Contexts
 {
