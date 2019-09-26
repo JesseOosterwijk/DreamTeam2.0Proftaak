@@ -7,6 +7,8 @@ namespace ProftaakApplicatieDiabetes.Models
 {
     public class CalcModel
     {
+        public int userBSN { get; set; }
+
         public double Weight { get; set; }
 
         public double TotalCarbs { get; set; }

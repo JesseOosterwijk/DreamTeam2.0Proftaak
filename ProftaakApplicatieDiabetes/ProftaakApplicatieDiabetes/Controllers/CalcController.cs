@@ -31,7 +31,8 @@ namespace ProftaakApplicatieDiabetes.Controllers
         [HttpPost]
         public IActionResult Calculate(CalcModel model)
         {
-            model.Result = calcLogic.CalculateMealtimeDose(model.Weight, model.TotalCarbs, model.CurrentBloodsugar, model.TargetBloodSugar);
+            int hardcodedBSN = 226044440;
+            model.Result = calcLogic.CalculateMealtimeDose(model.Weight, model.TotalCarbs, model.CurrentBloodsugar, model.TargetBloodSugar, hardcodedBSN);
             return Redirect(Url.Action("Calculate/" + model.Result));
             //return RedirectToAction("Calculate");
         }

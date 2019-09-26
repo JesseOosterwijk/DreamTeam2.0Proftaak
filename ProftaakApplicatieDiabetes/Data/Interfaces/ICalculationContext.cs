@@ -2,6 +2,6 @@
 {
     public interface ICalculationContext
     {
-        decimal CalculateInsulin(decimal carbohydrates, decimal bloodsugar);
+        double CalculateMealtimeDose(double weight, double totalCarbs, double currentBloodSugar, double TargetBloodSugar, int userBSN);
     }
 }

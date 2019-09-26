@@ -10,17 +10,15 @@ namespace Logic
     public class CalculationLogic : ICalculationLogic
     {
         private readonly ICalculationContext _context;
-        private readonly IMemory calMemory;
 
-        public CalculationLogic(ICalculationContext context, IMemory _calMemory)
+        public CalculationLogic(ICalculationContext context)
         {
             _context = context;
-            calMemory = _calMemory;
         }
 
-        public double CalculateMealtimeDose(double Weight, double TotalCarbs, double CurrentBloodSugar, double TargetBloodSugar)
+        public double CalculateMealtimeDose(double Weight, double TotalCarbs, double CurrentBloodSugar, double TargetBloodSugar, int userBSN)
         {
-            return calMemory.CalculateMealtimeDose(Weight, TotalCarbs, CurrentBloodSugar, TargetBloodSugar);
+            return _context.CalculateMealtimeDose(Weight, TotalCarbs, CurrentBloodSugar, TargetBloodSugar, userBSN);
         }
     }
 }

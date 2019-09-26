@@ -2,6 +2,6 @@
 {
     public interface ICalculationLogic
     {
-        double CalculateMealtimeDose(double Weight, double TotalCarbs, double CurrentBloodSugar, double TargetBloodSugar);
+        double CalculateMealtimeDose(double Weight, double TotalCarbs, double CurrentBloodSugar, double TargetBloodSugar, int userBSN);
     }
 }
