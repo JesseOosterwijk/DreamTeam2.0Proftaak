@@ -1,21 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
+using ProftaakApplicatieDiabetes.ViewModels;
+using Logic.Interface;
+using Models;
+
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
     public class MessageController : Controller
     {
-        public IActionResult Index()
+        private readonly IMessageLogic _messageLogic;
+        public IActionResult ViewMessage()
         {
             return View();
         }
 
-        public IActionResult Message()
+        public IActionResult SendMessage(MessageViewModel messageViewModel)
         {
-            return View();
+            // Message message = new Message(messageViewModel.Title, messageViewModel.Content);
+            MessageModel message = new MessageModel(messageViewModel.Title, messageViewModel.Content);
+            _messageLogic.SendMessage(message);
+
+            return ViewMessage();
         }
     }
 }
