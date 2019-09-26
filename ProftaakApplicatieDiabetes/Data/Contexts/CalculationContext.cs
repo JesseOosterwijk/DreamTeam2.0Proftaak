@@ -10,6 +10,7 @@ namespace Data.Contexts
     public class CalculationContext : ICalculationContext
     {
         private readonly SqlConnection _con = Connection.GetConnection();
+        private readonly SqlConnection _con = Connection.GetConnection();
 
         public double CalculateMealtimeDose(ICalculation calc)
         {
