@@ -6,7 +6,7 @@ namespace Models
 {
     public class Calculation : ICalculation
     {
-        public int userBSN { get; set; }
+        public int UserBSN { get; set; }
 
         public double Weight { get; set; }
 
@@ -16,5 +16,13 @@ namespace Models
 
         public double TargetBloodSugar { get; set; }
 
+        public Calculation(int userBSN, double weight, double totalCarbs, double currentBloodSugar, double targetBloodSugar)
+        {
+            UserBSN = userBSN;
+            Weight = weight;
+            TotalCarbs = totalCarbs;
+            CurrentBloodsugar = currentBloodSugar;
+            TargetBloodSugar = targetBloodSugar;
+        }
     }
 }

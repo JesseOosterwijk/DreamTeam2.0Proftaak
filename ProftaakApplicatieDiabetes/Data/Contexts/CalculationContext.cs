@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
@@ -9,23 +10,24 @@ namespace Data.Contexts
     {
         private readonly SqlConnection _con = Connection.GetConnection();
 
-        public double CalculateMealtimeDose(double weight, double totalCarbs, double CurrentBloodSugar, double targetBloodSugar, int userBSN)
+        public double CalculateMealtimeDose(ICalculation calc)
         {
-            string query = "INSERT INTO [Measurement](UserBSN, Carbohydrates, Weight, CurrentBloodSugar, TargetBloodSugar, InsulinAdvice) " +
-                "Values (@UserBSN, @Carbohydrates, @Weight, @CurrentBloodSugar, @TargetBloodSugar, @InsulinAdvice)";
+            string query = "INSERT INTO [Measurement](UserBSN, Carbohydrates, Weight, CurrentBloodSugar, TargetBloodSugar, InsulinAdvice, Date) " +
+                "Values (@UserBSN, @Carbohydrates, @Weight, @CurrentBloodSugar, @TargetBloodSugar, @InsulinAdvice, @Date)";
 
-            double insulinAdvice = CalculateCHO(totalCarbs, weight) + CalculateSugarCorrection(CurrentBloodSugar, targetBloodSugar, weight);
+            double insulinAdvice = CalculateCHO(calc.TotalCarbs, calc.Weight) + CalculateSugarCorrection(calc.CurrentBloodsugar, calc.TargetBloodSugar, calc.Weight);
 
             using (SqlCommand cmd = new SqlCommand(query, _con))
             {
                 _con.Open();
 
-                cmd.Parameters.AddWithValue("@UserBSN", userBSN);
-                cmd.Parameters.AddWithValue("@Carbohydrates", totalCarbs);
-                cmd.Parameters.AddWithValue("@Weight", weight);
-                cmd.Parameters.AddWithValue("@CurrentBloodSugar", CurrentBloodSugar);
-                cmd.Parameters.AddWithValue("@TargetBloodSugar", targetBloodSugar);
+                cmd.Parameters.AddWithValue("@UserBSN", calc.UserBSN);
+                cmd.Parameters.AddWithValue("@Carbohydrates", calc.TotalCarbs);
+                cmd.Parameters.AddWithValue("@Weight", calc.Weight);
+                cmd.Parameters.AddWithValue("@CurrentBloodSugar", calc.CurrentBloodsugar);
+                cmd.Parameters.AddWithValue("@TargetBloodSugar", calc.TargetBloodSugar);
                 cmd.Parameters.AddWithValue("@InsulinAdvice", insulinAdvice);
+                cmd.Parameters.AddWithValue("@Date", DateTime.Now);
 
                 cmd.ExecuteNonQuery();
                 _con.Close();

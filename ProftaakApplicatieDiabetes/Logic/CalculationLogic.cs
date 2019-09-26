@@ -4,6 +4,7 @@ using System.Text;
 using Data.Contexts;
 using Data.Interfaces;
 using Data.Memory;
+using Models;
 
 namespace Logic
 {
@@ -16,9 +17,9 @@ namespace Logic
             _context = context;
         }
 
-        public double CalculateMealtimeDose(double Weight, double TotalCarbs, double CurrentBloodSugar, double TargetBloodSugar, int userBSN)
+        public double CalculateMealtimeDose(ICalculation calc)
         {
-            return _context.CalculateMealtimeDose(Weight, TotalCarbs, CurrentBloodSugar, TargetBloodSugar, userBSN);
+            return _context.CalculateMealtimeDose(calc);
         }
     }
 }
