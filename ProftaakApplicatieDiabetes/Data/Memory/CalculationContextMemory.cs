@@ -10,8 +10,6 @@ namespace Data.Memory
     {
         public CalculationContextMemory()
         {
-            //Test
-            //Test2
         }
 
         public double CalculateMealtimeDose(double Weight, double TotalCarbs, double CurrentBloodSugar, double TargetBloodSugar)
