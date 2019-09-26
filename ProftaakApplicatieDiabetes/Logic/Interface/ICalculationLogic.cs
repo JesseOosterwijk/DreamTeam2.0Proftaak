@@ -1,7 +1,9 @@
-﻿namespace Logic
+﻿using Models;
+
+namespace Logic
 {
     public interface ICalculationLogic
     {
-        double CalculateMealtimeDose(double Weight, double TotalCarbs, double CurrentBloodSugar, double TargetBloodSugar);
+        double CalculateMealtimeDose(ICalculation calc);
     }
 }

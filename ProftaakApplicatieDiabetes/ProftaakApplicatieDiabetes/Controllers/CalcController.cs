@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Logic;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using ProftaakApplicatieDiabetes.Models;
 
 namespace ProftaakApplicatieDiabetes.Controllers
@@ -11,6 +12,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
     public class CalcController : Controller
     {
         private readonly ICalculationLogic calcLogic;
+        private int hardcodedBSN = 226044440;
 
         public CalcController(ICalculationLogic _calcLogic)
         {
@@ -23,17 +25,16 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
         public IActionResult Calculate()
         {
-            CalcModel model = new CalcModel();
-            model.Result = 0;
             return View();
         }
 
         [HttpPost]
         public IActionResult Calculate(CalcModel model)
         {
-            model.Result = calcLogic.CalculateMealtimeDose(model.Weight, model.TotalCarbs, model.CurrentBloodsugar, model.TargetBloodSugar);
-            return Redirect(Url.Action("Calculate/" + model.Result));
-            //return RedirectToAction("Calculate");
+            model.userBSN = hardcodedBSN;
+            ViewBag.Result = Math.Round(calcLogic.CalculateMealtimeDose(new Calculation(model.userBSN, model.Weight, model.TotalCarbs, model.CurrentBloodsugar, model.TargetBloodSugar)));
+
+            return View();
         }
     }
 }
