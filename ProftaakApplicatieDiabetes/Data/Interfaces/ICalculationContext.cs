@@ -1,7 +1,9 @@
-﻿namespace Data.Contexts
+﻿using Models;
+
+namespace Data.Contexts
 {
     public interface ICalculationContext
     {
-        decimal CalculateInsulin(decimal carbohydrates, decimal bloodsugar);
+        double CalculateMealtimeDose(ICalculation calc);
     }
 }
