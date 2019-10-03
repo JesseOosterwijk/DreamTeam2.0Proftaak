@@ -8,5 +8,6 @@ namespace Data.Interfaces
     public interface IMessageContext
     {
         void SendMessage(MessageModel message);
+        List<MessageModel> GetMessages();
     }
 }

@@ -1,10 +1,20 @@
-﻿@model ProftaakApplicatieDiabetes.ViewModels.MessageViewModel
+﻿@using Models
+@model ProftaakApplicatieDiabetes.ViewModels.MessageViewModel
 @{
     ViewData["Title"] = "Message";
 }
 
+
+@foreach (MessageModel message in Model.Messages)
+{
+    <h3><b>@message.Title</b></h3>
+    <p>@message.Content </p>
+    <hr/>
+}
+
 <h2>Message</h2>
-<form asp-action="SendMessage">
+
+<form asp-action="ViewMessage">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="Title" class="control-label"></label>

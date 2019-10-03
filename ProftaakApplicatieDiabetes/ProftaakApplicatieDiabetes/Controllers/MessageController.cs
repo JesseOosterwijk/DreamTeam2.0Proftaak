@@ -18,17 +18,20 @@ namespace ProftaakApplicatieDiabetes.Controllers
             _messageLogic = messageLogic;
         }
 
-        public IActionResult ViewMessage(MessageViewModel messageViewModel)
+        public IActionResult ViewMessage()
         {
+            MessageViewModel messageViewModel = new MessageViewModel();
+            messageViewModel.Messages = _messageLogic.GetMessages();
             return View(messageViewModel);
         }
 
-        public IActionResult SendMessage(MessageViewModel messageViewModel)
+        [HttpPost]
+        public IActionResult ViewMessage(MessageViewModel messageViewModel)
         {
             MessageModel message = new MessageModel(messageViewModel.Title, messageViewModel.Content);
             _messageLogic.SendMessage(message);
 
-            return ViewMessage(messageViewModel);
+            return ViewMessage();
         }
     }
 }

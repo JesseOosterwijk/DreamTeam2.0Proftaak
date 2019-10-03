@@ -5,6 +5,7 @@ using Logic.Interface;
 using Models;
 using Models.Interfaces;
 using Data;
+using Data.Contexts;
 using Data.Interfaces;
 
 
@@ -26,9 +27,14 @@ namespace Logic
         public void SendMessage(MessageModel message)
         {
             message.DateOfX = GetCurrentDateTime();
-            message.SenderId = GetSenderID();
-            message.ReceiverId = GetReceiverID();
+            message.SenderId = GetSenderId();
+            message.ReceiverId = GetReceiverId();
             _context.SendMessage(message);
+        }
+
+        public List<MessageModel> GetMessages()
+        {
+            return _context.GetMessages();
         }
 
         private DateTime GetCurrentDateTime()
@@ -36,12 +42,12 @@ namespace Logic
             return DateTime.Now;
         }
 
-        private int GetSenderID()
+        private int GetSenderId()
         {
             return _senderId;
         }
 
-        private int GetReceiverID()
+        private int GetReceiverId()
         {
             return _receiverId;
         }

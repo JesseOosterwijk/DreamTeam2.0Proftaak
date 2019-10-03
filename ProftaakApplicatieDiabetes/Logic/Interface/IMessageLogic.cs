@@ -9,5 +9,6 @@ namespace Logic.Interface
     public interface IMessageLogic
     {
         void SendMessage(MessageModel message);
+        List<MessageModel> GetMessages();
     }
 }
