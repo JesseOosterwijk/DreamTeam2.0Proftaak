@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Logic;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using ProftaakApplicatieDiabetes.ViewModels;
 using Logic.Interface;
@@ -10,18 +11,24 @@ namespace ProftaakApplicatieDiabetes.Controllers
     public class MessageController : Controller
     {
         private readonly IMessageLogic _messageLogic;
-        public IActionResult ViewMessage()
+        
+
+        public MessageController(IMessageLogic messageLogic)
         {
-            return View();
+            _messageLogic = messageLogic;
+        }
+
+        public IActionResult ViewMessage(MessageViewModel messageViewModel)
+        {
+            return View(messageViewModel);
         }
 
         public IActionResult SendMessage(MessageViewModel messageViewModel)
         {
-            // Message message = new Message(messageViewModel.Title, messageViewModel.Content);
             MessageModel message = new MessageModel(messageViewModel.Title, messageViewModel.Content);
             _messageLogic.SendMessage(message);
 
-            return ViewMessage();
+            return ViewMessage(messageViewModel);
         }
     }
 }

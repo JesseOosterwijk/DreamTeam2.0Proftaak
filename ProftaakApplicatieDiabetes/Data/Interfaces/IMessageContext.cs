@@ -5,7 +5,8 @@ using Models;
 
 namespace Data.Interfaces
 {
-    public interface IUserContext
+    public interface IMessageContext
     {
+        void SendMessage(MessageModel message);
     }
 }
