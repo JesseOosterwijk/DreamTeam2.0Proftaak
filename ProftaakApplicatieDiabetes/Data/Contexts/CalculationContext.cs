@@ -13,8 +13,8 @@ namespace Data.Contexts
 
         public double CalculateMealtimeDose(ICalculation calc)
         {
-            string query = "INSERT INTO [Measurement](UserBSN, Carbohydrates, Weight, CurrentBloodSugar, TargetBloodSugar, InsulinAdvice, Date) " +
-                "Values (@UserBSN, @Carbohydrates, @Weight, @CurrentBloodSugar, @TargetBloodSugar, @InsulinAdvice, @Date)";
+            string query = "INSERT INTO [Measurement](UserId, Carbohydrates, Weight, CurrentBloodSugar, TargetBloodSugar, InsulinAdvice, Date) " +
+                "Values (@UserId, @Carbohydrates, @Weight, @CurrentBloodSugar, @TargetBloodSugar, @InsulinAdvice, @Date)";
 
             double insulinAdvice = CalculateCHO(calc.TotalCarbs, calc.Weight) + CalculateSugarCorrection(calc.CurrentBloodsugar, calc.TargetBloodSugar, calc.Weight);
 
@@ -22,7 +22,7 @@ namespace Data.Contexts
             {
                 _con.Open();
 
-                cmd.Parameters.AddWithValue("@UserBSN", calc.UserBSN);
+                cmd.Parameters.AddWithValue("@UserId", calc.UserBSN);
                 cmd.Parameters.AddWithValue("@Carbohydrates", calc.TotalCarbs);
                 cmd.Parameters.AddWithValue("@Weight", calc.Weight);
                 cmd.Parameters.AddWithValue("@CurrentBloodSugar", calc.CurrentBloodsugar);
@@ -36,12 +36,43 @@ namespace Data.Contexts
             return insulinAdvice;
         }
 
-        //public Calculation GetSpecificAdvice()
-        //{
-        //    //Calculation calc = new Calculation();
+        public Calculation GetSpecificAdvice(int id)
+        {
+            int userBSN = 0;
+            int weight = 0;
+            int totalCarbs = 0;
+            int currentBloodsugar = 0;
+            int targetBloodSugar = 0;
+            Calculation calc = new Calculation(userBSN, weight, totalCarbs, currentBloodsugar, targetBloodSugar);
+            try
+            {
+                string query = "SELECT UserId, Carbohydrates, Weight, CurrentBloodSugar, TargetBloodSugar FROM Measurement";
+                SqlCommand cmd = new SqlCommand(query, _con);
+                cmd.Parameters.AddWithValue("@id", id);
+                _con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    calc.UserBSN = reader.GetInt32(0);
+                    calc.TotalCarbs = (double)reader.GetDecimal(1);
+                    calc.Weight = (double)reader.GetDecimal(2);
+                    calc.CurrentBloodsugar = (double)reader.GetDecimal(3);
+                    calc.TargetBloodSugar = (double)reader.GetDecimal(4);
+                }
+                reader.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                _con.Close();
+            }
+            
 
-        //    return calc;
-        //}
+            return calc;
+        }
 
         private double CalculateCHO(double TotalCarbs, double Weight)
         {

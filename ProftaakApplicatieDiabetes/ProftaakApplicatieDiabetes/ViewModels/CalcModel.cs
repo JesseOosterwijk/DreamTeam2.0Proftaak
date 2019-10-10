@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -31,5 +32,7 @@ namespace ProftaakApplicatieDiabetes.Models
         public double TargetBloodSugar { get; set; }
 
         public double Result { get; set; }
+
+        public Calculation CalculatorResults;
     }
 }

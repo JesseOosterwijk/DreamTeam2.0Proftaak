@@ -21,5 +21,10 @@ namespace Logic
         {
             return _context.CalculateMealtimeDose(calc);
         }
+
+        public Calculation GetSpecificAdvice(int id)
+        {
+            return _context.GetSpecificAdvice(id);
+        }
     }
 }
