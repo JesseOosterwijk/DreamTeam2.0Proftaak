@@ -1,12 +1,15 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿<h2>@ViewData["Title"]</h2>
+
+@section Image
+    {
+    <div class="hero-image" style="background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('../images/lg.jpg'); width: 100%; height: 50%; background-position: center; background-repeat: no-repeat; background-size: cover; position: relative">
+        <div class="hero-text" style="font-size:40px; color:black; padding: 15%;">
+            <h1 class="hero-image-h1" style="font-family:Open Sans Condensed; font-size:60px; width: inherit; background-color:none; color:white;">Welkom</h1>
+            <hr style="display:block; height: 2px; border: 0; border-top: 2px solid #fff; margin: 2px 0; padding: 0;" />
+            <p style="font-size:20px; font-style:italic; color: white">Philips Research</p>
+            <br />
+            <a asp-action="Calculate" asp-controller="Calc" class="button">Calculate</a>
+            <a asp-action="ViewMessage" asp-controller="Message" class="button">Message</a>
+        </div>
+    </div>
 }
-
-<h2>@ViewData["Title"]</h2>
-
-<div>
-    <a asp-action="Calculate" asp-controller="Calc" class="btn btn-default">Calculate</a>
-    <br />
-    <br />
-    <a asp-action="ViewMessage" asp-controller="Message" class="btn btn-default">Message</a>
-</div>
