@@ -34,8 +34,14 @@ namespace Data.Contexts
                 _con.Close();
             }
             return insulinAdvice;
-
         }
+
+        //public Calculation GetSpecificAdvice()
+        //{
+        //    //Calculation calc = new Calculation();
+
+        //    return calc;
+        //}
 
         private double CalculateCHO(double TotalCarbs, double Weight)
         {
