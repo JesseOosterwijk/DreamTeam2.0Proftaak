@@ -1,5 +1,6 @@
 ﻿using Data.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace DiabetesTests
 {
@@ -34,7 +35,7 @@ namespace DiabetesTests
             var output = memory.CalculateTotalDoseInsuline(weight);
 
             //Assert
-            Assert.AreEqual(output, 38);
+            Assert.AreEqual(output, 38.5);
         }
 
         [TestMethod]
@@ -45,7 +46,7 @@ namespace DiabetesTests
             var memory = new CalculationClass();
 
             //Act
-            var output = memory.CalculateCorrectionFactor(weight);
+            var output = Math.Round(memory.CalculateCorrectionFactor(weight));
 
             //Assert
             Assert.AreEqual(output, 47);
@@ -61,7 +62,7 @@ namespace DiabetesTests
             var memory = new CalculationClass();
 
             //Act
-            var output = memory.CalculateSugarCorrection(currentBS, targetBS, weight);
+            var output = Math.Round(memory.CalculateSugarCorrection(currentBS, targetBS, weight));
 
             //Assert
             Assert.AreEqual(output, 2);
@@ -76,10 +77,36 @@ namespace DiabetesTests
             var memory = new CalculationClass();
 
             //Act
-            var output = memory.CalculateCHO(carbs, weight);
+            var output = Math.Round(memory.CalculateCHO(carbs, weight));
 
             //Assert
             Assert.AreEqual(output, 5);
         }
+
+        [TestMethod]
+        public void CalculateMealtimeDose_TestCase_01()
+        {
+            //Arange
+            var weight = 70;
+            var currentBS = 130;
+            var targetBS = 100;
+            var carbs = 60;
+            var memory = new CalculationContextMemory();
+            var memory2 = new CalculationClass();
+
+            //Act
+            var TMD = memory.CalculateMealtimeDose(weight, carbs, currentBS, targetBS);
+            var TDI = memory2.CalculateTotalDoseInsuline(weight);
+            var CHO = Math.Round(memory2.CalculateCHO(carbs, weight), 2);
+            var SC = Math.Round(memory2.CalculateSugarCorrection(currentBS, targetBS, weight), 2);
+
+            //Assert
+            Assert.AreEqual(38.5, TDI);
+            Assert.AreEqual(5, TMD);
+            Assert.AreEqual(4.62, CHO);
+            Assert.AreEqual(0.64, SC);
+        }
+
+
     }
 }
