@@ -7,7 +7,7 @@ namespace Data.Interfaces
 {
     public interface IMessageContext
     {
-        void SendMessage(MessageModel message);
-        List<MessageModel> GetMessages();
+        bool SendMessage(MessageModel message);
+        List<MessageModel> GetMessages(int senderId, int receiverId);
     }
 }

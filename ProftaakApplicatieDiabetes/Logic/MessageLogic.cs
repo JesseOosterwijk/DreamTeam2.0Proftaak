@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Logic.Interface;
 using Models;
@@ -24,17 +25,26 @@ namespace Logic
             _context = context;
         }
 
-        public void SendMessage(MessageModel message)
+        public bool SendMessage(MessageModel message)
         {
-            message.DateOfX = GetCurrentDateTime();
-            message.SenderId = GetSenderId();
-            message.ReceiverId = GetReceiverId();
-            _context.SendMessage(message);
+            if (message.Title != null && message.Content != null)
+            {
+                message.DateOfX = GetCurrentDateTime();
+                message.SenderId = GetSenderId();
+                message.ReceiverId = GetReceiverId();
+                return _context.SendMessage(message);
+            }
+
+            return false;
         }
 
         public List<MessageModel> GetMessages()
         {
-            return _context.GetMessages();
+            List<MessageModel> messages = new List<MessageModel>();
+            messages.AddRange(_context.GetMessages(GetSenderId(), GetReceiverId()));
+            messages.AddRange(_context.GetMessages(GetReceiverId(), GetSenderId()));
+            messages = messages.OrderByDescending(m => m.DateOfX).ToList();
+            return messages;
         }
 
         private DateTime GetCurrentDateTime()
