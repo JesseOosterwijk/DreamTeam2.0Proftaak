@@ -35,6 +35,7 @@ body {
         display: none;
     }
 }
+
 .button {
     position: center;
     top: 50%;
@@ -69,3 +70,4 @@ body {
     .button:hover:before {
         transform: rotate(0deg);
     }
+  
