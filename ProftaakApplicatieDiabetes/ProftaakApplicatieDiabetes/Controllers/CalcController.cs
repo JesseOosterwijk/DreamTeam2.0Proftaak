@@ -12,7 +12,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
     public class CalcController : Controller
     {
         private readonly ICalculationLogic calcLogic;
-        private int hardcodedBSN = 3;
+        private readonly int hardcodedBSN = 3;
 
         public CalcController(ICalculationLogic _calcLogic)
         {
