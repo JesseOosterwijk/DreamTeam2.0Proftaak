@@ -36,5 +36,20 @@ namespace Models
             UserAccountType = accountType;
             Password = password;
         }
+
+        protected User(int bsn, string firstName, string lastName, string address, string city, string emailAddress, DateTime birthDate, Gender userGender, bool status, AccountType accountType, string password)
+        {
+            BSN = bsn;
+            FirstName = firstName;
+            LastName = lastName;
+            Address = address;
+            City = city;
+            EmailAddress = emailAddress;
+            BirthDate = birthDate;
+            UserGender = userGender;
+            Status = status;
+            UserAccountType = accountType;
+            Password = password;
+        }
     }
 }
