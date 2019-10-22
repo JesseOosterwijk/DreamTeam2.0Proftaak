@@ -152,18 +152,18 @@ namespace Data.Contexts
 
                         if (accountType == "Administrator")
                         {
-                            currentUser = new CareRecipient(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
+                            currentUser = new Administrator(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
                                 reader.GetDateTime(4), gender, reader.GetBoolean(10), Models.Enums.AccountType.Administrator, reader.GetString(11));
                         }
-                        else if (accountType == "CareRecipient")
+                        else if (accountType == "Doctor")
                         {
-                            currentUser = new CareRecipient(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Models.Enums.AccountType.CareRecipient, reader.GetString(11));
+                            currentUser = new Doctor(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
+                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Models.Enums.AccountType.Doctor, reader.GetString(11));
                         }
                         else
                         {
                             currentUser = new CareRecipient(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Models.Enums.AccountType.Doctor, reader.GetString(11));
+                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Models.Enums.AccountType.CareRecipient, reader.GetString(11));
                         }
 
                         return currentUser;
@@ -201,6 +201,7 @@ namespace Data.Contexts
                 DataTable dt = new DataTable();
                 cmd.Fill(dt);
 
+                //TODO: Calibrate this with database output, dont know how it is populated
                 string accountType = dt.Rows[0].ItemArray[0].ToString();
                 string firstName = dt.Rows[0].ItemArray[1].ToString();
                 string lastName = dt.Rows[0].ItemArray[2].ToString();
@@ -257,6 +258,7 @@ namespace Data.Contexts
                 DataTable dt = new DataTable();
                 cmd.Fill(dt);
 
+                //TODO: Calibrate this with database output, dont know how it is populated
                 int userId = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
                 string accountType = dt.Rows[0].ItemArray[1].ToString();
                 string firstName = dt.Rows[0].ItemArray[2].ToString();
@@ -275,13 +277,13 @@ namespace Data.Contexts
                 switch (accountType)
                 {
                     case "Administrator":
-                        return new CareRecipient(userId, firstName, lastName, address, city, emailAdress,
+                        return new Administrator(userId, firstName, lastName, address, city, emailAdress,
                             birthDate, gender, status, Models.Enums.AccountType.Administrator, hashedPassword);
                     case "CareRecipient":
                         return new CareRecipient(userId, firstName, lastName, address, city, emailAdress,
                             birthDate, gender, status, Models.Enums.AccountType.CareRecipient, hashedPassword);
                     case "Doctor":
-                        return new CareRecipient(userId, firstName, lastName, address, city, emailAdress,
+                        return new Doctor(userId, firstName, lastName, address, city, emailAdress,
                             birthDate, gender, status, Models.Enums.AccountType.Doctor, hashedPassword);
                     default:
                         throw new AggregateException("User not found");
