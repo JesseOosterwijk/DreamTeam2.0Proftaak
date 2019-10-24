@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
 using Data.Interfaces;
+using Data.Memory;
 
 namespace Data.Contexts
 {
@@ -13,21 +14,25 @@ namespace Data.Contexts
 
         public double CalculateMealtimeDose(ICalculation calc)
         {
-            string query = "INSERT INTO [Measurement](UserId, Carbohydrates, Weight, CurrentBloodSugar, TargetBloodSugar, InsulinAdvice, Date) " +
-                "Values (@UserId, @Carbohydrates, @Weight, @CurrentBloodSugar, @TargetBloodSugar, @InsulinAdvice, @Date)";
-
             double insulinAdvice = CalculateCHO(calc.TotalCarbs, calc.Weight) + CalculateSugarCorrection(calc.CurrentBloodsugar, calc.TargetBloodSugar, calc.Weight);
+
+            EncryptionKeyCreator keyCreator = new EncryptionKeyCreator();
+            string encryptedString = keyCreator.KeyCreator();
+
+            string query = "INSERT INTO [Measurement](UserId, Carbohydrates, Weight, CurrentBloodSugar, TargetBloodSugar, InsulinAdvice, Date, EncryptionKey) " +
+                "Values (@UserId, @Carbohydrates, @Weight, @CurrentBloodSugar, @TargetBloodSugar, @InsulinAdvice, @Date, @Encryption)";
 
             using (SqlCommand cmd = new SqlCommand(query, _con))
             {
                 _con.Open();
 
                 cmd.Parameters.AddWithValue("@UserId", calc.UserBSN);
-                cmd.Parameters.AddWithValue("@Carbohydrates", calc.TotalCarbs);
-                cmd.Parameters.AddWithValue("@Weight", calc.Weight);
-                cmd.Parameters.AddWithValue("@CurrentBloodSugar", calc.CurrentBloodsugar);
-                cmd.Parameters.AddWithValue("@TargetBloodSugar", calc.TargetBloodSugar);
-                cmd.Parameters.AddWithValue("@InsulinAdvice", insulinAdvice);
+                cmd.Parameters.AddWithValue("@Carbohydrates", Encrypting.Encrypt(calc.TotalCarbs.ToString(), encryptedString));
+                cmd.Parameters.AddWithValue("@Weight", Encrypting.Encrypt(calc.Weight.ToString(), encryptedString));
+                cmd.Parameters.AddWithValue("@CurrentBloodSugar", Encrypting.Encrypt(calc.CurrentBloodsugar.ToString(), encryptedString));
+                cmd.Parameters.AddWithValue("@TargetBloodSugar", Encrypting.Encrypt(calc.TargetBloodSugar.ToString(), encryptedString));
+                cmd.Parameters.AddWithValue("@InsulinAdvice", Encrypting.Encrypt(insulinAdvice.ToString(), encryptedString));
+                cmd.Parameters.AddWithValue("@Encryption", encryptedString);
                 cmd.Parameters.AddWithValue("@Date", DateTime.Now);
 
                 cmd.ExecuteNonQuery();

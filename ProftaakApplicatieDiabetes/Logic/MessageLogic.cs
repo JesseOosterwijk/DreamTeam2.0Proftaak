@@ -15,7 +15,7 @@ namespace Logic
     public class MessageLogic : IMessageLogic
     {
         //temporarily hard coded ID's because there are no sessions
-        private int _senderId = 226044440;
+        private int _senderId = 3;
         private int _receiverId = 239567262;
 
         private readonly IMessageContext _context;
@@ -59,6 +59,7 @@ namespace Logic
 
         private int GetReceiverId()
         {
+
             return _receiverId;
         }
     }
