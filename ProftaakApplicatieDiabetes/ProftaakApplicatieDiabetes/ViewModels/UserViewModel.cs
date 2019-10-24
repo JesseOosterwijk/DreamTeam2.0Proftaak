@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Models;
 
 namespace ProftaakApplicatieDiabetes.Models
@@ -15,6 +16,7 @@ namespace ProftaakApplicatieDiabetes.Models
         public string Address { get; set; }
         public string Residence { get; set; }
         public string EmailAddress { get; set; }
+        [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
         public string UserGender { get; set; }
         public Enums.AccountType UserAccountType { get; set; }
