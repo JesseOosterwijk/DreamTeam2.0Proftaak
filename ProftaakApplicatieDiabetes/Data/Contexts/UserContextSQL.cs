@@ -12,6 +12,39 @@ namespace Data.Contexts
     {
         private readonly SqlConnection _conn = Connection.GetConnection();
 
+        public void CreateUser(User newUser)
+        {
+            try
+            {
+                _conn.Open();
+                using (SqlCommand cmd = new SqlCommand("CreateUser", _conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BSN", SqlDbType.Int).Value = newUser.BSN;
+                    cmd.Parameters.AddWithValue("@FirstName", SqlDbType.NVarChar).Value = newUser.FirstName;
+                    cmd.Parameters.AddWithValue("@LastName", SqlDbType.NVarChar).Value = newUser.LastName;
+                    cmd.Parameters.AddWithValue("@Email", SqlDbType.NVarChar).Value = newUser.EmailAddress;
+                    cmd.Parameters.AddWithValue("@Address", SqlDbType.NVarChar).Value = newUser.Address;
+                    cmd.Parameters.AddWithValue("@DateOfBirth", SqlDbType.DateTime).Value = newUser.BirthDate;
+                    cmd.Parameters.AddWithValue("@Residence", SqlDbType.NVarChar).Value = newUser.Residence;
+                    cmd.Parameters.AddWithValue("@Gender", SqlDbType.Bit).Value = newUser.UserGender;
+                    cmd.Parameters.AddWithValue("@Weight", SqlDbType.Int).Value = newUser.Weight;
+                    cmd.Parameters.AddWithValue("@Password", SqlDbType.NVarChar).Value = newUser.Password;
+                    cmd.Parameters.AddWithValue("@AccountType", SqlDbType.NVarChar).Value = newUser.UserAccountType.ToString();
+                    cmd.Parameters.AddWithValue("@Status", SqlDbType.Bit).Value = true;
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("User not Created");
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
         public bool CheckIfUserAlreadyExists(string email)
         {
             try
@@ -141,29 +174,29 @@ namespace Data.Contexts
                 SqlCommand cmd = new SqlCommand(query, _conn);
                 emailParam.Value = email;
                 cmd.Parameters.Add(emailParam);
-                User currentUser = new CareRecipient(1, "a", "b", "c,", "d", "f", Convert.ToDateTime("1988/12/20"), Models.Enums.Gender.Male, true, Models.Enums.AccountType.CareRecipient, "");
+                User currentUser = new CareRecipient(1, "a", "b", "c,", "d", "f", Convert.ToDateTime("1988/12/20"), Enums.Gender.Male, true, Enums.AccountType.CareRecipient, "");
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         string accountType = reader.GetString(1);
-                        Models.Enums.Gender gender = (Models.Enums.Gender)Enum.Parse(typeof(Models.Enums.Gender), reader.GetString(5));
+                        Enums.Gender gender = (Enums.Gender)Enum.Parse(typeof(Enums.Gender), reader.GetString(5));
 
 
                         if (accountType == "Administrator")
                         {
                             currentUser = new Administrator(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Models.Enums.AccountType.Administrator, reader.GetString(11));
+                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.Administrator, reader.GetString(11));
                         }
                         else if (accountType == "Doctor")
                         {
                             currentUser = new Doctor(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Models.Enums.AccountType.Doctor, reader.GetString(11));
+                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.Doctor, reader.GetString(11));
                         }
                         else
                         {
                             currentUser = new CareRecipient(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Models.Enums.AccountType.CareRecipient, reader.GetString(11));
+                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.CareRecipient, reader.GetString(11));
                         }
 
                         return currentUser;
@@ -206,7 +239,7 @@ namespace Data.Contexts
                 string firstName = dt.Rows[0].ItemArray[1].ToString();
                 string lastName = dt.Rows[0].ItemArray[2].ToString();
                 DateTime birthDate = Convert.ToDateTime(dt.Rows[0].ItemArray[3].ToString());
-                Models.Enums.Gender gender = (Models.Enums.Gender)Enum.Parse(typeof(Models.Enums.Gender), dt.Rows[0].ItemArray[4].ToString());
+                Enums.Gender gender = (Enums.Gender)Enum.Parse(typeof(Enums.Gender), dt.Rows[0].ItemArray[4].ToString());
                 string email = dt.Rows[0].ItemArray[5].ToString();
                 string address = dt.Rows[0].ItemArray[6].ToString();
                 string city = dt.Rows[0].ItemArray[8].ToString();
@@ -216,13 +249,13 @@ namespace Data.Contexts
                 if (accountType == "Administrator")
                 {
                     return new CareRecipient(bsn, firstName, lastName, address, city, email,
-                        birthDate, gender, status, Models.Enums.AccountType.Administrator, password);
+                        birthDate, gender, status, Enums.AccountType.Administrator, password);
                 }
 
                 else if (accountType == "CareRecipient")
                 {
                     return new CareRecipient(bsn, firstName, lastName, address, city, email,
-                        birthDate, gender, status, Models.Enums.AccountType.CareRecipient, password);
+                        birthDate, gender, status, Enums.AccountType.CareRecipient, password);
                 }
                 return null;
             }
@@ -242,7 +275,7 @@ namespace Data.Contexts
             try
             {
                 string query =
-                    "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Address, PostalCode, City, Status, Password " +
+                    "SELECT UserID, BSN, AccountType, FirstName, LastName, DateOfBirth, Gender, Address, Residence, Status, Password " +
                     "FROM [User] " +
                     "WHERE [Email] = @Email";
                 _conn.Open();
@@ -260,12 +293,13 @@ namespace Data.Contexts
 
                 //TODO: Calibrate this with database output, dont know how it is populated
                 int userId = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
-                string accountType = dt.Rows[0].ItemArray[1].ToString();
-                string firstName = dt.Rows[0].ItemArray[2].ToString();
-                string lastName = dt.Rows[0].ItemArray[3].ToString();
-                DateTime birthDate = Convert.ToDateTime(dt.Rows[0].ItemArray[4]);
-                Models.Enums.Gender gender = (Models.Enums.Gender)Enum.Parse(typeof(Models.Enums.Gender), dt.Rows[0].ItemArray[5].ToString());
-                string address = dt.Rows[0].ItemArray[6].ToString();
+                int BSN = Convert.ToInt32(dt.Rows[0].ItemArray[1]);
+                string accountType = dt.Rows[0].ItemArray[2].ToString();
+                string firstName = dt.Rows[0].ItemArray[3].ToString();
+                string lastName = dt.Rows[0].ItemArray[4].ToString();
+                DateTime birthDate = Convert.ToDateTime(dt.Rows[0].ItemArray[5]);
+                Enums.Gender gender = (Enums.Gender)Enum.Parse(typeof(Enums.Gender), dt.Rows[0].ItemArray[6].ToString());
+                string address = dt.Rows[0].ItemArray[7].ToString();
                 string city = dt.Rows[0].ItemArray[8].ToString();
                 bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[9]);
                 string hashedPassword = dt.Rows[0].ItemArray[10].ToString();
@@ -278,13 +312,13 @@ namespace Data.Contexts
                 {
                     case "Administrator":
                         return new Administrator(userId, firstName, lastName, address, city, emailAdress,
-                            birthDate, gender, status, Models.Enums.AccountType.Administrator, hashedPassword);
+                            birthDate, gender, status, Enums.AccountType.Administrator, hashedPassword);
                     case "CareRecipient":
                         return new CareRecipient(userId, firstName, lastName, address, city, emailAdress,
-                            birthDate, gender, status, Models.Enums.AccountType.CareRecipient, hashedPassword);
+                            birthDate, gender, status, Enums.AccountType.CareRecipient, hashedPassword);
                     case "Doctor":
                         return new Doctor(userId, firstName, lastName, address, city, emailAdress,
-                            birthDate, gender, status, Models.Enums.AccountType.Doctor, hashedPassword);
+                            birthDate, gender, status, Enums.AccountType.Doctor, hashedPassword);
                     default:
                         throw new AggregateException("User not found");
                 }

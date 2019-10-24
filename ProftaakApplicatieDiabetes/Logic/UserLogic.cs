@@ -7,7 +7,7 @@ using Models;
 
 namespace Logic
 {
-    public class UserLogic : IUserLogic
+    public class UserLogic
     {
         private readonly IUserContext _user;
 
@@ -15,6 +15,7 @@ namespace Logic
         {
             _user = user;
         }
+
         public bool CheckIfUserAlreadyExists(string email)
         {
             return _user.CheckIfUserAlreadyExists(email);
@@ -43,6 +44,13 @@ namespace Logic
         public User CheckValidityUser(string emailAddress, string password)
         {
             return _user.CheckValidityUser(emailAddress, password);
+        }
+
+        public void CreateUser(User newUser)
+        {
+            newUser.Password = Hasher.SecurePasswordHasher.Hash(newUser.Password);
+
+            _user.CreateUser(newUser);
         }
     }
 }

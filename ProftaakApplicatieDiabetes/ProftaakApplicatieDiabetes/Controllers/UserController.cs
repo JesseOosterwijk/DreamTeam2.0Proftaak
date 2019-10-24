@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using ProftaakApplicatieDiabetes.Models;
 using ProftaakApplicatieDiabetes.ViewModels;
 
 namespace ProftaakApplicatieDiabetes.Controllers
@@ -64,11 +65,11 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
                 switch (newCustomer.UserAccountType)
                 {
-                    case global::Models.Enums.AccountType.Administrator:
+                    case global::Enums.AccountType.Administrator:
                         return RedirectToAction("Index", "Admin");
-                    case global::Models.Enums.AccountType.CareRecipient:
+                    case global::Enums.AccountType.CareRecipient:
                         return RedirectToAction("Index", "CareRecipient");
-                    case global::Models.Enums.AccountType.Doctor:
+                    case global::Enums.AccountType.Doctor:
                         return RedirectToAction("Index", "Doctor");
                     default:
                         return RedirectToAction("Overview", "CareRecipient");
@@ -90,5 +91,75 @@ namespace ProftaakApplicatieDiabetes.Controllers
                 return View();
             }
         }
+        [HttpGet]
+        public ActionResult CreateAccount()
+        {
+            return View();
         }
+
+        [HttpPost]
+        public ActionResult CreateAccount(UserViewModel userViewModel, string password, string passwordValidation)
+        {
+            try
+            {
+                if (password == passwordValidation)
+                {
+                    if (_userLogic.CheckIfUserAlreadyExists(userViewModel.EmailAddress))
+                    {
+                        if (_userLogic.CheckIfEmailIsValid(userViewModel.EmailAddress))
+                        {
+                            switch (userViewModel.UserAccountType)
+                            {
+                                case Enums.AccountType.CareRecipient:
+                                    _userLogic.CreateUser(new CareRecipient(userViewModel.UserBSN, Enums.AccountType.CareRecipient, userViewModel.FirstName, 
+                                        userViewModel.LastName, userViewModel.EmailAddress, password, userViewModel.Address, userViewModel.Residence, 
+                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), userViewModel.Weight, 
+                                        Convert.ToDateTime(userViewModel.BirthDate), true));
+                                    break;
+                                case Enums.AccountType.Administrator:
+                                    _userLogic.CreateUser(new Administrator(userViewModel.UserBSN, Enums.AccountType.Administrator, userViewModel.FirstName,
+                                        userViewModel.LastName, userViewModel.EmailAddress, password, userViewModel.Address, userViewModel.Residence,
+                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), userViewModel.Weight,
+                                        Convert.ToDateTime(userViewModel.BirthDate), true));
+                                    break;
+                                case Enums.AccountType.Doctor:
+                                    _userLogic.CreateUser(new Doctor(userViewModel.UserBSN, Enums.AccountType.Doctor, userViewModel.FirstName,
+                                        userViewModel.LastName, userViewModel.EmailAddress, password, userViewModel.Address, userViewModel.Residence,
+                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), userViewModel.Weight,
+                                        Convert.ToDateTime(userViewModel.BirthDate), true));
+                                    break;
+                                default:
+                                    _userLogic.CreateUser(new CareRecipient(userViewModel.UserBSN, Enums.AccountType.CareRecipient, userViewModel.FirstName,
+                                        userViewModel.LastName, userViewModel.EmailAddress, password, userViewModel.Address, userViewModel.Residence,
+                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), userViewModel.Weight,
+                                        Convert.ToDateTime(userViewModel.BirthDate), true));
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.Message = "Foutieve email ingevoerd";
+                            return View();
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Er bestaat al een account met deze e-mail";
+                        return View();
+                    }
+                }
+                else
+                {
+                    ViewBag.Message = "De wachtwoorden komen niet overheen";
+                    return View();
+                }
+            }
+            catch (Exception)
+            {
+                ViewBag.Message = "De gebruiker is niet aangemaakt";
+                return View();
+            }
+            return RedirectToAction("Login");
+        }
+    }
 }

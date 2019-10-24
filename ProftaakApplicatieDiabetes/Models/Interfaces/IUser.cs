@@ -1,4 +1,4 @@
-﻿using Models.Enums;
+﻿using Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +12,7 @@ namespace Models
         string FirstName { get; }
         string LastName { get; }
         string Address { get; }
-        string City { get; }
+        string Residence { get; }
         string EmailAddress { get; }
         DateTime BirthDate { get; }
         Gender UserGender { get; }
