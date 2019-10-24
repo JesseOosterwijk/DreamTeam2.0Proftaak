@@ -87,5 +87,21 @@ namespace Models
             UserAccountType = accountType;
             Password = password;
         }
+
+        public User(int userId, int userBSN, AccountType accountType, string firstName, string lastName, string email, string address, string residence, Gender gender, int weight, DateTime dateOfBirth, bool status)
+        {
+            UserId = userId;
+            BSN = userBSN;
+            UserAccountType = accountType;
+            FirstName = firstName;
+            LastName = lastName;
+            EmailAddress = email;
+            Address = address;
+            Residence = residence;
+            UserGender = gender;
+            Weight = weight;
+            BirthDate = dateOfBirth;
+            Status = status;
+        }
     }
 }
