@@ -68,7 +68,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
                     case global::Enums.AccountType.Administrator:
                         return RedirectToAction("Index", "Admin");
                     case global::Enums.AccountType.CareRecipient:
-                        return RedirectToAction("Index", "CareRecipient");
+                        return RedirectToAction("Index", "careRecipient");
                     case global::Enums.AccountType.Doctor:
                         return RedirectToAction("Index", "Doctor");
                     default:
