@@ -21,7 +21,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
         public IActionResult ViewMessage()
         {
             MessageViewModel messageViewModel = new MessageViewModel();
-            messageViewModel.Messages = _messageLogic.GetMessages();
+            messageViewModel.Messages = _messageLogic.GetMessages(_messageLogic.GetSenderId(), _messageLogic.GetReceiverId());
             
             return View(messageViewModel);
         }
@@ -31,7 +31,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             MessageModel message = new MessageModel(messageViewModel.Title, messageViewModel.Content);
             ModelState.Clear();
-            ViewBag.WasMessageSendSuccessfully = _messageLogic.SendMessage(message);
+            ViewBag.WasMessageSendSuccessfully = _messageLogic.SendMessage(message, _messageLogic.GetSenderId(), _messageLogic.GetReceiverId());
             return ViewMessage();
         }
     }

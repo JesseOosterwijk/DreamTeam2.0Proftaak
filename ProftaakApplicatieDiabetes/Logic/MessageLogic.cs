@@ -15,8 +15,8 @@ namespace Logic
     public class MessageLogic : IMessageLogic
     {
         //temporarily hard coded ID's because there are no sessions
-        private int _senderId = 3;
-        private int _receiverId = 239567262;
+        private int _senderId = 1;
+        private int _receiverId = 2;
 
         private readonly IMessageContext _context;
 
@@ -25,24 +25,24 @@ namespace Logic
             _context = context;
         }
 
-        public bool SendMessage(MessageModel message)
+        public bool SendMessage(MessageModel message, int senderId, int receiverId)
         {
             if (message.Title != null && message.Content != null)
             {
                 message.DateOfX = GetCurrentDateTime();
-                message.SenderId = GetSenderId();
-                message.ReceiverId = GetReceiverId();
+                message.SenderId = senderId;
+                message.ReceiverId = receiverId;
                 return _context.SendMessage(message);
             }
 
             return false;
         }
 
-        public List<MessageModel> GetMessages()
+        public List<MessageModel> GetMessages(int senderId, int receiverId)
         {
             List<MessageModel> messages = new List<MessageModel>();
-            messages.AddRange(_context.GetMessages(GetSenderId(), GetReceiverId()));
-            messages.AddRange(_context.GetMessages(GetReceiverId(), GetSenderId()));
+            messages.AddRange(_context.GetMessages(senderId, receiverId));
+            messages.AddRange(_context.GetMessages(receiverId, senderId));
             messages = messages.OrderByDescending(m => m.DateOfX).ToList();
             return messages;
         }
@@ -52,14 +52,13 @@ namespace Logic
             return DateTime.Now;
         }
 
-        private int GetSenderId()
+        public int GetSenderId()
         {
             return _senderId;
         }
 
-        private int GetReceiverId()
+        public int GetReceiverId()
         {
-
             return _receiverId;
         }
     }

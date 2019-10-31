@@ -8,7 +8,9 @@ namespace Logic.Interface
 {
     public interface IMessageLogic
     {
-        bool SendMessage(MessageModel message);
-        List<MessageModel> GetMessages();
+        bool SendMessage(MessageModel message, int senderId, int receiverId);
+        List<MessageModel> GetMessages(int senderId, int receiverId);
+        int GetReceiverId();
+        int GetSenderId();
     }
 }
