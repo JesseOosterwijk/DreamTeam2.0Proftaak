@@ -78,7 +78,6 @@ namespace Data.Contexts
                 _con.Close();
             }
             
-
             return calc;
         }
     }
