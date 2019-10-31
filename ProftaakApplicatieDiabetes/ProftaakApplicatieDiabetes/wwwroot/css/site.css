@@ -37,7 +37,6 @@ body {
 }
 
 .button {
-    position: center;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
@@ -70,4 +69,60 @@ body {
     .button:hover:before {
         transform: rotate(0deg);
     }
-  
+
+.navbar-brand {
+    position: relative;
+    z-index: 2;
+}
+
+.navbar-nav.navbar-right .btn {
+    position: relative;
+    z-index: 2;
+    padding: 4px 20px;
+    margin: 10px auto;
+}
+
+.navbar .navbar-collapse {
+    position: relative;
+}
+
+    .navbar .navbar-collapse .navbar-right > li:last-child {
+        padding-left: 22px;
+    }
+
+.navbar .nav-collapse {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding-right: 120px;
+    padding-left: 80px;
+    width: 100%;
+}
+
+.navbar.navbar-default .nav-collapse {
+    background-color: #f8f8f8;
+}
+
+.navbar.navbar-inverse .nav-collapse {
+    background-color: #222;
+}
+
+.navbar .nav-collapse .navbar-form {
+    border-width: 0;
+    box-shadow: none;
+}
+
+.nav-collapse > li {
+    float: right;
+}
+
+.loginform {
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.3) 10px 10px 10px;
+    width: 50%;
+    margin: auto
+}

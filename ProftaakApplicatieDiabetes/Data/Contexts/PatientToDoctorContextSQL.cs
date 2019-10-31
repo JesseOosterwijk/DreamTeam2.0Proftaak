@@ -9,7 +9,7 @@ using Models;
 
 namespace Data.Contexts
 {
-    class PatientToDoctorContextSQL : IPatientToDoctorContext
+    public class PatientToDoctorContextSQL : IPatientToDoctorContext
     {
         private readonly SqlConnection _conn = Connection.GetConnection();
 
