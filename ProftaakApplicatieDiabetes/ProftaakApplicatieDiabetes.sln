@@ -3,26 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProftaakApplicatieDiabetes", "ProftaakApplicatieDiabetes\ProftaakApplicatieDiabetes.csproj", "{578EF90C-6FC8-4868-A954-396DC979EA82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProftaakApplicatieDiabetes", "ProftaakApplicatieDiabetes\ProftaakApplicatieDiabetes.csproj", "{578EF90C-6FC8-4868-A954-396DC979EA82}"
 	ProjectSection(ProjectDependencies) = postProject
 		{ACD3E563-702C-4E08-A79A-1D64939C4102} = {ACD3E563-702C-4E08-A79A-1D64939C4102}
 		{5C514371-C9B8-4529-BEF7-D9E02FC67B41} = {5C514371-C9B8-4529-BEF7-D9E02FC67B41}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{C73A8A92-AF40-43C0-B3B7-93825417C9EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{C73A8A92-AF40-43C0-B3B7-93825417C9EA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5C514371-C9B8-4529-BEF7-D9E02FC67B41} = {5C514371-C9B8-4529-BEF7-D9E02FC67B41}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{ACD3E563-702C-4E08-A79A-1D64939C4102}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{ACD3E563-702C-4E08-A79A-1D64939C4102}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5C514371-C9B8-4529-BEF7-D9E02FC67B41} = {5C514371-C9B8-4529-BEF7-D9E02FC67B41}
 		{C73A8A92-AF40-43C0-B3B7-93825417C9EA} = {C73A8A92-AF40-43C0-B3B7-93825417C9EA}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{5C514371-C9B8-4529-BEF7-D9E02FC67B41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{5C514371-C9B8-4529-BEF7-D9E02FC67B41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiabetesTests", "DiabetesTests\DiabetesTests.csproj", "{F01F190E-F589-4365-B2E7-22909E9F267C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiabetesTests", "DiabetesTests\DiabetesTests.csproj", "{F01F190E-F589-4365-B2E7-22909E9F267C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{578EF90C-6FC8-4868-A954-396DC979EA82} = {578EF90C-6FC8-4868-A954-396DC979EA82}
 		{ACD3E563-702C-4E08-A79A-1D64939C4102} = {ACD3E563-702C-4E08-A79A-1D64939C4102}
