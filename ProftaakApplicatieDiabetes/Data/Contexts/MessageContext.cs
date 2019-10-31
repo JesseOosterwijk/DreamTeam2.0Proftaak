@@ -27,15 +27,17 @@ namespace Data.Contexts
                     command.Parameters.AddWithValue("@title", message.Title);
                     command.Parameters.AddWithValue("@dateOf", message.DateOfX);
 
-
                     command.ExecuteNonQuery();
-                    _conn.Close();
                 }
             }
             catch (Exception)
             {
                 _conn.Close();
                 return false;
+            }
+            finally
+            {
+                _conn.Close();
             }
 
             return true;
@@ -67,17 +69,17 @@ namespace Data.Contexts
                     ));
                 }
                 reader.Close();
-                _conn.Close();
                 return messages;
             }
             catch (Exception)
-            {
-                
+            {                
                 _conn.Close();
                 return messages;
             }
-            
-
+            finally
+            {
+                _conn.Close();
+            }          
         }
     }
 }

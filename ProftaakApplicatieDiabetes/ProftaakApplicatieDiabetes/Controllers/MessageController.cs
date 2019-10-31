@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using ProftaakApplicatieDiabetes.ViewModels;
 using Logic.Interface;
 using Models;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {

@@ -234,7 +234,6 @@ namespace Data.Contexts
                 DataTable dt = new DataTable();
                 cmd.Fill(dt);
 
-                //TODO: Calibrate this with database output, dont know how it is populated
                 string accountType = dt.Rows[0].ItemArray[0].ToString();
                 string firstName = dt.Rows[0].ItemArray[1].ToString();
                 string lastName = dt.Rows[0].ItemArray[2].ToString();
@@ -245,19 +244,20 @@ namespace Data.Contexts
                 string city = dt.Rows[0].ItemArray[8].ToString();
                 bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[9].ToString());
                 string password = dt.Rows[0].ItemArray[10].ToString();
-
-                if (accountType == "Administrator")
+                switch (accountType)
                 {
-                    return new CareRecipient(bsn, firstName, lastName, address, city, email,
+                    case "Administrator":
+                        return new Administrator(bsn, firstName, lastName, address, city, email,
                         birthDate, gender, status, Enums.AccountType.Administrator, password);
-                }
-
-                else if (accountType == "CareRecipient")
-                {
-                    return new CareRecipient(bsn, firstName, lastName, address, city, email,
+                    case "CareRecipient":
+                        return new CareRecipient(bsn, firstName, lastName, address, city, email,
                         birthDate, gender, status, Enums.AccountType.CareRecipient, password);
+                    case "Doctor":
+                        return new Doctor(bsn, firstName, lastName, address, city, email,
+                        birthDate, gender, status, Enums.AccountType.Doctor, password);
+                    default:
+                        throw new AggregateException("User not found");
                 }
-                return null;
             }
             catch (Exception e)
             {
@@ -291,7 +291,6 @@ namespace Data.Contexts
                 DataTable dt = new DataTable();
                 cmd.Fill(dt);
 
-                //TODO: Calibrate this with database output, dont know how it is populated
                 int userId = Convert.ToInt32(dt.Rows[0].ItemArray[0]);
                 int BSN = Convert.ToInt32(dt.Rows[0].ItemArray[1]);
                 string accountType = dt.Rows[0].ItemArray[2].ToString();

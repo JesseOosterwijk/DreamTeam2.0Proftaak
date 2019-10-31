@@ -59,6 +59,7 @@ namespace ProftaakApplicatieDiabetes
             services.AddSingleton<IMessageContext, MessageContext>();
 
             services.AddSingleton<UserLogic>();
+            services.AddSingleton<MessageLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,12 +86,6 @@ namespace ProftaakApplicatieDiabetes
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "CareRecipient",
-                    template: "{controller=CareRecipient}/{action=Index}/{id?}");
-            });
         }
     }
 }
