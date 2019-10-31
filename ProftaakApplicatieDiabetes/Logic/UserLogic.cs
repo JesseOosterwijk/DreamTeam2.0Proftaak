@@ -7,7 +7,7 @@ using Models;
 
 namespace Logic
 {
-    public class UserLogic
+    public class UserLogic : IUserLogic
     {
         private readonly IUserContext _user;
 

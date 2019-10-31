@@ -23,7 +23,7 @@ namespace ProftaakApplicatieDiabetes.Models
 
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Your current blood sugar must be numeral and can't be 0.")]
         [Display(Name = "Current blood sugar")]
-        [Required(ErrorMessage = "Your current blood sugar is required to calculate te insuine amount.")]
+        [Required(ErrorMessage = "Your current blood sugar is required to calculate te insuline amount.")]
         public double CurrentBloodsugar { get; set; }
 
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Your targeted blood sugar must be numeral and can't be 0.")]

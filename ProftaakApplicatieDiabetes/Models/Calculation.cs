@@ -17,6 +17,8 @@ namespace Models
 
         public double TargetBloodSugar { get; set; }
 
+        public double InsulinAdvice { get; set; }
+
         public Calculation(int userBSN, double weight, double totalCarbs, double currentBloodSugar, double targetBloodSugar)
         {
             UserBSN = userBSN;

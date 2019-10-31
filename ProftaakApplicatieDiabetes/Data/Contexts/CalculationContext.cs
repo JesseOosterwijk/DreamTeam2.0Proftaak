@@ -52,18 +52,20 @@ namespace Data.Contexts
             Calculation calc = new Calculation(userBSN, weight, totalCarbs, currentBloodsugar, targetBloodSugar);
             try
             {
-                string query = "SELECT UserId, Carbohydrates, Weight, CurrentBloodSugar, TargetBloodSugar FROM Measurement";
+                string query = "SELECT UserId, Carbohydrates, Weight, CurrentBloodSugar, TargetBloodSugar, EncryptionKey, InsulinAdvice FROM Measurement WHERE Id = @id";
                 SqlCommand cmd = new SqlCommand(query, _con);
                 cmd.Parameters.AddWithValue("@id", id);
                 _con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    string encryptingString = reader.GetString(5);
                     calc.UserBSN = reader.GetInt32(0);
-                    calc.TotalCarbs = (double)reader.GetDecimal(1);
-                    calc.Weight = (double)reader.GetDecimal(2);
-                    calc.CurrentBloodsugar = (double)reader.GetDecimal(3);
-                    calc.TargetBloodSugar = (double)reader.GetDecimal(4);
+                    calc.TotalCarbs = Convert.ToDouble(Encrypting.Decrypt(reader.GetString(1), encryptingString));
+                    calc.Weight = Convert.ToDouble(Encrypting.Decrypt(reader.GetString(2), encryptingString));
+                    calc.CurrentBloodsugar = Convert.ToDouble(Encrypting.Decrypt(reader.GetString(3), encryptingString));
+                    calc.TargetBloodSugar = Convert.ToDouble(Encrypting.Decrypt(reader.GetString(4), encryptingString));
+                    calc.InsulinAdvice = Convert.ToDouble(Encrypting.Decrypt(reader.GetString(6), encryptingString));
                 }
                 reader.Close();
             }
