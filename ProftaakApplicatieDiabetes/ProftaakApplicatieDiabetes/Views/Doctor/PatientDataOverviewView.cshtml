@@ -1,7 +1,14 @@
-﻿
+﻿@using Microsoft.EntityFrameworkCore
+@using Models
+@model ProftaakApplicatieDiabetes.ViewModels.DoctorPatientSelectViewmodel
 @{
     ViewData["Title"] = "PatientDataOverviewView";
 }
 
 <h2>PatientDataOverviewView</h2>
 
+@foreach (User patient in Model.Patients)
+{
+    <p>@patient.FirstName</p>
+    <hr/>
+}
