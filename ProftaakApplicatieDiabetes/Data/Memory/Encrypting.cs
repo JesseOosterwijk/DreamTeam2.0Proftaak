@@ -50,10 +50,5 @@ namespace Data.Memory
             }
             return cipherText;
         }
-        //encrypted string
-        //string encryptedstring = Encrypting.Encrypt(calc.UserBSN.ToString(), "abc");
-
-        //decrypted string
-        //string decryptedstring = Encrypting.Decrypt(encryptedstring, "abc");
     }
 }
