@@ -12,7 +12,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
     public class CalcController : Controller
     {
         private readonly ICalculationLogic calcLogic;
-        private int hardcodedBSN = 3;
+        private readonly int hardcodedBSN = 3;
 
         public CalcController(ICalculationLogic _calcLogic)
         {
@@ -30,7 +30,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
         public IActionResult Results(CalcModel model)
         {
-            model.CalculatorResults = calcLogic.GetSpecificAdvice(2);
+            model.CalculatorResults = calcLogic.GetSpecificAdvice(18);
             return View(model);
         }
 

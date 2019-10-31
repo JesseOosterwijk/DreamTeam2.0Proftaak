@@ -19,7 +19,14 @@ namespace Logic
 
         public double CalculateMealtimeDose(ICalculation calc)
         {
-            return _context.CalculateMealtimeDose(calc);
+            if (calc.TargetBloodSugar > calc.CurrentBloodsugar)
+            {
+                return 0;
+            }
+            else
+            {
+                return _context.CalculateMealtimeDose(calc);
+            }
         }
 
         public Calculation GetSpecificAdvice(int id)
