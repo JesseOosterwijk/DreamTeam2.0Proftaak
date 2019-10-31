@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Logic;
+using Logic.Interface;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -15,9 +16,9 @@ namespace ProftaakApplicatieDiabetes.Controllers
 {
     public class UserController : Controller
     {
-        private readonly UserLogic _userLogic;
+        private readonly IUserLogic _userLogic;
 
-        public UserController(UserLogic userLogic)
+        public UserController(IUserLogic userLogic)
         {
             _userLogic = userLogic;
         }

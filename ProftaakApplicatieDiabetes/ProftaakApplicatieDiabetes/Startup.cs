@@ -52,13 +52,12 @@ namespace ProftaakApplicatieDiabetes
                 options.AddPolicy("Professional", p => p.RequireAuthenticatedUser().RequireRole("Professional"));
             });
 
-            services.AddSingleton<IUserContext, UserContextSQL>();
-            services.AddSingleton<ICalculationContext, CalculationContext>();
-            services.AddSingleton<ICalculationLogic, CalculationLogic>();
-            services.AddSingleton<IMessageLogic, MessageLogic>();
-            services.AddSingleton<IMessageContext, MessageContext>();
-
-            services.AddSingleton<UserLogic>();
+            services.AddScoped<IUserContext, UserContextSQL>();
+            services.AddScoped<ICalculationContext, CalculationContext>();
+            services.AddScoped<ICalculationLogic, CalculationLogic>();
+            services.AddScoped<IMessageLogic, MessageLogic>();
+            services.AddScoped<IMessageContext, MessageContext>();
+            services.AddScoped<IUserLogic, UserLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
