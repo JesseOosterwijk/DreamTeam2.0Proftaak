@@ -8,6 +8,8 @@ using Models.Interfaces;
 using Data;
 using Data.Contexts;
 using Data.Interfaces;
+using System.Security.Claims;
+using Enums;
 
 
 namespace Logic
@@ -15,14 +17,16 @@ namespace Logic
     public class MessageLogic : IMessageLogic
     {
         //temporarily hard coded ID's because there are no sessions
-        private int _senderId = 1;
+        private int _senderId = 3;
         private int _receiverId = 2;
+        private AccountType _senderAccountType = AccountType.CareRecipient;
 
-        private readonly IMessageContext _context;
+        private readonly IMessageContext _messageContext;
+        private readonly IPatientToDoctorContext _patientToDoctorContext = new PatientToDoctorContextSQL();
 
-        public MessageLogic(IMessageContext context)
+        public MessageLogic(IMessageContext messageContext)
         {
-            _context = context;
+            _messageContext = messageContext;
         }
 
         public bool SendMessage(MessageModel message, int senderId, int receiverId)
@@ -32,7 +36,7 @@ namespace Logic
                 message.DateOfX = GetCurrentDateTime();
                 message.SenderId = senderId;
                 message.ReceiverId = receiverId;
-                return _context.SendMessage(message);
+                return _messageContext.SendMessage(message);
             }
 
             return false;
@@ -41,8 +45,8 @@ namespace Logic
         public List<MessageModel> GetMessages(int senderId, int receiverId)
         {
             List<MessageModel> messages = new List<MessageModel>();
-            messages.AddRange(_context.GetMessages(senderId, receiverId));
-            messages.AddRange(_context.GetMessages(receiverId, senderId));
+            messages.AddRange(_messageContext.GetMessages(senderId, receiverId));
+            messages.AddRange(_messageContext.GetMessages(receiverId, senderId));
             messages = messages.OrderByDescending(m => m.DateOfX).ToList();
             return messages;
         }
@@ -57,9 +61,19 @@ namespace Logic
             return _senderId;
         }
 
-        public int GetReceiverId()
+        public int GetReceiverId(AccountType type, int senderId)
         {
-            return _receiverId;
+            int receiverId = 0;
+            if (type == AccountType.CareRecipient)
+            {
+                receiverId = _patientToDoctorContext.GetDoctorIdFromPatientId(senderId);
+            }
+            return receiverId;
+        }
+
+        public AccountType GetAccountType()
+        {
+            return _senderAccountType;
         }
     }
 }

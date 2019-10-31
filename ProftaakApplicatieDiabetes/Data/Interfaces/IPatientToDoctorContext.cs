@@ -5,7 +5,7 @@ using Models;
 
 namespace Data.Interfaces
 {
-    interface IPatientToDoctorContext
+    public interface IPatientToDoctorContext
     {
         int GetDoctorIdFromPatientId(int patientId);
         IEnumerable<User> GetPatientIdsFromDoctorId(int doctorId);
