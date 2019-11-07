@@ -13,7 +13,6 @@ namespace Logic.Interface
         bool SendMessage(MessageModel message, int senderId, int receiverId);
         List<MessageModel> GetMessages(int senderId, int receiverId);
         int GetReceiverId(AccountType type, int senderId);
-        int GetSenderId();
         AccountType GetAccountType();
     }
 }

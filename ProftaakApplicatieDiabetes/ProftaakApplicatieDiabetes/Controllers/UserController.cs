@@ -50,7 +50,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
                 var identity = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.Sid, newCustomer.BSN.ToString()),
+                    new Claim(ClaimTypes.Sid, newCustomer.UserId.ToString()),
                     new Claim(ClaimTypes.Name, newCustomer.FirstName + " " + newCustomer.LastName),
                     new Claim(ClaimTypes.Gender, newCustomer.UserGender.ToString()),
                     new Claim(ClaimTypes.Email, newCustomer.EmailAddress),
@@ -92,6 +92,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
                 return View();
             }
         }
+
         [HttpGet]
         public ActionResult CreateAccount()
         {
