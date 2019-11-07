@@ -10,7 +10,7 @@ namespace DiabetesTests
         [TestMethod]
         public void CalculateMealtimeDose_Returns7_WhenWeightIs70()
         {
-            //Arange
+            //Arrange
             var weight = 70;
             var currentBS = 220;
             var targetBS = 120;
@@ -27,7 +27,7 @@ namespace DiabetesTests
         [TestMethod]
         public void CalculateTDI_Returns38_WhenWeightIs70()
         {
-            //Arange
+            //Arrange
             var weight = 70;
             var memory = new CalculationClass();
 
@@ -41,7 +41,7 @@ namespace DiabetesTests
         [TestMethod]
         public void CalculateCorrectionFactor_Returns47_WhenWeightIs70()
         {
-            //Arange
+            //Arrange
             var weight = 70;
             var memory = new CalculationClass();
 
@@ -55,7 +55,7 @@ namespace DiabetesTests
         [TestMethod]
         public void CalculateSugarCorrection_Returns47_WhenWeightIs70()
         {
-            //Arange
+            //Arrange
             var weight = 70;
             var currentBS = 220;
             var targetBS = 120;
@@ -71,7 +71,7 @@ namespace DiabetesTests
             [TestMethod]
         public void CalculateCHO_Returns5_WhenWeightIs70()
         {
-            //Arange
+            //Arrange
             var weight = 70;
             var carbs = 60;
             var memory = new CalculationClass();
@@ -86,7 +86,7 @@ namespace DiabetesTests
         [TestMethod]
         public void CalculateMealtimeDose_TestCase_01()
         {
-            //Arange
+            //Arrange
             var weight = 70;
             var currentBS = 130;
             var targetBS = 100;

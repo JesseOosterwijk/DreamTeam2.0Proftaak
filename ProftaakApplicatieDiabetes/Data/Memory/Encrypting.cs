@@ -30,6 +30,7 @@ namespace Data.Memory
             }
             return clearText;
         }
+
         public static string Decrypt(string cipherText, string encryptionKey)
         {
             encryptionKey += "$Encrypt$";
