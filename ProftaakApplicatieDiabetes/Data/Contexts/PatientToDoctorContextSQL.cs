@@ -42,14 +42,12 @@ namespace Data.Contexts
             }
         }
 
-        public IEnumerable<User> GetPatientIdsFromDoctorId(int doctorId)
+        public IEnumerable<User> GetPatientsFromDoctorId(int doctorId)
         {
             List<User> users = new List<User>();
             try
             {
-                string query = "SELECT User.UserId, User.BSN, User.AccountType, User.FirstName, User.LastName, User.Email, User.Address, User.Residence, User.Gender, User.Weight, User.DateOfBirth, User.Status " +
-                               "FROM ProfessionaltoPatient, User " +
-                               "WHERE ProfessionaltoPatient.DoctorId = @doctorId AND ProfessionaltoPatient.PatientId = User.UserId";
+                string query = "SELECT User.UserId, User.BSN, User.AccountType, User.FirstName, User.LastName, User.Email, User.Address, User.Residence, User.Gender, User.Weight, User.DateOfBirth, User.Status FROM ProfessionaltoPatient, User WHERE ProfessionaltoPatient.DoctorId = @doctorId AND ProfessionaltoPatient.PatientId = User.UserId";
 
 
                 SqlCommand command = new SqlCommand(query, _conn);

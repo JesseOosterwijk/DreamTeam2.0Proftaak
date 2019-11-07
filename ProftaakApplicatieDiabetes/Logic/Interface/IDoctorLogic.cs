@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using Models;
 
-namespace Data.Interfaces
+namespace Logic.Interface
 {
-    public interface IPatientToDoctorContext
+    public interface IDoctorLogic
     {
-        int GetDoctorIdFromPatientId(int patientId);
         IEnumerable<User> GetPatientsFromDoctorId(int doctorId);
     }
 }

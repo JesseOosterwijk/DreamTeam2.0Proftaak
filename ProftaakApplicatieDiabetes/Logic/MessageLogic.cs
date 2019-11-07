@@ -18,7 +18,7 @@ namespace Logic
     {
         //temporarily hard coded ID's because there are no sessions
         private int _senderId = 3;
-        private int _receiverId = 2;
+        private int _receiverId = 2;    
         private AccountType _senderAccountType = AccountType.CareRecipient;
 
         private readonly IMessageContext _messageContext;
