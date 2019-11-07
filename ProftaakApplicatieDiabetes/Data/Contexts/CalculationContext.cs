@@ -13,9 +13,9 @@ namespace Data.Contexts
         private readonly SqlConnection _con = Connection.GetConnection();
         private readonly CalculationClass calculationClass= new CalculationClass();
 
-        public double CalculateMealtimeDose(ICalculation calc)
+        public int CalculateMealtimeDose(ICalculation calc)
         {
-            double insulinAdvice = calculationClass.CalculateCHO(calc.TotalCarbs, calc.Weight) + calculationClass.CalculateSugarCorrection(calc.CurrentBloodsugar, calc.TargetBloodSugar, calc.Weight);
+            int insulinAdvice = (int)(calculationClass.CalculateCHO(calc.TotalCarbs, calc.Weight) + calculationClass.CalculateSugarCorrection(calc.CurrentBloodsugar, calc.TargetBloodSugar, calc.Weight));
 
             EncryptionKeyCreator keyCreator = new EncryptionKeyCreator();
             string encryptedString = keyCreator.KeyCreator();
@@ -61,11 +61,11 @@ namespace Data.Contexts
                 {
                     string encryptingString = reader.GetString(5);
                     calc.UserBSN = reader.GetInt32(0);
-                    calc.TotalCarbs = Convert.ToDouble(Encrypting.Decrypt(reader.GetString(1), encryptingString));
-                    calc.Weight = Convert.ToDouble(Encrypting.Decrypt(reader.GetString(2), encryptingString));
-                    calc.CurrentBloodsugar = Convert.ToDouble(Encrypting.Decrypt(reader.GetString(3), encryptingString));
-                    calc.TargetBloodSugar = Convert.ToDouble(Encrypting.Decrypt(reader.GetString(4), encryptingString));
-                    calc.InsulinAdvice = Convert.ToDouble(Encrypting.Decrypt(reader.GetString(6), encryptingString));
+                    calc.TotalCarbs = Convert.ToInt32(Encrypting.Decrypt(reader.GetString(1), encryptingString));
+                    calc.Weight = Convert.ToInt32(Encrypting.Decrypt(reader.GetString(2), encryptingString));
+                    calc.CurrentBloodsugar = Convert.ToInt32(Encrypting.Decrypt(reader.GetString(3), encryptingString));
+                    calc.TargetBloodSugar = Convert.ToInt32(Encrypting.Decrypt(reader.GetString(4), encryptingString));
+                    calc.InsulinAdvice = Convert.ToInt32(Encrypting.Decrypt(reader.GetString(6), encryptingString));
                 }
                 reader.Close();
             }

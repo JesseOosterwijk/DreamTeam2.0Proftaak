@@ -9,17 +9,17 @@ namespace Models
     {
         public int UserBSN { get; set; }
 
-        public double Weight { get; set; }
+        public int Weight { get; set; }
 
-        public double TotalCarbs { get; set; }
+        public int TotalCarbs { get; set; }
 
-        public double CurrentBloodsugar { get; set; }
+        public int CurrentBloodsugar { get; set; }
 
-        public double TargetBloodSugar { get; set; }
+        public int TargetBloodSugar { get; set; }
 
-        public double InsulinAdvice { get; set; }
+        public int InsulinAdvice { get; set; }
 
-        public Calculation(int userBSN, double weight, double totalCarbs, double currentBloodSugar, double targetBloodSugar)
+        public Calculation(int userBSN, int weight, int totalCarbs, int currentBloodSugar, int targetBloodSugar)
         {
             UserBSN = userBSN;
             Weight = weight;

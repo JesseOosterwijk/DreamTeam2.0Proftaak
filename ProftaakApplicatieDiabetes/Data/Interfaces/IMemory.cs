@@ -6,10 +6,10 @@ namespace Data.Interfaces
 {
     public interface IMemory
     {
-        double CalculateMealtimeDose(double Weight, double TotalCarbs, double CurrentBloodSugar, double TargetBloodSugar);
-        double CalculateCHO(double Carbs, double Weight);
-        double CalculateSugarCorrection(double CurrentBloodSugar, double TargetBloodSugar, double Weight);
-        double CalculateCorrectionFactor(double Weight);
-        double CalculateTotalDoseInsuline(double Weight);
+        double CalculateMealtimeDose(int Weight, int TotalCarbs, int CurrentBloodSugar, int TargetBloodSugar);
+        double CalculateCHO(int Carbs, int Weight);
+        double CalculateSugarCorrection(int CurrentBloodSugar, int TargetBloodSugar, int Weight);
+        double CalculateCorrectionFactor(int Weight);
+        double CalculateTotalDoseInsuline(int Weight);
     }
 }
