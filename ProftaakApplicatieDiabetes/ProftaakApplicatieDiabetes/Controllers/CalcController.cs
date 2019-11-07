@@ -28,14 +28,14 @@ namespace ProftaakApplicatieDiabetes.Controllers
             return View();
         }
 
-        public IActionResult Results(CalcModel model)
+        public IActionResult Results(CalcViewModel model)
         {
-            model.CalculatorResults = calcLogic.GetSpecificAdvice(18);
+            model.CalculatorResults = calcLogic.GetSpecificAdvice(23);
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Calculate(CalcModel model)
+        public IActionResult Calculate(CalcViewModel model)
         {
             model.userBSN = hardcodedBSN;
             ViewBag.Result = Math.Round(calcLogic.CalculateMealtimeDose(new Calculation(model.userBSN, model.Weight, model.TotalCarbs, model.CurrentBloodsugar, model.TargetBloodSugar)));

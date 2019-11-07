@@ -3,10 +3,10 @@
     public interface ICalculation
     {
         int UserBSN { get; set; }
-        double Weight { get; set; }
-        double TotalCarbs { get; set; }
-        double CurrentBloodsugar { get; set; }
-        double TargetBloodSugar { get; set; }
-        double InsulinAdvice { get; set; }
+        int Weight { get; set; }
+        int TotalCarbs { get; set; }
+        int CurrentBloodsugar { get; set; }
+        int TargetBloodSugar { get; set; }
+        int InsulinAdvice { get; set; }
     }
 }
