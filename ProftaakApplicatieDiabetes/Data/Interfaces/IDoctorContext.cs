@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Models;
 
-namespace Logic.Interface
+namespace Data.Interfaces
 {
-    public interface IDoctorLogic
+    public interface IDoctorContext
     {
         //IEnumerable<User> GetPatientsFromDoctorId(int doctorId);
         IEnumerable<User> GetAllLinkedPatients(int userId);

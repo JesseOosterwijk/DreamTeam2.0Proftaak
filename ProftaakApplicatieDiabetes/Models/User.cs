@@ -6,13 +6,13 @@ namespace Models
     public class User : IUser
     {
         public int UserId { get; set; }
-        public int BSN { get; }
-        public string FirstName { get; }
-        public string LastName { get; }
-        public string Address { get; }
-        public string Residence { get; }
-        public string EmailAddress { get; }
-        public DateTime BirthDate { get; }
+        public int BSN { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Address { get; set; }
+        public string Residence { get; set; }
+        public string EmailAddress { get; set; }
+        public DateTime BirthDate { get; set; }
         public Gender UserGender { get; }
         public AccountType UserAccountType { get; }
         public bool Status { get; set; }
@@ -20,7 +20,7 @@ namespace Models
         public int Weight { get; set; }
         public User Doctor { get; set; }
 
-        protected User()
+        public User()
         {
                
         }

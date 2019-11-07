@@ -14,5 +14,6 @@ namespace Data.Interfaces
         bool CheckIfEmailIsValid(string userEmail);
         User CheckValidityUser(string emailAddress, string password);
         void CreateUser(User user);
+
     }
 }
