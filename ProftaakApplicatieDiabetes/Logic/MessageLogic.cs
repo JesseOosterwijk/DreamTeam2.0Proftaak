@@ -11,14 +11,6 @@ namespace Logic
 {
     public class MessageLogic : IMessageLogic
     {
-<<<<<<< HEAD
-=======
-        //temporarily hard coded ID's because there are no sessions
-        private int _senderId = 3;
-        private int _receiverId = 2;    
-        private AccountType _senderAccountType = AccountType.CareRecipient;
-
->>>>>>> 8afdb2f533208006418b20212a1504f63abcbe6a
         private readonly IMessageContext _messageContext;
         private readonly IPatientToDoctorContext _patientToDoctorContext;
 
