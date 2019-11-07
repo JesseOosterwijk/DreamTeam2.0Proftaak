@@ -60,24 +60,24 @@ namespace Data.Contexts
             try
             {
                 string query =
-                    "select * from [ProfessionaltoPatient] pp " +
+                    "select * from [UserMessage] pp " +
                     "inner join[User] u on u.UserId = pp.PatientId " +
-                    "where pp.DoctorId = @userId ";
+                    "where pp.DoctorId = @userId";
 
                 using (SqlCommand com = new SqlCommand(query, _conn))
                 {
                     _conn.Open();
 
-                    com.Parameters.AddWithValue("@UserId", userId);
+                    com.Parameters.AddWithValue("@userId", userId);
 
                     SqlDataReader reader = com.ExecuteReader();
                     while (reader.Read())
                     {
                         User user = new User();
 
-                        user.UserId = (int)reader["user_id"];
-                        user.FirstName = reader["firstname"].ToString();
-                        user.LastName = reader["lastname"].ToString();
+                        user.UserId = (int)reader["UserId"];
+                        user.FirstName = reader["Firstname"].ToString();
+                        user.LastName = reader["Lastname"].ToString();
 
                         model.Add(user);
                     }
