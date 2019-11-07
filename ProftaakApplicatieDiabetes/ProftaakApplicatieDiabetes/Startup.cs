@@ -45,7 +45,6 @@ namespace ProftaakApplicatieDiabetes
                 options.AddPolicy("CareRecipient", p => p.RequireAuthenticatedUser().RequireRole("CareRecipient"));
                 options.AddPolicy("Professional", p => p.RequireAuthenticatedUser().RequireRole("Professional"));
             });
-            services.AddScoped<IPatientToDoctorContext, PatientToDoctorContextSQL>();
             services.AddScoped<IUserContext, UserContextSQL>();
             services.AddScoped<ICalculationContext, CalculationContext>();
             services.AddScoped<ICalculationLogic, CalculationLogic>();

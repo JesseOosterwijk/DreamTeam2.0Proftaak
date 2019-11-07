@@ -318,8 +318,8 @@ namespace Data.Contexts
                         return new CareRecipient(userId, BSN, Enums.AccountType.CareRecipient, firstName, lastName, emailAdress, hashedPassword, address, city,
                             gender, weight, birthDate, status);
                     case "Doctor":
-                        return new Doctor(userId, firstName, lastName, address, city, emailAdress,
-                            birthDate, gender, status, Enums.AccountType.Doctor, hashedPassword);
+                        return new Doctor(userId, BSN, Enums.AccountType.Doctor, firstName, lastName, emailAdress, hashedPassword, address, city,
+                            gender, weight, birthDate, status);
                     default:
                         throw new AggregateException("User not found");
                 }
