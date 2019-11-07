@@ -30,7 +30,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
         public IActionResult Results(CalcModel model)
         {
-            model.CalculatorResults = calcLogic.GetSpecificAdvice(18);
+            model.CalculatorResults = calcLogic.GetSpecificAdvice(23);
             return View(model);
         }
 
