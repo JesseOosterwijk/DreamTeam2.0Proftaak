@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Logic.Interface;
 using Models;
-using Models.Interfaces;
-using Data;
-using Data.Contexts;
 using Data.Interfaces;
-using System.Security.Claims;
 using Enums;
 
 
@@ -16,17 +11,21 @@ namespace Logic
 {
     public class MessageLogic : IMessageLogic
     {
+<<<<<<< HEAD
+=======
         //temporarily hard coded ID's because there are no sessions
         private int _senderId = 3;
         private int _receiverId = 2;    
         private AccountType _senderAccountType = AccountType.CareRecipient;
 
+>>>>>>> 8afdb2f533208006418b20212a1504f63abcbe6a
         private readonly IMessageContext _messageContext;
-        private readonly IPatientToDoctorContext _patientToDoctorContext = new PatientToDoctorContextSQL();
+        private readonly IPatientToDoctorContext _patientToDoctorContext;
 
-        public MessageLogic(IMessageContext messageContext)
+        public MessageLogic(IMessageContext messageContext, IPatientToDoctorContext patientToDoctorContext)
         {
             _messageContext = messageContext;
+            _patientToDoctorContext = patientToDoctorContext;
         }
 
         public bool SendMessage(MessageModel message, int senderId, int receiverId)
@@ -34,8 +33,6 @@ namespace Logic
             if (message.Title != null && message.Content != null)
             {
                 message.DateOfX = GetCurrentDateTime();
-                message.SenderId = senderId;
-                message.ReceiverId = receiverId;
                 return _messageContext.SendMessage(message);
             }
 
@@ -56,11 +53,6 @@ namespace Logic
             return DateTime.Now;
         }
 
-        public int GetSenderId()
-        {
-            return _senderId;
-        }
-
         public int GetReceiverId(AccountType type, int senderId)
         {
             int receiverId = 0;
@@ -73,7 +65,7 @@ namespace Logic
 
         public AccountType GetAccountType()
         {
-            return _senderAccountType;
+            return AccountType.CareRecipient;
         }
     }
 }

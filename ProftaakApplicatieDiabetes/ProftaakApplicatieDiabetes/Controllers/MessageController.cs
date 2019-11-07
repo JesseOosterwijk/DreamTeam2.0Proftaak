@@ -6,7 +6,6 @@ using ProftaakApplicatieDiabetes.ViewModels;
 using Logic.Interface;
 using Microsoft.AspNetCore.SignalR;
 using Models;
-using System.Security.Claims;
 
 
 namespace ProftaakApplicatieDiabetes.Controllers
@@ -24,8 +23,8 @@ namespace ProftaakApplicatieDiabetes.Controllers
         public IActionResult ViewMessage()
         {
             MessageViewModel messageViewModel = new MessageViewModel();
-            //int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
-            messageViewModel.Messages = _messageLogic.GetMessages(_messageLogic.GetSenderId(), _messageLogic.GetReceiverId(_messageLogic.GetAccountType(), _messageLogic.GetSenderId()));
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+            messageViewModel.Messages = _messageLogic.GetMessages(userId, _messageLogic.GetReceiverId(_messageLogic.GetAccountType(), userId));
             
             return View(messageViewModel);
         }
@@ -35,8 +34,8 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             MessageModel message = new MessageModel(messageViewModel.Title, messageViewModel.Content);
             ModelState.Clear();
-            //int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
-            ViewBag.WasMessageSendSuccessfully = _messageLogic.SendMessage(message, _messageLogic.GetSenderId(), _messageLogic.GetReceiverId(_messageLogic.GetAccountType(), _messageLogic.GetSenderId()));
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+            ViewBag.WasMessageSendSuccessfully = _messageLogic.SendMessage(message, userId, _messageLogic.GetReceiverId(_messageLogic.GetAccountType(), userId));
             return ViewMessage();
         }
     }

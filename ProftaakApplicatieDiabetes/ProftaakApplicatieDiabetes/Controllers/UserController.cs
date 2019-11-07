@@ -50,7 +50,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
                 var identity = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.Sid, newCustomer.BSN.ToString()),
+                    new Claim(ClaimTypes.Sid, newCustomer.UserId.ToString()),
                     new Claim(ClaimTypes.Name, newCustomer.FirstName + " " + newCustomer.LastName),
                     new Claim(ClaimTypes.Gender, newCustomer.UserGender.ToString()),
                     new Claim(ClaimTypes.Email, newCustomer.EmailAddress),
@@ -93,6 +93,8 @@ namespace ProftaakApplicatieDiabetes.Controllers
             }
         }
 
+<<<<<<< HEAD
+=======
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -100,6 +102,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+>>>>>>> cad963d6a6420227d32e7a371182655d42253f37
         [HttpGet]
         public ActionResult CreateAccount()
         {
