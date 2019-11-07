@@ -17,6 +17,7 @@ namespace Models
 
         }
 
+        //take
         public CareRecipient(int userId, int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, int weight, DateTime dateOfBirth, bool status) : base(userId, userBSN, accountType, firstName, lastName, email, password, address, residence, gender, weight, dateOfBirth, status)
         {
         }
