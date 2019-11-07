@@ -4,7 +4,7 @@ namespace Data.Contexts
 {
     public interface ICalculationContext
     {
-        double CalculateMealtimeDose(ICalculation calc);
+        int CalculateMealtimeDose(ICalculation calc);
         Calculation GetSpecificAdvice(int id);
     }
 }

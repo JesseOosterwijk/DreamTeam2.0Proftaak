@@ -276,7 +276,7 @@ namespace Data.Contexts
             try
             {
                 string query =
-                    "SELECT UserID, BSN, AccountType, FirstName, LastName, DateOfBirth, Gender, Address, Residence, Status, Password " +
+                    "SELECT UserID, BSN, AccountType, FirstName, LastName, DateOfBirth, Gender, Address, Residence, Status, Password, Weight " +
                     "FROM [User] " +
                     "WHERE [Email] = @Email";
                 _conn.Open();
@@ -303,6 +303,7 @@ namespace Data.Contexts
                 string city = dt.Rows[0].ItemArray[8].ToString();
                 bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[9]);
                 string hashedPassword = dt.Rows[0].ItemArray[10].ToString();
+                int weight = (int)dt.Rows[0].ItemArray[11];
 
 
                 if (!Hasher.SecurePasswordHasher.Verify(password, hashedPassword))
@@ -314,8 +315,8 @@ namespace Data.Contexts
                         return new Administrator(userId, firstName, lastName, address, city, emailAdress,
                             birthDate, gender, status, Enums.AccountType.Administrator, hashedPassword);
                     case "CareRecipient":
-                        return new CareRecipient(userId, firstName, lastName, address, city, emailAdress,
-                            birthDate, gender, status, Enums.AccountType.CareRecipient, hashedPassword);
+                        return new CareRecipient(userId, BSN, Enums.AccountType.CareRecipient, firstName, lastName, emailAdress, hashedPassword, address, city,
+                            gender, weight, birthDate, status);
                     case "Doctor":
                         return new Doctor(userId, firstName, lastName, address, city, emailAdress,
                             birthDate, gender, status, Enums.AccountType.Doctor, hashedPassword);

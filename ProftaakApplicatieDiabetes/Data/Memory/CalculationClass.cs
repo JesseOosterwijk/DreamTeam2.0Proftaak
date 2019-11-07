@@ -6,7 +6,7 @@ namespace Data.Memory
 {
     public class CalculationClass
     {
-        public double CalculateCHO(double TotalCarbs, double Weight)
+        public double CalculateCHO(int TotalCarbs, int Weight)
         {
             double coverage;
             double carbsPerInsuline = 500 / CalculateTotalDoseInsuline(Weight);
@@ -14,7 +14,7 @@ namespace Data.Memory
             return coverage;
         }
 
-        public double CalculateSugarCorrection(double CurrentBloodSugar, double TargetBloodSugar, double Weight)
+        public double CalculateSugarCorrection(int CurrentBloodSugar, int TargetBloodSugar, int Weight)
         {
             double sugardifference;
             sugardifference = CurrentBloodSugar - TargetBloodSugar;
@@ -23,14 +23,14 @@ namespace Data.Memory
             return sugarcorrection;
         }
 
-        public double CalculateCorrectionFactor(double Weight)
+        public double CalculateCorrectionFactor(int Weight)
         {
             double correctionfactor;
             correctionfactor = 1800 / CalculateTotalDoseInsuline(Weight);
             return correctionfactor;
         }
 
-        public double CalculateTotalDoseInsuline(double Weight)
+        public double CalculateTotalDoseInsuline(int Weight)
         {
             double TDI;
             TDI = Weight * 0.55;

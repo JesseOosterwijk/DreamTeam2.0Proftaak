@@ -8,12 +8,11 @@ namespace Data.Memory
         {
         }
 
-        public double CalculateMealtimeDose(double Weight, double TotalCarbs, double CurrentBloodSugar, double TargetBloodSugar)
+        public int CalculateMealtimeDose(int Weight, int TotalCarbs, int CurrentBloodSugar, int TargetBloodSugar)
         {
             CalculationClass calc = new CalculationClass();
-            double mealtimedose = calc.CalculateCHO(TotalCarbs, Weight) + calc.CalculateSugarCorrection(CurrentBloodSugar, TargetBloodSugar, Weight);
-            mealtimedose = Math.Round(mealtimedose);
-            return mealtimedose;
+            double mealtimedose = Math.Round(calc.CalculateCHO(TotalCarbs, Weight) + calc.CalculateSugarCorrection(CurrentBloodSugar, TargetBloodSugar, Weight));
+            return (int)mealtimedose;
         }
     }
 }
