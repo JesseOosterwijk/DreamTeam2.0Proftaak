@@ -36,7 +36,6 @@ namespace Data.Contexts
             }
             catch (Exception e)
             {
-
                 _conn.Close();
                 throw e;
             }
@@ -78,7 +77,6 @@ namespace Data.Contexts
             }
             catch (Exception e)
             {
-
                 _conn.Close();
                 throw e;
             }

@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Text;
 using Data.Interfaces;
 using Data.Memory;
+using System.Data;
 
 namespace Data.Contexts
 {
@@ -27,14 +28,14 @@ namespace Data.Contexts
             {
                 _con.Open();
 
-                cmd.Parameters.AddWithValue("@UserId", calc.UserBSN);
-                cmd.Parameters.AddWithValue("@Carbohydrates", Encrypting.Encrypt(calc.TotalCarbs.ToString(), encryptedString));
-                cmd.Parameters.AddWithValue("@Weight", Encrypting.Encrypt(calc.Weight.ToString(), encryptedString));
-                cmd.Parameters.AddWithValue("@CurrentBloodSugar", Encrypting.Encrypt(calc.CurrentBloodsugar.ToString(), encryptedString));
-                cmd.Parameters.AddWithValue("@TargetBloodSugar", Encrypting.Encrypt(calc.TargetBloodSugar.ToString(), encryptedString));
-                cmd.Parameters.AddWithValue("@InsulinAdvice", Encrypting.Encrypt(insulinAdvice.ToString(), encryptedString));
-                cmd.Parameters.AddWithValue("@Encryption", encryptedString);
-                cmd.Parameters.AddWithValue("@Date", DateTime.Now);
+                cmd.Parameters.AddWithValue("@UserId", SqlDbType.Int).Value = calc.UserBSN;
+                cmd.Parameters.AddWithValue("@Carbohydrates", SqlDbType.VarChar).Value = Encrypting.Encrypt(calc.TotalCarbs.ToString(), encryptedString);
+                cmd.Parameters.AddWithValue("@Weight", SqlDbType.VarChar).Value = Encrypting.Encrypt(calc.Weight.ToString(), encryptedString);
+                cmd.Parameters.AddWithValue("@CurrentBloodSugar", SqlDbType.VarChar).Value = Encrypting.Encrypt(calc.CurrentBloodsugar.ToString(), encryptedString);
+                cmd.Parameters.AddWithValue("@TargetBloodSugar", SqlDbType.VarChar).Value = Encrypting.Encrypt(calc.TargetBloodSugar.ToString(), encryptedString);
+                cmd.Parameters.AddWithValue("@InsulinAdvice", SqlDbType.VarChar).Value = Encrypting.Encrypt(insulinAdvice.ToString(), encryptedString);
+                cmd.Parameters.AddWithValue("@Encryption", SqlDbType.VarChar).Value = encryptedString;
+                cmd.Parameters.AddWithValue("@Date", SqlDbType.DateTime).Value = DateTime.Now;
 
                 cmd.ExecuteNonQuery();
                 _con.Close();
@@ -54,7 +55,7 @@ namespace Data.Contexts
             {
                 string query = "SELECT UserId, Carbohydrates, Weight, CurrentBloodSugar, TargetBloodSugar, EncryptionKey, InsulinAdvice FROM Measurement WHERE Id = @id";
                 SqlCommand cmd = new SqlCommand(query, _con);
-                cmd.Parameters.AddWithValue("@id", id);
+                cmd.Parameters.AddWithValue("@id", SqlDbType.Int).Value = id;
                 _con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
