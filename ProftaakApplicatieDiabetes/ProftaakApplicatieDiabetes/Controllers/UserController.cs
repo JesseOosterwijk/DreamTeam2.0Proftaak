@@ -92,9 +92,6 @@ namespace ProftaakApplicatieDiabetes.Controllers
                 return View();
             }
         }
-
-<<<<<<< HEAD
-=======
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -102,7 +99,6 @@ namespace ProftaakApplicatieDiabetes.Controllers
             return RedirectToAction("Index", "Home");
         }
 
->>>>>>> cad963d6a6420227d32e7a371182655d42253f37
         [HttpGet]
         public ActionResult CreateAccount()
         {
