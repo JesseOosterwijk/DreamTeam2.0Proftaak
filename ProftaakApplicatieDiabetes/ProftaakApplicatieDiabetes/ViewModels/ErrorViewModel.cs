@@ -1,5 +1,3 @@
-using System;
-
 namespace ProftaakApplicatieDiabetes.Models
 {
     public class ErrorViewModel

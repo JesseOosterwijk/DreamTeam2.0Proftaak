@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
+﻿using System.Collections.Generic;
 using Enums;
 using Models;
-using Models.Interfaces;
 
 namespace Logic.Interface
 {

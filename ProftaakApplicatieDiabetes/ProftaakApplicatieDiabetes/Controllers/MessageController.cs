@@ -1,10 +1,7 @@
 ﻿using System.Linq;
-using Logic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using ProftaakApplicatieDiabetes.ViewModels;
 using Logic.Interface;
-using Microsoft.AspNetCore.SignalR;
 using Models;
 
 

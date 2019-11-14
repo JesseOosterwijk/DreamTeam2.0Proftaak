@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Data.Contexts;
-using Data.Interfaces;
-using Data.Memory;
+﻿using Data.Contexts;
 using Models;
 
 namespace Logic
