@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Data.Memory
+﻿namespace Data.Memory
 {
     public class CalculationClass
     {

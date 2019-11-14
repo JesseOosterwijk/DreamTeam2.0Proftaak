@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Data.Interfaces;
+﻿using Data.Interfaces;
 using Logic.Interface;
 using Models;
 

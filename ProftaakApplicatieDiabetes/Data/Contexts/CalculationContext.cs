@@ -1,9 +1,6 @@
 ﻿using Models;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Text;
-using Data.Interfaces;
 using Data.Memory;
 using System.Data;
 
