@@ -60,7 +60,7 @@ namespace Data.Contexts
             try
             {
                 string query =
-                    "select * from [ProfessionaltoPatient] pp " +
+                    "select FirstName, LastName from [ProfessionaltoPatient] pp " +
                     "inner join[User] u on u.UserId = pp.PatientId " +
                     "where pp.DoctorId = @userId ";
 
@@ -87,7 +87,6 @@ namespace Data.Contexts
             }
             catch (Exception)
             {
-
                 throw;
             }
             finally

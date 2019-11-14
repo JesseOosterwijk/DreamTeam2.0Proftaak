@@ -24,7 +24,7 @@ namespace ProftaakApplicatieDiabetes.Models
         public bool Status { get; set; }
         public User Doctor { get; set; }
 
-        public IEnumerable<User> Users = new List<User>();
+        public IEnumerable<User> Users { get; set; }
 
         public UserViewModel(User user)
         {

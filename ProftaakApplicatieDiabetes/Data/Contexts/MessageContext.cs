@@ -53,7 +53,6 @@ namespace Data.Contexts
             {
                 string query = "SELECT DoctorId FROM ProfessionaltoPatient WHERE PatientId = @patientId";
 
-
                 SqlCommand command = new SqlCommand(query, _conn);
 
                 command.Parameters.AddWithValue("@patientId", patientId);
@@ -143,6 +142,11 @@ namespace Data.Contexts
             {
                 _conn.Close();
             }
+        }
+
+        private void GetCouple()
+        {
+
         }
     }
 }

@@ -11,7 +11,7 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <a asp-action="Calculate" asp-controller="Calc" class="button">Calculate</a>
-                @if (User.IsInRole("Professional"))
+                @if (User.IsInRole("Doctor"))
                 {
                     <a asp-action="GetAllLinkedPatients" asp-controller="Doctor" class="button">Patient Overview</a>
                 }
