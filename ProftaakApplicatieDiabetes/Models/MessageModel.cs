@@ -26,5 +26,9 @@ namespace Models
             Title = title;
             DateOfX = dateOfX;
         }
+        public MessageModel()
+        {
+
+        }
     }
 }

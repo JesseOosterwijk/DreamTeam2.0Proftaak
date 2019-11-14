@@ -1,5 +1,4 @@
-﻿@using Microsoft.EntityFrameworkCore
-@using Models
+﻿@using Models
 @model ProftaakApplicatieDiabetes.Models.UserViewModel
 @{
     ViewData["Title"] = "PatientDataOverviewView";
@@ -10,5 +9,5 @@
 @foreach (User patient in Model.Users)
 {
     <p>@patient.FirstName</p>
-    <hr/>
+    <hr />
 }

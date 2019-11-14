@@ -8,11 +8,21 @@ namespace Logic
 {
     public class DoctorLogic : IDoctorLogic
     {
-        private IPatientToDoctorContext _patientToDoctorContext = new PatientToDoctorContextSQL();
+        private readonly IDoctorContext _doctorContext;
 
-        public IEnumerable<User> GetPatientsFromDoctorId(int doctorId)
+        public DoctorLogic(IDoctorContext doctorContext)
         {
-            return _patientToDoctorContext.GetPatientsFromDoctorId(doctorId);
+            _doctorContext = doctorContext;
+        }
+
+        //public IEnumerable<User> GetPatientsFromDoctorId(int doctorId)
+        //{
+        //    return _doctorContext.GetPatientsFromDoctorId(doctorId);
+        //}
+
+        public IEnumerable<User> GetAllLinkedPatients(int userId)
+        {
+            return _doctorContext.GetAllLinkedPatients(userId);
         }
     }
 }

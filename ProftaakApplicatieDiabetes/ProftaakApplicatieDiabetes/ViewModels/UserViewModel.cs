@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Models;
 
@@ -22,6 +23,8 @@ namespace ProftaakApplicatieDiabetes.Models
         public Enums.AccountType UserAccountType { get; set; }
         public bool Status { get; set; }
         public User Doctor { get; set; }
+
+        public IEnumerable<User> Users = new List<User>();
 
         public UserViewModel(User user)
         {

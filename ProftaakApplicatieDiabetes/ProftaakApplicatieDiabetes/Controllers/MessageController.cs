@@ -11,7 +11,6 @@ namespace ProftaakApplicatieDiabetes.Controllers
     {
         private readonly IMessageLogic _messageLogic;
         
-
         public MessageController(IMessageLogic messageLogic)
         {
             _messageLogic = messageLogic;
@@ -19,21 +18,46 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
         public IActionResult ViewMessage()
         {
-            MessageViewModel messageViewModel = new MessageViewModel();
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
-            messageViewModel.Messages = _messageLogic.GetMessages(userId, _messageLogic.GetReceiverId(_messageLogic.GetAccountType(), userId));
+
+            MessageViewModel messageViewModel = new MessageViewModel()
+            {
+                Messages = _messageLogic.GetMessages(userId, _messageLogic.GetReceiverId(_messageLogic.GetAccountType(), userId))
+            };
             
             return View(messageViewModel);
         }
 
         [HttpPost]
-        public IActionResult ViewMessage(MessageViewModel messageViewModel)
+        public IActionResult SendMessage(MessageViewModel messageViewModel)
         {
-            MessageModel message = new MessageModel(messageViewModel.Title, messageViewModel.Content);
-            ModelState.Clear();
-            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
-            ViewBag.WasMessageSendSuccessfully = _messageLogic.SendMessage(message, userId, _messageLogic.GetReceiverId(_messageLogic.GetAccountType(), userId));
-            return ViewMessage();
+            MessageModel message = new MessageModel
+            {
+                Title = messageViewModel.Title,
+                Content = messageViewModel.Content
+            }; 
+
+            int senderId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
+            _messageLogic.SendMessage(message, senderId, _messageLogic.GetReceiverId(_messageLogic.GetAccountType(), senderId));
+
+            return RedirectToAction("ViewMessage");
+        }
+
+        public IActionResult StartChat(int receiverId)
+        {
+            if (User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role).Value == "Professional")
+            {
+                int doctorId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+                _messageLogic.StartChat(doctorId, receiverId);
+            }
+            else if (User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role).Value == "CareRecipient")
+            {
+                int patientId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+                _messageLogic.StartChat(patientId, receiverId);
+            }
+
+            return View("ViewMessage");
         }
     }
 }
