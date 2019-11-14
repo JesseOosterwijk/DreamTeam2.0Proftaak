@@ -42,12 +42,7 @@ namespace Data.Contexts
 
         public Calculation GetSpecificAdvice(int id)
         {
-            int userBSN = 0;
-            int weight = 0;
-            int totalCarbs = 0;
-            int currentBloodsugar = 0;
-            int targetBloodSugar = 0;
-            Calculation calc = new Calculation(userBSN, weight, totalCarbs, currentBloodsugar, targetBloodSugar);
+            Calculation calc = new Calculation();
             try
             {
                 string query = "SELECT UserId, Carbohydrates, Weight, CurrentBloodSugar, TargetBloodSugar, EncryptionKey, InsulinAdvice FROM Measurement WHERE Id = @id";

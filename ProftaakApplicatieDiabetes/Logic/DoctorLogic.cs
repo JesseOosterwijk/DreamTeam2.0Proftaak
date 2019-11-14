@@ -3,6 +3,7 @@ using Logic.Interface;
 using Data.Contexts;
 using Data.Interfaces;
 using Models;
+using System.Linq;
 
 namespace Logic
 {
@@ -23,6 +24,16 @@ namespace Logic
         public IEnumerable<User> GetAllLinkedPatients(int userId)
         {
             return _doctorContext.GetAllLinkedPatients(userId);
+        }
+
+        public IEnumerable<Calculation> GetPatientData(int patientId)
+        {
+            List<Calculation> calculatons = new List<Calculation>();
+
+            calculatons.AddRange(_doctorContext.GetPatientData(patientId));
+            calculatons = calculatons.OrderByDescending(c => c.Date).ToList();
+
+            return calculatons;
         }
     }
 }

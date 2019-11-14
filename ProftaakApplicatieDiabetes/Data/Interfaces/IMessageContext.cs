@@ -8,6 +8,6 @@ namespace Data.Interfaces
         void SendMessage(MessageModel message);
         List<MessageModel> GetMessages(int senderId, int receiverId);
         int GetDoctorIdFromPatientId(int patientId);
-        void StartChat(int doctorId, int patientId);
+        void StartChat(int senderId, int receiverId);
     }
 }

@@ -10,6 +10,6 @@ namespace Logic.Interface
         List<MessageModel> GetMessages(int senderId, int receiverId);
         int GetReceiverId(AccountType type, int senderId);
         AccountType GetAccountType();
-        void StartChat(int doctorId, int patientId);
+        void StartChat(int senderId, int receiverId);
     }
 }

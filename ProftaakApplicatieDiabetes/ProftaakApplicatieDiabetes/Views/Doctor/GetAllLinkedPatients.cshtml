@@ -4,10 +4,12 @@
     ViewData["Title"] = "PatientDataOverviewView";
 }
 
-<h2>PatientDataOverviewView</h2>
+<h2>All Linked Patients</h2>
 
 @foreach (User patient in Model.Users)
 {
     <p>@patient.FirstName</p>
+    <td>@Html.ActionLink("See calculations", "GetPatientData", "Doctor", new { patientId = patient.UserId}, null)</td>
+
     <hr />
 }

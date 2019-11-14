@@ -117,7 +117,7 @@ namespace Data.Contexts
             //}          
         }
 
-        public void StartChat(int doctorId, int patientId)
+        public void StartChat(int senderId, int receiverId)
         {
             try
             {
@@ -127,8 +127,8 @@ namespace Data.Contexts
                 {
                     _conn.Open();
 
-                    com.Parameters.AddWithValue("@DoctorId", doctorId);
-                    com.Parameters.AddWithValue("@PatientId", patientId);
+                    com.Parameters.AddWithValue("@SenderId", senderId);
+                    com.Parameters.AddWithValue("@ReceiverId", receiverId);
 
                     com.ExecuteNonQuery();
                 }

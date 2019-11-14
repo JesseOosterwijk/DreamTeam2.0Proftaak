@@ -5,6 +5,7 @@ using Logic.Interface;
 using Models;
 using ProftaakApplicatieDiabetes.ViewModels;
 using ProftaakApplicatieDiabetes.Models;
+using System.Linq;
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
@@ -32,6 +33,16 @@ namespace ProftaakApplicatieDiabetes.Controllers
             UserViewModel model = new UserViewModel()
             {
                 Users = _doctorLogic.GetAllLinkedPatients(userId)
+            };
+
+            return View(model);
+        }
+
+        public IActionResult GetPatientData(int patientId)
+        {
+            DoctorPatientSelectViewmodel model = new DoctorPatientSelectViewmodel()
+            {
+                Calculations = _doctorLogic.GetPatientData(patientId)
             };
 
             return View(model);

@@ -56,9 +56,9 @@ namespace Logic
             return AccountType.CareRecipient;
         }
 
-        public void StartChat(int doctorId, int patientId)
+        public void StartChat(int senderId, int receiverId)
         {
-            _messageContext.StartChat(doctorId, patientId);
+            _messageContext.StartChat(senderId, receiverId);
         }
     }
 }
