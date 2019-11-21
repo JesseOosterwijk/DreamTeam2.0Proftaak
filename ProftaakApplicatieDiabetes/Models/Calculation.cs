@@ -33,6 +33,29 @@ namespace Models
             TargetBloodSugar = targetBloodSugar;
         }
 
+        public Calculation(int userId, string firstName, string lastName, int weight, int totalCarbs, int currentBloodSugar, int targetBloodSugar)
+        {
+            UserId = userId;
+            UserFirstName = firstName;
+            UserLastName = lastName;
+            Weight = weight;
+            TotalCarbs = totalCarbs;
+            CurrentBloodsugar = currentBloodSugar;
+            TargetBloodSugar = targetBloodSugar;
+        }
+
+        public Calculation(int userId, string firstName, string lastName)
+        {
+            UserId = userId;
+            UserFirstName = firstName;
+            UserLastName = lastName;
+        }
+
+        public Calculation(DateTime date)
+        {
+            Date = date;
+        }
+
         public Calculation()
         {
 

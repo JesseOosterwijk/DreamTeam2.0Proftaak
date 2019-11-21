@@ -103,5 +103,12 @@ namespace Models
             BirthDate = dateOfBirth;
             Status = status;
         }
+
+        public User(int userId, string firstName, AccountType accountType)
+        {
+            UserId = userId;
+            FirstName = firstName;
+            UserAccountType = accountType;
+        }
     }
 }

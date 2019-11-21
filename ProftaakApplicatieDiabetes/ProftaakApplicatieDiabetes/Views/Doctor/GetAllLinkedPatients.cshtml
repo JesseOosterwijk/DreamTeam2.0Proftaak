@@ -5,11 +5,22 @@
 }
 
 <h2>All Linked Patients</h2>
-
-@foreach (User patient in Model.Users)
-{
-    <p>@patient.FirstName</p>
-    <td>@Html.ActionLink("See calculations", "GetPatientData", "Doctor", new { patientId = patient.UserId}, null)</td>
-
-    <hr />
-}
+<div class="table-responsive" id="tableArea">
+    <table id="table" class="table table-striped table-bordered" ">
+        <thead>
+            <tr>
+                <th style="color:black">First Name</th>
+                <th style="color:black"></th>
+            </tr>
+        </thead>
+        @foreach (User patient in Model.Users)
+        {
+            <tbody>
+                <tr>
+                    <td>@patient.FirstName</td>
+                    <td>@Html.ActionLink("See calculations", "GetPatientData", "Doctor", new { patientId = patient.UserId }, null)</td>
+                </tr>
+            </tbody>
+        }
+   </table>
+</div>

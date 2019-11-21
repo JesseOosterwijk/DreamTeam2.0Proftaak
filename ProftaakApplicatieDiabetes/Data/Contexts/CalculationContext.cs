@@ -9,7 +9,7 @@ namespace Data.Contexts
     public class CalculationContext : ICalculationContext
     {
         private readonly SqlConnection _con = Connection.GetConnection();
-        private readonly CalculationClass calculationClass= new CalculationClass();
+        private readonly CalculationClass calculationClass = new CalculationClass();
 
         public int CalculateMealtimeDose(ICalculation calc)
         {
