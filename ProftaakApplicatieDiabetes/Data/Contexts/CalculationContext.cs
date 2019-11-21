@@ -10,10 +10,11 @@ namespace Data.Contexts
     {
         private readonly SqlConnection _con = Connection.GetConnection();
         private readonly CalculationClass calculationClass = new CalculationClass();
+        private readonly CalculationContextMemory calculationMemory = new CalculationContextMemory();
 
         public int CalculateMealtimeDose(ICalculation calc)
         {
-            int insulinAdvice = (int)(calculationClass.CalculateCHO(calc.TotalCarbs, calc.Weight) + calculationClass.CalculateSugarCorrection(calc.CurrentBloodsugar, calc.TargetBloodSugar, calc.Weight));
+            int insulinAdvice = calculationMemory.CalculateMealtimeDose(calc);
 
             EncryptionKeyCreator keyCreator = new EncryptionKeyCreator();
             string encryptedString = keyCreator.KeyCreator();
