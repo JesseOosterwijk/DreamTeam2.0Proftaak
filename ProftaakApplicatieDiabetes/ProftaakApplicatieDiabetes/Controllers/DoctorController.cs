@@ -12,10 +12,12 @@ namespace ProftaakApplicatieDiabetes.Controllers
     public class DoctorController : Controller
     {
         private readonly IDoctorLogic _doctorLogic;
+        private readonly IAccountLogic _accountLogic;
 
-        public DoctorController(IDoctorLogic doctorLogic)
+        public DoctorController(IDoctorLogic doctorLogic, IAccountLogic accountLogic)
         {
             _doctorLogic = doctorLogic;
+            _accountLogic = accountLogic;
         }
         //hardcoded for now
         //private int _doctorId = 7;
@@ -44,6 +46,14 @@ namespace ProftaakApplicatieDiabetes.Controllers
             {
                 Calculations = _doctorLogic.GetPatientData(patientId)
             };
+            if (_accountLogic.SharingIsEnabled(patientId))
+            {
+                ViewBag.Message = "";
+            }
+            else
+            {
+                ViewBag.Message = "Deze patiënt wil zijn gegevens op dit moment niet delen";
+            }
 
             return View(model);
         }

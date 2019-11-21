@@ -6,13 +6,13 @@
 }
 
 <h2>Settings</h2>
-<h3>@ViewBag.Result</h3>
-<h3>@ViewBag.Description</h3>
-<div class="container">
-    <a class="button">@Html.ActionLink("Gegevens delen aanzetten", "AllowInfoShare", "User", new { patientId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value }, null)</a>
-</div>
+<center>
+    <h3>@ViewBag.Result</h3>
+    <h3>@ViewBag.Description</h3>
+    <br />
+</center>
+<div class="container" style="margin-left:380px;">
+        @Html.ActionLink("Gegevens delen aanzetten", "AllowInfoShare", "User", new { patientId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value }, new { @class = "button" , style="position:inherit"})
 
-<div class="container">
-    <a class="button">@Html.ActionLink("Gegevens delen uitzetten", "DisableInfoShare", "User", new { patientId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value }, null)</a>
+        @Html.ActionLink("Gegevens delen uitzetten", "DisableInfoShare", "User", new { patientId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value }, new { @class = "button", style = "position:inherit" })
 </div>
-
