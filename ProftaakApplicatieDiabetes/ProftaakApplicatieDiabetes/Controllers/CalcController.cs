@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Logic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using ProftaakApplicatieDiabetes.Models;
