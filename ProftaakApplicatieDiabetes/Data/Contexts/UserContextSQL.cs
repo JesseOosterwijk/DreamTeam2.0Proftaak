@@ -33,6 +33,7 @@ namespace Data.Contexts
                     cmd.Parameters.AddWithValue("@Password", SqlDbType.NVarChar).Value = newUser.Password;
                     cmd.Parameters.AddWithValue("@AccountType", SqlDbType.NVarChar).Value = newUser.UserAccountType.ToString();
                     cmd.Parameters.AddWithValue("@Status", SqlDbType.Bit).Value = true;
+                    cmd.Parameters.AddWithValue("@InfoSharing", SqlDbType.Bit).Value = false;
                     cmd.ExecuteNonQuery();
                 }
             }
