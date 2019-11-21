@@ -19,13 +19,14 @@ namespace Models
         public string Password { get; set; }
         public int Weight { get; set; }
         public User Doctor { get; set; }
+        public bool InfoSharing { get; set; }
 
         public User()
         {
                
         }
 
-        protected User(string firstName, string lastName, string address, string residence, string emailAddress, DateTime birthDate, Gender userGender, bool status, AccountType accountType, string password)
+        protected User(string firstName, string lastName, string address, string residence, string emailAddress, DateTime birthDate, Gender userGender, bool status, AccountType accountType, string password, bool infoSharing)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -37,6 +38,7 @@ namespace Models
             Status = status;
             UserAccountType = accountType;
             Password = password;
+            InfoSharing = infoSharing;
         }
 
         public User(int userId, int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, int weight, DateTime dateOfBirth, bool status)

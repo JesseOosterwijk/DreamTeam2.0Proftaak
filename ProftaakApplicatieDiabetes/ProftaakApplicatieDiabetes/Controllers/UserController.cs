@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Logic.Interface;
@@ -14,10 +15,12 @@ namespace ProftaakApplicatieDiabetes.Controllers
     public class UserController : Controller
     {
         private readonly IUserLogic _userLogic;
+        private readonly IAccountLogic _accountLogic;
 
-        public UserController(IUserLogic userLogic)
+        public UserController(IUserLogic userLogic, IAccountLogic accountLogic)
         {
             _userLogic = userLogic;
+            _accountLogic = accountLogic;
         }
 
         public IActionResult Index()
@@ -166,5 +169,40 @@ namespace ProftaakApplicatieDiabetes.Controllers
             }
             return RedirectToAction("Login");
         }
+        public IActionResult SettingsMenu()
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+
+            if (_accountLogic.SharingIsEnabled(userId) == true)
+            {
+                ViewBag.Description = "Gegevens delen staat op dit moment aan";
+                 return View();
+            }
+            else
+            {
+                ViewBag.Description = "Gegevens delen staat op dit moment uit";
+                return View();
+            }
+        }
+
+        public IActionResult AllowInfoShare(int patientId)
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+
+            _accountLogic.AllowInfoSharing(userId);
+
+            ViewBag.Result = "Het delen van gegevens is ingeschakeld";
+            return View("SettingsMenu");
+        }
+
+        public IActionResult DisableInfoShare(int patientId)
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+
+            _accountLogic.DisableInfoSharing(userId);
+
+            ViewBag.Result = "Het delen van gegevens is uitgeschakeld";
+            return View("SettingsMenu");
+        }
     }
-}
+} 

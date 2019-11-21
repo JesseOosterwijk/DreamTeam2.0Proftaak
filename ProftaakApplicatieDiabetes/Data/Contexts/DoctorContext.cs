@@ -104,9 +104,7 @@ namespace Data.Contexts
             string query = "select * from [Measurement] m " +
                 "inner join[User] u on u.UserId = m.UserId " +
                 "Where m.UserId = @userId " +
-                "And u.InfoSharing = True ";
-
-
+                "And u.InfoSharing = 'True' ";
 
             using (SqlCommand command = new SqlCommand(query, _conn))
             {
