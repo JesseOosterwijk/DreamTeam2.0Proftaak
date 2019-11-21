@@ -36,6 +36,7 @@ namespace Logic
 
         public bool CheckIfEmailIsValid(string userEmail)
         {
+            
             return _user.CheckIfEmailIsValid(userEmail);
         }
 
