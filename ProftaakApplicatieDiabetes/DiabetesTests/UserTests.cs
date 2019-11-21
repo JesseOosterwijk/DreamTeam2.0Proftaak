@@ -11,62 +11,67 @@ namespace DiabetesTests
     [TestClass]
     public class UserTests
     {
-        public Mock<IUserContext> mock = new Mock<IUserContext>();
-        User user = new Mock<User>(226044440, Enums.AccountType.CareRecipient, "", "Oosterwijk", "jesse.oosterwijk@outlook.com", "testpassword", "Kleidonk 1", "Beuningen", Enums.Gender.Male, 85, DateTime.Today, false).Object;
+        public Mock<IUserContext> mockContext = new Mock<IUserContext>();
 
         [TestMethod]
         public void CreateUser_ValidDatabaseCall()
         {
-            UserLogic _logic = new UserLogic(mock.Object);
-            _logic.CreateUser(user);
+            User mockUser = new Mock<User>(226044440, Enums.AccountType.CareRecipient, "", "Oosterwijk", "jesse.oosterwijk@outlook.com", "testpassword", "Kleidonk 1", "Beuningen", Enums.Gender.Male, 85, DateTime.Today, false).Object;
+            UserLogic _logic = new UserLogic(mockContext.Object);
+            mockContext.Setup(x => x.CreateUser(mockUser));
 
-            Assert.AreEqual(user, user);
-            mock.Verify(x => x.CreateUser(user), Times.Exactly(1));
+            _logic.CreateUser(mockUser);
+
+            mockContext.Verify(x => x.CreateUser(mockUser), Times.Exactly(1));
         }
 
         [TestMethod]
         public void CheckIfUserAlreadyExists_Tests()
         {
-            mock.Setup(x => x.CheckIfUserAlreadyExists(""))
+            Mock<User> mockUser = new Mock<User>();
+            mockContext.Setup(x => x.CheckIfUserAlreadyExists(""))
                 .Returns(It.IsAny<bool>);
-            UserLogic _logic = new UserLogic(mock.Object);
+            UserLogic _logic = new UserLogic(mockContext.Object);
 
-            bool result = _logic.CheckIfUserAlreadyExists(user.EmailAddress);
+            bool result = _logic.CheckIfUserAlreadyExists(mockUser.Object.EmailAddress);
 
-            mock.Verify(x => x.CheckIfUserAlreadyExists(user.EmailAddress), Times.Exactly(1));
+            mockContext.Verify(x => x.CheckIfUserAlreadyExists(mockUser.Object.EmailAddress), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(bool));
         }
 
         [TestMethod]
         public void CheckIfAccountIsActive_Tests()
         {
-            mock.Setup(x => x.CheckIfAccountIsActive(user.EmailAddress))
+            Mock<User> mockUser = new Mock<User>();
+            mockContext.Setup(x => x.CheckIfAccountIsActive(mockUser.Object.EmailAddress))
                 .Returns(It.IsAny<bool>);
-            UserLogic _logic = new UserLogic(mock.Object);
+            UserLogic _logic = new UserLogic(mockContext.Object);
 
-            bool result = _logic.CheckIfAccountIsActive(user.EmailAddress);
+            bool result = _logic.CheckIfAccountIsActive(mockUser.Object.EmailAddress);
 
-            mock.Verify(x => x.CheckIfAccountIsActive(user.EmailAddress), Times.Exactly(1));
+            mockContext.Verify(x => x.CheckIfAccountIsActive(mockUser.Object.EmailAddress), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(bool));
         }
 
         [TestMethod]
         public void CheckIfEmailIsValid_Tests()
         {
-            mock.Setup(x => x.CheckIfEmailIsValid(user.EmailAddress))
+            Mock<User> mockUser = new Mock<User>();
+            mockContext.Setup(x => x.CheckIfEmailIsValid(mockUser.Object.EmailAddress))
                 .Returns(It.IsAny<bool>);
-            UserLogic _logic = new UserLogic(mock.Object);
+            UserLogic _logic = new UserLogic(mockContext.Object);
 
-            bool result = _logic.CheckIfEmailIsValid(user.EmailAddress);
+            bool result = _logic.CheckIfEmailIsValid(mockUser.Object.EmailAddress);
 
-            mock.Verify(x => x.CheckIfEmailIsValid(user.EmailAddress), Times.Exactly(1));
+            mockContext.Verify(x => x.CheckIfEmailIsValid(mockUser.Object.EmailAddress), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(bool));
         }
         //TODO
         [TestMethod]
         public void CheckIfEmailFails_Tests()
         {
-            UserLogic _logic = new UserLogic(mock.Object);
+            Mock<User> mockUser = new Mock<User>();
+            UserLogic _logic = new UserLogic(mockContext.Object);
 
             bool result = _logic.CheckIfEmailIsValid("");
 
@@ -76,13 +81,14 @@ namespace DiabetesTests
         [TestMethod]
         public void CheckIfAccountIsActive_Fails_Tests()
         {
-            mock.Setup(x => x.CheckIfAccountIsActive(user.EmailAddress))
+            Mock<User> mockUser = new Mock<User>();
+            mockContext.Setup(x => x.CheckIfAccountIsActive(mockUser.Object.EmailAddress))
                 .Returns(false);
-            UserLogic _logic = new UserLogic(mock.Object);
+            UserLogic _logic = new UserLogic(mockContext.Object);
 
-            bool result = _logic.CheckIfAccountIsActive(user.EmailAddress);
+            bool result = _logic.CheckIfAccountIsActive(mockUser.Object.EmailAddress);
 
-            mock.Verify(x => x.CheckIfAccountIsActive(user.EmailAddress), Times.Exactly(1));
+            mockContext.Verify(x => x.CheckIfAccountIsActive(mockUser.Object.EmailAddress), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(bool));
             Assert.AreEqual(false, result);
         }
@@ -90,104 +96,114 @@ namespace DiabetesTests
         [TestMethod]
         public void GetUserInfo_Tests()
         {
-            mock.Setup(x => x.GetUserInfo(user.EmailAddress))
-                .Returns(user);
-            UserLogic _logic = new UserLogic(mock.Object);
+            Mock<User> mockUser = new Mock<User>();
+            UserLogic _logic = new UserLogic(mockContext.Object);
 
-            User result = _logic.GetUserInfo(user.EmailAddress);
+            mockContext.Setup(x => x.GetUserInfo(mockUser.Object.EmailAddress))
+                .Returns(mockUser.Object);
 
-            mock.Verify(x => x.GetUserInfo(user.EmailAddress), Times.Once);
-            Assert.AreEqual(user, result);
+
+            User result = _logic.GetUserInfo(mockUser.Object.EmailAddress);
+
+            mockContext.Verify(x => x.GetUserInfo(mockUser.Object.EmailAddress), Times.Once);
+            Assert.AreEqual(mockUser.Object, result);
         }
 
         [TestMethod]
         public void GetUserInfo_Fails_IfOtherEmailIsUsed()
         {
-            mock.Setup(x => x.GetUserInfo(user.EmailAddress))
-                .Returns(user);
-            UserLogic _logic = new UserLogic(mock.Object);
+            Mock<User> mockUser = new Mock<User>();
+            mockContext.Setup(x => x.GetUserInfo(mockUser.Object.EmailAddress))
+                .Returns(mockUser.Object);
+            UserLogic _logic = new UserLogic(mockContext.Object);
 
             User result = _logic.GetUserInfo("");
 
-            Assert.AreNotEqual(user, result);
+            Assert.AreNotEqual(mockUser, result);
         }
 
         [TestMethod]
         public void GetUserById_Tests()
         {
-            mock.Setup(x => x.GetUserById(user.BSN))
-                .Returns(user);
-            UserLogic _logic = new UserLogic(mock.Object);
+            Mock<User> mockUser = new Mock<User>();
+            mockContext.Setup(x => x.GetUserById(mockUser.Object.BSN))
+                .Returns(mockUser.Object);
+            UserLogic _logic = new UserLogic(mockContext.Object);
 
-            User result = _logic.GetUserById(user.BSN);
+            User result = _logic.GetUserById(mockUser.Object.BSN);
 
-            mock.Verify(x => x.GetUserById(user.BSN), Times.Once);
-            Assert.AreEqual(user, result);
+            mockContext.Verify(x => x.GetUserById(mockUser.Object.BSN), Times.Once);
+            Assert.AreEqual(mockUser.Object, result);
         }
 
         [TestMethod]
         public void GetUserById_Fails_WrongBSN()
         {
-            mock.Setup(x => x.GetUserById(user.BSN))
-                   .Returns(user);
-            UserLogic _logic = new UserLogic(mock.Object);
+            Mock<User> mockUser = new Mock<User>();
+            mockContext.Setup(x => x.GetUserById(mockUser.Object.BSN))
+                   .Returns(mockUser.Object);
+            UserLogic _logic = new UserLogic(mockContext.Object);
 
             User result = _logic.GetUserById(9);
 
-            Assert.AreNotEqual(user, result);
+            Assert.AreNotEqual(mockUser, result);
         }
         
         [TestMethod]
         public void CheckValidityUser_Succes()
         {
-            mock.Setup(x => x.CheckValidityUser(user.EmailAddress, user.Password))
-                   .Returns(user);
+            Mock<User> mockUser = new Mock<User>();
+            mockContext.Setup(x => x.CheckValidityUser(mockUser.Object.EmailAddress, mockUser.Object.Password))
+                   .Returns(mockUser.Object);
 
-            UserLogic _logic = new UserLogic(mock.Object);
+            UserLogic _logic = new UserLogic(mockContext.Object);
 
-            User result = _logic.CheckValidityUser(user.EmailAddress, user.Password);
+            User result = _logic.CheckValidityUser(mockUser.Object.EmailAddress, mockUser.Object.Password);
 
-            mock.Verify(x => x.CheckValidityUser(user.EmailAddress, user.Password), Times.Once);
-            Assert.AreEqual(user, result);
+            mockContext.Verify(x => x.CheckValidityUser(mockUser.Object.EmailAddress, mockUser.Object.Password), Times.Once);
+            Assert.AreEqual(mockUser.Object, result);
         }
 
         [TestMethod]
         public void CheckValidityUser_WrongPassword()
         {
-            mock.Setup(x => x.CheckValidityUser(user.EmailAddress, user.Password))
-                   .Returns(user);
+            Mock<User> mockUser = new Mock<User>();
+            mockContext.Setup(x => x.CheckValidityUser(mockUser.Object.EmailAddress, mockUser.Object.Password))
+                   .Returns(mockUser.Object);
 
-            UserLogic _logic = new UserLogic(mock.Object);
+            UserLogic _logic = new UserLogic(mockContext.Object);
 
-            User result = _logic.CheckValidityUser(user.EmailAddress, "456");
+            User result = _logic.CheckValidityUser(mockUser.Object.EmailAddress, "456");
 
-            Assert.AreNotEqual(user, result);
+            Assert.AreNotEqual(mockUser, result);
         }
 
         [TestMethod]
         public void CheckValidityUser_WrongEmail()
         {
-            mock.Setup(x => x.CheckValidityUser(user.EmailAddress, user.Password))
-                   .Returns(user);
+            Mock<User> mockUser = new Mock<User>();
+            mockContext.Setup(x => x.CheckValidityUser(mockUser.Object.EmailAddress, mockUser.Object.Password))
+                   .Returns(mockUser.Object);
 
-            UserLogic _logic = new UserLogic(mock.Object);
+            UserLogic _logic = new UserLogic(mockContext.Object);
 
-            User result = _logic.CheckValidityUser("", user.Password);
+            User result = _logic.CheckValidityUser("", mockUser.Object.Password);
 
-            Assert.AreNotEqual(user, result);
+            Assert.AreNotEqual(mockUser, result);
         }
 
         [TestMethod]
         public void CheckValidityUser_BothWrong()
         {
-            mock.Setup(x => x.CheckValidityUser(user.EmailAddress, user.Password))
-                   .Returns(user);
+            Mock<User> mockUser = new Mock<User>();
+            mockContext.Setup(x => x.CheckValidityUser(mockUser.Object.EmailAddress, mockUser.Object.Password))
+                   .Returns(mockUser.Object);
 
-            UserLogic _logic = new UserLogic(mock.Object);
+            UserLogic _logic = new UserLogic(mockContext.Object);
 
             User result = _logic.CheckValidityUser("", "wrongPass");
 
-            Assert.AreNotEqual(user, result);
+            Assert.AreNotEqual(mockUser, result);
         }
     }
 }

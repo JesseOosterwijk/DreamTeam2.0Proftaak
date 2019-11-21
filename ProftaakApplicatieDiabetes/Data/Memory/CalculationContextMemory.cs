@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 
 namespace Data.Memory
 {
@@ -9,10 +10,10 @@ namespace Data.Memory
 
         }
 
-        public int CalculateMealtimeDose(int Weight, int TotalCarbs, int CurrentBloodSugar, int TargetBloodSugar)
+        public int CalculateMealtimeDose(ICalculation calc)
         {
-            CalculationClass calc = new CalculationClass();
-            double mealtimedose = Math.Round(calc.CalculateCHO(TotalCarbs, Weight) + calc.CalculateSugarCorrection(CurrentBloodSugar, TargetBloodSugar, Weight));
+            CalculationClass calculation = new CalculationClass();
+            double mealtimedose = Math.Round(calculation.CalculateCHO(calc.TotalCarbs, calc.Weight) + calculation.CalculateSugarCorrection(calc.CurrentBloodsugar, calc.TargetBloodSugar, calc.Weight));
             return (int)mealtimedose;
         }
     }

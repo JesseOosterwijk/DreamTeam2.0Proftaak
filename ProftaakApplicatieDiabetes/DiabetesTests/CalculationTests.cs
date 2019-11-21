@@ -1,6 +1,10 @@
 ﻿using Data.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Moq;
+using Data.Contexts;
+using Models;
+using Logic;
 
 namespace DiabetesTests
 {
@@ -11,14 +15,17 @@ namespace DiabetesTests
         public void CalculateMealtimeDose_Returns7_WhenWeightIs70()
         {
             //Arrange
-            var weight = 70;
-            var currentBS = 220;
-            var targetBS = 120;
-            var carbs = 60;
+            ICalculation calculation = new Calculation
+            {
+                Weight = 70,
+                CurrentBloodsugar = 220,
+                TargetBloodSugar = 120,
+                TotalCarbs = 60
+            };
             var memory = new CalculationContextMemory();
 
             //Act
-            var output = memory.CalculateMealtimeDose(weight, carbs, currentBS, targetBS);
+            var output = memory.CalculateMealtimeDose(calculation);
 
             //Assert
             Assert.AreEqual(output, 7);
@@ -87,6 +94,13 @@ namespace DiabetesTests
         public void CalculateMealtimeDose_TestCase_01()
         {
             //Arrange
+            ICalculation calculation = new Calculation
+            {
+                Weight = 70,
+                CurrentBloodsugar = 130,
+                TargetBloodSugar = 100,
+                TotalCarbs = 60
+            };
             var weight = 70;
             var currentBS = 130;
             var targetBS = 100;
@@ -95,7 +109,7 @@ namespace DiabetesTests
             var memory2 = new CalculationClass();
 
             //Act
-            var TMD = memory.CalculateMealtimeDose(weight, carbs, currentBS, targetBS);
+            var TMD = memory.CalculateMealtimeDose(calculation);
             var TDI = memory2.CalculateTotalDoseInsuline(weight);
             var CHO = Math.Round(memory2.CalculateCHO(carbs, weight), 2);
             var SC = Math.Round(memory2.CalculateSugarCorrection(currentBS, targetBS, weight), 2);
@@ -107,6 +121,22 @@ namespace DiabetesTests
             Assert.AreEqual(0.64, SC);
         }
 
+        [TestMethod]
+        public void GetSpecificAdvice_Tests()
+        {
+            Mock<Calculation> mockCalc = new Mock<Calculation>();
+            Mock<ICalculationContext> mockContext = new Mock<ICalculationContext>();
+            CalculationLogic _logic = new CalculationLogic(mockContext.Object);
+
+
+            mockContext.Setup(x => x.GetSpecificAdvice(1))
+                .Returns(mockCalc.Object);
+
+            var result = _logic.GetSpecificAdvice(1);
+
+            Assert.AreEqual(mockCalc.Object, result);
+            mockContext.Verify(x => x.GetSpecificAdvice(1), Times.Once);
+        }
 
     }
 }
