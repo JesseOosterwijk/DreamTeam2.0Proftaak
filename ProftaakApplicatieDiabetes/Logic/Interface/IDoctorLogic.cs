@@ -7,5 +7,6 @@ namespace Logic.Interface
     {
         //IEnumerable<User> GetPatientsFromDoctorId(int doctorId);
         IEnumerable<User> GetAllLinkedPatients(int userId);
+        IEnumerable<Calculation> GetPatientData(int patientId);
     }
 }

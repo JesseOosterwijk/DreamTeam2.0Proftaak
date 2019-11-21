@@ -126,3 +126,25 @@ body {
     width: 50%;
     margin: auto
 }
+
+#tableArea {
+    max-height: 600px;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+#table {
+    white-space: normal;
+}
+
+tbody {
+    display: block;
+    height: 200px;
+    overflow: auto;
+}
+
+    thead, tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }

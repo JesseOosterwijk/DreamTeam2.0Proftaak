@@ -1,0 +1,39 @@
+﻿@model ProftaakApplicatieDiabetes.ViewModels.DoctorPatientSelectViewmodel
+@using Models
+
+@{
+    ViewData["Title"] = "GetPatientData";
+}
+
+<h2>Patient Overview</h2>
+<div class="table-responsive" id="tableArea">
+    <table id="table" class="table table-striped table-bordered"">
+        <thead>
+            <tr>
+                <th style="color:black">First Name</th>
+                <th style="color:black">Last Name</th>
+                <th style="color:black">Carbohydrates</th>
+                <th style="color:black">Weight in KG</th>
+                <th style="color:black">Target Blood Sugar</th>
+                <th style="color:black">Current Blood Sugar</th>
+                <th style="color:black">Date</th>
+                <th style="color:black">Insulin advice</th>
+            </tr>
+        </thead>
+        @foreach (Calculation item in Model.Calculations)
+        {
+            <tbody>
+                <tr>
+                    <td>@item.UserFirstName</td>
+                    <td>@item.UserLastName</td>
+                    <td>@item.TotalCarbs</td>
+                    <td>@item.Weight </td>
+                    <td> @item.TargetBloodSugar </td>
+                    <td>@item.CurrentBloodsugar</td>
+                    <td>@item.Date</td>
+                    <td>@item.InsulinAdvice</td>
+                </tr>
+            </tbody>
+        }
+    </table>
+</div>

@@ -52,7 +52,6 @@ namespace Data.Contexts
             {
                 string query = "SELECT DoctorId FROM ProfessionaltoPatient WHERE PatientId = @patientId";
 
-
                 SqlCommand command = new SqlCommand(query, _conn);
 
                 command.Parameters.AddWithValue("@patientId", patientId);
@@ -118,7 +117,7 @@ namespace Data.Contexts
             //}          
         }
 
-        public void StartChat(int doctorId, int patientId)
+        public void StartChat(int senderId, int receiverId)
         {
             try
             {
@@ -128,8 +127,8 @@ namespace Data.Contexts
                 {
                     _conn.Open();
 
-                    com.Parameters.AddWithValue("@DoctorId", doctorId);
-                    com.Parameters.AddWithValue("@PatientId", patientId);
+                    com.Parameters.AddWithValue("@SenderId", senderId);
+                    com.Parameters.AddWithValue("@ReceiverId", receiverId);
 
                     com.ExecuteNonQuery();
                 }
@@ -142,6 +141,11 @@ namespace Data.Contexts
             {
                 _conn.Close();
             }
+        }
+
+        private void GetCouple()
+        {
+
         }
     }
 }

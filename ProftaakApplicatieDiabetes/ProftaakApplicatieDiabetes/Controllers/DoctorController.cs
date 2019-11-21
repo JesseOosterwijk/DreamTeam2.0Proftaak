@@ -37,5 +37,15 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
             return View(model);
         }
+
+        public IActionResult GetPatientData(int patientId)
+        {
+            DoctorPatientSelectViewmodel model = new DoctorPatientSelectViewmodel()
+            {
+                Calculations = _doctorLogic.GetPatientData(patientId)
+            };
+
+            return View(model);
+        }
     }
 }
