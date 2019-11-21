@@ -23,6 +23,7 @@ namespace ProftaakApplicatieDiabetes.Models
         public Enums.AccountType UserAccountType { get; set; }
         public bool Status { get; set; }
         public User Doctor { get; set; }
+        public bool ShareInfo { get; set; }
 
         public IEnumerable<User> Users { get; set; }
 

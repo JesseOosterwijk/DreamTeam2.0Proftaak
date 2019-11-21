@@ -53,6 +53,8 @@ namespace ProftaakApplicatieDiabetes
             services.AddScoped<IUserLogic, UserLogic>();
             services.AddScoped<IDoctorContext, DoctorContext>();
             services.AddScoped<IDoctorLogic, DoctorLogic>();
+            services.AddScoped<IAccountLogic, AccountLogic>();
+            services.AddScoped<IAccountContext, AccountContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

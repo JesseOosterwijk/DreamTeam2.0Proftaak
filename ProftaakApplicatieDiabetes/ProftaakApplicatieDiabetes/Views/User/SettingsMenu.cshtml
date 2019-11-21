@@ -1,0 +1,18 @@
+﻿@using System.Security.Claims;
+@model ProftaakApplicatieDiabetes.Models.UserViewModel
+
+@{
+    ViewData["Title"] = "SettingsMenu";
+}
+
+<h2>Settings</h2>
+<h3>@ViewBag.Result</h3>
+<h3>@ViewBag.Description</h3>
+<div class="container">
+    <a class="button">@Html.ActionLink("Gegevens delen aanzetten", "AllowInfoShare", "User", new { patientId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value }, null)</a>
+</div>
+
+<div class="container">
+    <a class="button">@Html.ActionLink("Gegevens delen uitzetten", "DisableInfoShare", "User", new { patientId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value }, null)</a>
+</div>
+
