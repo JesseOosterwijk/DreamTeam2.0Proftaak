@@ -22,7 +22,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
             MessageViewModel messageViewModel = new MessageViewModel()
             {
-                Messages = _messageLogic.GetMessages(userId, _messageLogic.GetReceiverId(_messageLogic.GetAccountType(), userId))
+                //Messages = _messageLogic.GetConversationMessages()
             };
             
             return View(messageViewModel);
@@ -39,7 +39,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
             int senderId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
 
-            _messageLogic.SendMessage(message, senderId, _messageLogic.GetReceiverId(_messageLogic.GetAccountType(), senderId));
+            _messageLogic.SendMessage(message);
 
             return RedirectToAction("ViewMessage");
         }

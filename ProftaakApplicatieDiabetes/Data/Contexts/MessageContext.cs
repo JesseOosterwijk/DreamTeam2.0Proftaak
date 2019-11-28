@@ -41,6 +41,35 @@ namespace Data.Contexts
         public List<MessageModel> GetConversationMessages(int coupleId)
         {
             List<MessageModel> messages = new List<MessageModel>();
+            try
+            {
+                string query = "SELECT MessageId, Content, Title, DateOfX, SenderId FROM Message WHERE CoupleId = @CoupleId";
+
+                SqlCommand command = new SqlCommand(query, _conn);
+
+                command.Parameters.AddWithValue("@CoupleId", coupleId);
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    messages.Add(new MessageModel(
+                        reader.GetInt32(reader.GetOrdinal("MessageId")),
+                        reader.GetInt32(reader.GetOrdinal("SenderId")),
+                        coupleId,
+                        reader.GetString(reader.GetOrdinal("Content")),
+                        reader.GetString(reader.GetOrdinal("Title")),
+                        reader.GetDateTime(reader.GetOrdinal("DateOf"))
+                    ));
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                _conn.Close();
+            }
             return messages;
         }
 
@@ -129,18 +158,18 @@ namespace Data.Contexts
             return coupleId;
         }
 
-        public void StartChat(int senderId, int receiverId)
+        public void StartChat(int doctorId, int patientId)
         {
             try
             {
-                string query = "Insert into [UserMessage] (ReceiverId, SenderId) Values (@ReceiverId, @SenderId)";
+                string query = "INSERT INTO [UserMessage] (DoctorId, PatientId) VALUES (@DoctorId, @PatientId)";
 
                 using (SqlCommand com = new SqlCommand(query, _conn))
                 {
                     _conn.Open();
 
-                    com.Parameters.AddWithValue("@SenderId", senderId);
-                    com.Parameters.AddWithValue("@ReceiverId", receiverId);
+                    com.Parameters.AddWithValue("@DoctorId", doctorId);
+                    com.Parameters.AddWithValue("@PatientId", patientId);
 
                     com.ExecuteNonQuery();
                 }

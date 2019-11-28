@@ -18,7 +18,7 @@ namespace Logic
             _messageContext = messageContext;
         }
 
-        public void SendMessage(MessageModel message, int senderId, int receiverId)
+        public void SendMessage(MessageModel message)
         {
             if (message.Title != null && message.Content != null)
             {
@@ -27,10 +27,46 @@ namespace Logic
             }
         }
 
-        public List<MessageModel> GetMessages(int senderId, int receiverId)
+        public List<MessageModel> ViewMessagesPatient(AccountType type, int patientId)
         {
             List<MessageModel> messages = new List<MessageModel>();
-            messages.AddRange(_messageContext.GetMessages(senderId, receiverId));
+            if (type == AccountType.CareRecipient)
+            {
+                int doctorId = GetDoctorIdFromPatientId(patientId);
+                if (doctorId != 0)
+                {
+                    int coupleId = GetConversationPatient(patientId);
+                    if (coupleId == 0)
+                    {
+                        StartChat(doctorId, patientId);
+                        coupleId = GetConversationPatient(patientId);
+                        messages = GetConversationMessages(coupleId);
+                    }
+                }
+            }
+            return messages;
+        }
+
+        public List<MessageModel> ViewMessagesDoctor(AccountType type, int doctorId, int patientId)
+        {
+            List<MessageModel> messages = new List<MessageModel>();
+            if (type == AccountType.Doctor)
+            {
+                int coupleId = GetConversationDoctor(doctorId, patientId);
+                if (coupleId == 0)
+                {
+                    StartChat(doctorId, patientId);
+                    coupleId = GetConversationDoctor(doctorId, patientId);
+                    messages = GetConversationMessages(coupleId);
+                }
+            }
+            return messages;
+        }
+
+        private List<MessageModel> GetConversationMessages(int coupleId)
+        {
+            List<MessageModel> messages = new List<MessageModel>();
+            messages.AddRange(_messageContext.GetConversationMessages(coupleId));
             messages = messages.OrderByDescending(m => m.DateOfX).ToList();
 
             return messages;
@@ -41,14 +77,23 @@ namespace Logic
             return DateTime.Now;
         }
 
-        public int GetReceiverId(AccountType type, int senderId)
+        private int GetDoctorIdFromPatientId(int patientId)
         {
-            int receiverId = 0;
-            if (type == AccountType.CareRecipient)
-            {
-                receiverId = _messageContext.GetDoctorIdFromPatientId(senderId);
-            }
-            return receiverId;
+            return _messageContext.GetDoctorIdFromPatientId(patientId);
+        }
+
+        public int GetConversationPatient(int patientId)
+        {
+            int coupleId = _messageContext.GetConversationPatient(patientId);
+
+            return coupleId;
+        }
+
+        public int GetConversationDoctor(int doctorId, int patientId)
+        {
+            int coupleId = _messageContext.GetConversationDoctor(doctorId, patientId);
+
+            return coupleId;
         }
 
         public AccountType GetAccountType()
@@ -56,9 +101,9 @@ namespace Logic
             return AccountType.CareRecipient;
         }
 
-        public void StartChat(int senderId, int receiverId)
+        public void StartChat(int doctorId, int patientId)
         {
-            _messageContext.StartChat(senderId, receiverId);
+            _messageContext.StartChat(doctorId, patientId);
         }
     }
 }

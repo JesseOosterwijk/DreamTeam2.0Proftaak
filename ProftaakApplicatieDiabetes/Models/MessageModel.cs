@@ -18,10 +18,11 @@ namespace Models
             Content = content;
         }
 
-        public MessageModel(int senderId, int receiverId, string content, string title, DateTime dateOfX)
+        public MessageModel(int messageId, int senderId, int coupleId, string content, string title, DateTime dateOfX)
         {
+            MessageId = messageId;
             SenderId = senderId;
-            CoupleId = receiverId;
+            CoupleId = coupleId;
             Content = content;
             Title = title;
             DateOfX = dateOfX;
