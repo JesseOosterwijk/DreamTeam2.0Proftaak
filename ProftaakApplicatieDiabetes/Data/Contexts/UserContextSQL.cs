@@ -29,7 +29,6 @@ namespace Data.Contexts
                     cmd.Parameters.AddWithValue("@DateOfBirth", SqlDbType.DateTime).Value = newUser.BirthDate;
                     cmd.Parameters.AddWithValue("@Residence", SqlDbType.NVarChar).Value = newUser.Residence;
                     cmd.Parameters.AddWithValue("@Gender", SqlDbType.Bit).Value = newUser.UserGender;
-                    cmd.Parameters.AddWithValue("@Weight", SqlDbType.Int).Value = newUser.Weight;
                     cmd.Parameters.AddWithValue("@Password", SqlDbType.NVarChar).Value = newUser.Password;
                     cmd.Parameters.AddWithValue("@AccountType", SqlDbType.NVarChar).Value = newUser.UserAccountType.ToString();
                     cmd.Parameters.AddWithValue("@Status", SqlDbType.Bit).Value = true;
@@ -277,7 +276,7 @@ namespace Data.Contexts
             try
             {
                 string query =
-                    "SELECT UserID, BSN, AccountType, FirstName, LastName, DateOfBirth, Gender, Address, Residence, Status, Password, Weight " +
+                    "SELECT UserID, BSN, AccountType, FirstName, LastName, DateOfBirth, Gender, Address, Residence, Status, Password " +
                     "FROM [User] " +
                     "WHERE [Email] = @Email";
                 _conn.Open();
@@ -304,7 +303,6 @@ namespace Data.Contexts
                 string city = dt.Rows[0].ItemArray[8].ToString();
                 bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[9]);
                 string hashedPassword = dt.Rows[0].ItemArray[10].ToString();
-                int weight = (int)dt.Rows[0].ItemArray[11];
 
 
                 if (!Hasher.SecurePasswordHasher.Verify(password, hashedPassword))
@@ -317,10 +315,10 @@ namespace Data.Contexts
                             birthDate, gender, status, Enums.AccountType.Administrator, hashedPassword);
                     case "CareRecipient":
                         return new CareRecipient(userId, BSN, Enums.AccountType.CareRecipient, firstName, lastName, emailAdress, hashedPassword, address, city,
-                            gender, weight, birthDate, status);
+                            gender, birthDate, status);
                     case "Doctor":
                         return new Doctor(userId, BSN, Enums.AccountType.Doctor, firstName, lastName, emailAdress, hashedPassword, address, city,
-                            gender, weight, birthDate, status);
+                            gender, birthDate, status);
                     default:
                         throw new AggregateException("User not found");
                 }

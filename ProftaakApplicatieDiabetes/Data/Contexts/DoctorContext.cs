@@ -15,47 +15,6 @@ namespace Data.Contexts
     {
         private readonly SqlConnection _conn = Connection.GetConnection();
 
-        //public IEnumerable<User> GetPatientsFromDoctorId(int doctorId)
-        //{
-        //    List<User> users = new List<User>();
-        //    try
-        //    {
-        //        string query = "SELECT User.UserId, User.BSN, User.AccountType, User.FirstName, User.LastName, User.Email, User.Address, User.Residence, User.Gender, User.Weight, User.DateOfBirth, User.Status FROM ProfessionaltoPatient, User WHERE ProfessionaltoPatient.DoctorId = @doctorId AND ProfessionaltoPatient.PatientId = User.UserId";
-
-
-        //        SqlCommand command = new SqlCommand(query, _conn);
-
-        //        command.Parameters.AddWithValue("@doctorId", doctorId);
-        //        _conn.Open();
-        //        SqlDataReader reader = command.ExecuteReader();
-        //        while (reader.Read())
-        //        {
-        //            users.Add(new User(
-        //                reader.GetInt32(reader.GetOrdinal("UserId")),
-        //                reader.GetInt32(reader.GetOrdinal("BSN")),
-        //                (AccountType)Enum.Parse(typeof(AccountType),reader.GetString(reader.GetOrdinal("AccountType"))),
-        //                reader.GetString(reader.GetOrdinal("FirstName")),
-        //                reader.GetString(reader.GetOrdinal("LastName")),
-        //                reader.GetString(reader.GetOrdinal("Email")),
-        //                reader.GetString(reader.GetOrdinal("Address")),
-        //                reader.GetString(reader.GetOrdinal("Residence")),
-        //                (Gender)Enum.Parse(typeof(Gender), reader.GetString(reader.GetOrdinal("Gender"))),
-        //                reader.GetInt32(reader.GetOrdinal("Weight")),
-        //                reader.GetDateTime(reader.GetOrdinal("DateOfBirth")),
-        //                reader.GetBoolean(reader.GetOrdinal("Status"))
-        //                ));
-        //        }
-                
-        //        _conn.Close();
-        //        return users;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        _conn.Close();
-        //        throw e;
-        //    }
-        //}
-
         public IEnumerable<User> GetAllLinkedPatients(int userId)
         {
             var model = new List<User>();
@@ -75,11 +34,12 @@ namespace Data.Contexts
                     SqlDataReader reader = com.ExecuteReader();
                     while (reader.Read())
                     {
-                        User user = new User();
-
-                        user.UserId = (int)reader["UserId"];
-                        user.FirstName = reader["Firstname"].ToString();
-                        user.LastName = reader["Lastname"].ToString();
+                        User user = new User
+                        {
+                            UserId = (int)reader["UserId"],
+                            FirstName = reader["Firstname"].ToString(),
+                            LastName = reader["Lastname"].ToString()
+                        };
 
                         model.Add(user);
                     }

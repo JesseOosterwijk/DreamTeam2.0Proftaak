@@ -9,7 +9,6 @@ namespace ProftaakApplicatieDiabetes.Models
     {
         public enum AccountType { CareRecipient, Volunteer, Professional, Admin }
         public enum Gender { Man, Vrouw, Anders }
-        public int Weight { get; set; }
         public int UserId { get; set; }
         public int UserBSN { get; set; }
         public string FirstName { get; set; }
@@ -38,7 +37,6 @@ namespace ProftaakApplicatieDiabetes.Models
             Address = user.Address;
             Residence = user.Residence;
             UserGender = user.UserGender.ToString();
-            Weight = user.Weight;
             BirthDate = user.BirthDate.Date;
             Status = user.Status;
         }

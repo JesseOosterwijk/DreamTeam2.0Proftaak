@@ -119,28 +119,24 @@ namespace ProftaakApplicatieDiabetes.Controllers
                             switch (userViewModel.UserAccountType)
                             {
                                 case Enums.AccountType.CareRecipient:
-                                    _userLogic.CreateUser(new CareRecipient(userViewModel.UserBSN, Enums.AccountType.CareRecipient, userViewModel.FirstName, 
-                                        userViewModel.LastName, userViewModel.EmailAddress, password, userViewModel.Address, userViewModel.Residence, 
-                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), userViewModel.Weight, 
-                                        Convert.ToDateTime(userViewModel.BirthDate), true));
+                                    _userLogic.CreateUser(new CareRecipient(userViewModel.UserBSN, userViewModel.FirstName, userViewModel.LastName, 
+                                        userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate), 
+                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), true, Enums.AccountType.CareRecipient, password));
                                     break;
                                 case Enums.AccountType.Administrator:
-                                    _userLogic.CreateUser(new Administrator(userViewModel.UserBSN, Enums.AccountType.Administrator, userViewModel.FirstName,
-                                        userViewModel.LastName, userViewModel.EmailAddress, password, userViewModel.Address, userViewModel.Residence,
-                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), userViewModel.Weight,
-                                        Convert.ToDateTime(userViewModel.BirthDate), true));
+                                    _userLogic.CreateUser(new Administrator(userViewModel.UserBSN, userViewModel.FirstName, userViewModel.LastName, 
+                                        userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate), 
+                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), true, Enums.AccountType.CareRecipient, password));
                                     break;
                                 case Enums.AccountType.Doctor:
-                                    _userLogic.CreateUser(new Doctor(userViewModel.UserBSN, Enums.AccountType.Doctor, userViewModel.FirstName,
-                                        userViewModel.LastName, userViewModel.EmailAddress, password, userViewModel.Address, userViewModel.Residence,
-                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), userViewModel.Weight,
-                                        Convert.ToDateTime(userViewModel.BirthDate), true));
+                                    _userLogic.CreateUser(new Doctor(userViewModel.UserBSN, userViewModel.FirstName, userViewModel.LastName, 
+                                        userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate), 
+                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), true, Enums.AccountType.CareRecipient, password));
                                     break;
                                 default:
-                                    _userLogic.CreateUser(new CareRecipient(userViewModel.UserBSN, Enums.AccountType.CareRecipient, userViewModel.FirstName,
-                                        userViewModel.LastName, userViewModel.EmailAddress, password, userViewModel.Address, userViewModel.Residence,
-                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), userViewModel.Weight,
-                                        Convert.ToDateTime(userViewModel.BirthDate), true));
+                                    _userLogic.CreateUser(new CareRecipient(userViewModel.UserBSN, userViewModel.FirstName, userViewModel.LastName,
+                                       userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate), 
+                                       (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), true, Enums.AccountType.CareRecipient, password));
                                     break;
                             }
                         }
