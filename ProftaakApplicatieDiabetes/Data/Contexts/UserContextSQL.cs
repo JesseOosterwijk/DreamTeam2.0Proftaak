@@ -28,6 +28,7 @@ namespace Data.Contexts
                     cmd.Parameters.AddWithValue("@Address", SqlDbType.NVarChar).Value = newUser.Address;
                     cmd.Parameters.AddWithValue("@DateOfBirth", SqlDbType.DateTime).Value = newUser.BirthDate;
                     cmd.Parameters.AddWithValue("@Residence", SqlDbType.NVarChar).Value = newUser.Residence;
+                    cmd.Parameters.AddWithValue("@Weight", SqlDbType.Int).Value = newUser.Weight;
                     cmd.Parameters.AddWithValue("@Gender", SqlDbType.Bit).Value = newUser.UserGender;
                     cmd.Parameters.AddWithValue("@Password", SqlDbType.NVarChar).Value = newUser.Password;
                     cmd.Parameters.AddWithValue("@AccountType", SqlDbType.NVarChar).Value = newUser.UserAccountType.ToString();

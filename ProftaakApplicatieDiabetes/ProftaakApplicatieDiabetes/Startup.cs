@@ -32,12 +32,12 @@ namespace ProftaakApplicatieDiabetes
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.AccessDeniedPath = "/User/Forbidden";
-                    options.LoginPath = "/User/Login";
-                });
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //    .AddCookie(options =>
+            //    {
+            //        options.AccessDeniedPath = "/User/Forbidden";
+            //        options.LoginPath = "/User/Login";
+            //    });
 
             services.AddAuthorization(options =>
             {

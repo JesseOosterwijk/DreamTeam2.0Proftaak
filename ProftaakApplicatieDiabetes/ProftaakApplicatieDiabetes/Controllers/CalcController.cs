@@ -8,7 +8,6 @@ using ProftaakApplicatieDiabetes.Models;
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
-    [Authorize(Policy = "CareRecipient")]
     public class CalcController : Controller
     {
         private readonly ICalculationLogic calcLogic;

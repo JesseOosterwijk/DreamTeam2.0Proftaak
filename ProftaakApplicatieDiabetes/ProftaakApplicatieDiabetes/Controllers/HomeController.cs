@@ -5,7 +5,6 @@ using ProftaakApplicatieDiabetes.Models;
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
-    [AllowAnonymous]
     public class HomeController : Controller
     {
         public IActionResult Index()

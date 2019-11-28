@@ -171,6 +171,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
             }
             return RedirectToAction("Login");
         }
+
         public IActionResult SettingsMenu()
         {
             var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
