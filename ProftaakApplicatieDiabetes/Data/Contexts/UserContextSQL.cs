@@ -238,6 +238,7 @@ namespace Data.Contexts
                         user.FirstName = (string)rdr["FirstName"];
                         user.LastName = (string)rdr["LastName"];
                         user.Weight = (int)rdr["Weight"];
+                        user.EmailAddress = (string)rdr["Email"];
                     }
                 }
                 return user;

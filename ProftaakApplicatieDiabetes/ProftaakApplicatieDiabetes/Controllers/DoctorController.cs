@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
+    [Authorize(Policy = "Doctor")]
     public class DoctorController : Controller
     {
         private readonly IDoctorLogic _doctorLogic;
