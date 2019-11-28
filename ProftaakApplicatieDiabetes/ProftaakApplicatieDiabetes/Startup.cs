@@ -35,8 +35,8 @@ namespace ProftaakApplicatieDiabetes
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.AccessDeniedPath = "/Home/ErrorForbidden";
-                    options.LoginPath = "/Home/ErrorNotLoggedIn";
+                    options.AccessDeniedPath = "/User/Forbidden";
+                    options.LoginPath = "/User/Login";
                 });
 
             services.AddAuthorization(options =>

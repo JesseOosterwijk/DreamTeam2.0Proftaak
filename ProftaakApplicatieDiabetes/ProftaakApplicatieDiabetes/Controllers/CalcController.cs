@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Linq;
 using Logic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using ProftaakApplicatieDiabetes.Models;
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
+    [Authorize(Policy = "CareRecipient")]
     public class CalcController : Controller
     {
         private readonly ICalculationLogic calcLogic;

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Logic.Interface;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using ProftaakApplicatieDiabetes.Models;
@@ -12,6 +13,7 @@ using ProftaakApplicatieDiabetes.ViewModels;
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly IUserLogic _userLogic;
@@ -29,6 +31,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
@@ -36,6 +39,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public ActionResult Login(LoginViewModel userViewModel)
         {
             try
@@ -100,12 +104,14 @@ namespace ProftaakApplicatieDiabetes.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult CreateAccount()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult CreateAccount(UserViewModel userViewModel, string password, string passwordValidation)
         {
             try
@@ -204,5 +210,8 @@ namespace ProftaakApplicatieDiabetes.Controllers
             ViewBag.Result = "Het delen van gegevens is uitgeschakeld";
             return View("SettingsMenu");
         }
+
+        public IActionResult Forbidden() => View();
+
     }
 } 
