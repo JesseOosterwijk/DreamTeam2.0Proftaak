@@ -43,12 +43,12 @@ namespace Data.Contexts
             List<MessageModel> messages = new List<MessageModel>();
             try
             {
-                string query = "SELECT MessageId, Content, Title, DateOfX, SenderId FROM Message WHERE CoupleId = @CoupleId";
+                string query = "SELECT MessageId, Content, Title, DateOf, SenderId FROM [Message] WHERE CoupleId = @CoupleId";
 
                 SqlCommand command = new SqlCommand(query, _conn);
 
                 command.Parameters.AddWithValue("@CoupleId", coupleId);
-
+                _conn.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
