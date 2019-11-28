@@ -23,14 +23,6 @@ namespace ProftaakApplicatieDiabetes.Controllers
             _accountLogic = accountLogic;
             _userLogic = userLogic;
         }
-        //hardcoded for now
-        //private int _doctorId = 7;
-
-        //public IActionResult PatientDataOverviewView()
-        //{
-        //    DoctorPatientSelectViewmodel viewModel = new DoctorPatientSelectViewmodel((List<User>)_doctorLogic.GetPatientsFromDoctorId(_doctorId));
-        //    return View(viewModel);
-        //}
 
         public IActionResult GetAllLinkedPatients()
         {

@@ -17,7 +17,6 @@ namespace Models
         public AccountType UserAccountType { get; }
         public bool Status { get; set; }
         public string Password { get; set; }
-        public int Weight { get; set; }
         public User Doctor { get; set; }
         public bool InfoSharing { get; set; }
 
@@ -26,22 +25,7 @@ namespace Models
                
         }
 
-        protected User(string firstName, string lastName, string address, string residence, string emailAddress, DateTime birthDate, Gender userGender, bool status, AccountType accountType, string password, bool infoSharing)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            Address = address;
-            Residence = residence;
-            EmailAddress = emailAddress;
-            BirthDate = birthDate;
-            UserGender = userGender;
-            Status = status;
-            UserAccountType = accountType;
-            Password = password;
-            InfoSharing = infoSharing;
-        }
-
-        public User(int userId, int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, int weight, DateTime dateOfBirth, bool status)
+        public User(int userId, int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, DateTime dateOfBirth, bool status)
         {
             UserId = userId;
             BSN = userBSN;
@@ -53,12 +37,11 @@ namespace Models
             Address = address;
             Residence = residence;
             UserGender = gender;
-            Weight = weight;
             BirthDate = dateOfBirth;
             Status = status;
         }
 
-        public User(int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, int weight, DateTime dateOfBirth, bool status)
+        public User(int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, DateTime dateOfBirth, bool status)
         {
             BSN = userBSN;
             UserAccountType = accountType;
@@ -69,7 +52,6 @@ namespace Models
             Address = address;
             Residence = residence;
             UserGender = gender;
-            Weight = weight;
             BirthDate = dateOfBirth;
             Status = status;
         }
@@ -88,22 +70,6 @@ namespace Models
             Status = status;
             UserAccountType = accountType;
             Password = password;
-        }
-
-        public User(int userId, int userBSN, AccountType accountType, string firstName, string lastName, string email, string address, string residence, Gender gender, int weight, DateTime dateOfBirth, bool status)
-        {
-            UserId = userId;
-            BSN = userBSN;
-            UserAccountType = accountType;
-            FirstName = firstName;
-            LastName = lastName;
-            EmailAddress = email;
-            Address = address;
-            Residence = residence;
-            UserGender = gender;
-            Weight = weight;
-            BirthDate = dateOfBirth;
-            Status = status;
         }
 
         public User(int userId, string firstName, AccountType accountType)

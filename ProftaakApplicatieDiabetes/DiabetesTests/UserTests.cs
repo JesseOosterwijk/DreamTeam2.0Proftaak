@@ -16,7 +16,7 @@ namespace DiabetesTests
         [TestMethod]
         public void CreateUser_ValidDatabaseCall()
         {
-            User mockUser = new Mock<User>(226044440, Enums.AccountType.CareRecipient, "", "Oosterwijk", "jesse.oosterwijk@outlook.com", "testpassword", "Kleidonk 1", "Beuningen", Enums.Gender.Male, 85, DateTime.Today, false).Object;
+            User mockUser = new Mock<User>(226044440, Enums.AccountType.CareRecipient, "", "Oosterwijk", "jesse.oosterwijk@outlook.com", "testpassword", "Kleidonk 1", "Beuningen", Enums.Gender.Male, DateTime.Today, false).Object;
             UserLogic _logic = new UserLogic(mockContext.Object);
             mockContext.Setup(x => x.CreateUser(mockUser));
 
@@ -66,6 +66,7 @@ namespace DiabetesTests
             mockContext.Verify(x => x.CheckIfEmailIsValid(mockUser.Object.EmailAddress), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(bool));
         }
+
         //TODO
         [TestMethod]
         public void CheckIfEmailFails_Tests()
@@ -117,9 +118,9 @@ namespace DiabetesTests
                 .Returns(mockUser.Object);
             UserLogic _logic = new UserLogic(mockContext.Object);
 
-            User result = _logic.GetUserInfo("");
+            User result = _logic.GetUserInfo("wrongemail");
 
-            Assert.AreNotEqual(mockUser, result);
+            Assert.AreNotEqual(mockUser.Object, result);
         }
 
         [TestMethod]
