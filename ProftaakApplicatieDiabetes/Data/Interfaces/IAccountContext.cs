@@ -9,5 +9,6 @@ namespace Data.Interfaces
         void AllowInfoSharing(int userId);
         void DisableInfoSharing(int userId);
         bool SharingIsEnabled(int userId);
+        void UpdateWeight(int weight, int id);
     }
 }

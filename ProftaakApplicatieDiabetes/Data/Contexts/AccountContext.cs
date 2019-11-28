@@ -89,5 +89,30 @@ namespace Data.Contexts
             }
             return true;
         }
+
+        public void UpdateWeight(int weight, int id)
+        {
+            try
+            {
+                string query = "UPDATE [User] SET [Weight] = @Weight WHERE [UserId] = @UserId";
+
+                using (SqlCommand cmd = new SqlCommand(query, _conn))
+                {
+                    cmd.Parameters.AddWithValue("@Weight", weight);
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
     }
 }

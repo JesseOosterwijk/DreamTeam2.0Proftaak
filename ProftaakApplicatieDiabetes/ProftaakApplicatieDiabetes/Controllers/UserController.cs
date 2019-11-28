@@ -189,9 +189,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
         public IActionResult AllowInfoShare(int patientId)
         {
-            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
-
-            _accountLogic.AllowInfoSharing(userId);
+            _accountLogic.AllowInfoSharing(patientId);
 
             ViewBag.Result = "Het delen van gegevens is ingeschakeld";
             return View("SettingsMenu");
@@ -199,11 +197,17 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
         public IActionResult DisableInfoShare(int patientId)
         {
-            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
-
-            _accountLogic.DisableInfoSharing(userId);
+            _accountLogic.DisableInfoSharing(patientId);
 
             ViewBag.Result = "Het delen van gegevens is uitgeschakeld";
+            return View("SettingsMenu");
+        }
+
+        [HttpPost]
+        public IActionResult UpdateWeight(UserViewModel model)
+        {
+            var patientId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+            _accountLogic.UpdateWeight(model.Weight, patientId);
             return View("SettingsMenu");
         }
 
