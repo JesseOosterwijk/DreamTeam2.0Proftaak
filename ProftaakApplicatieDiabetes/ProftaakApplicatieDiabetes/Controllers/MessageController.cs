@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Enums;
 using Microsoft.AspNetCore.Mvc;
 using ProftaakApplicatieDiabetes.ViewModels;
 using Logic.Interface;
@@ -16,28 +18,51 @@ namespace ProftaakApplicatieDiabetes.Controllers
             _messageLogic = messageLogic;
         }
 
+        [HttpGet]
         public IActionResult ViewMessage()
         {
+            MessageViewModel messageViewModel = new MessageViewModel();
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
-
-            MessageViewModel messageViewModel = new MessageViewModel()
+            if (User.IsInRole("CareRecipient"))
             {
-                //Messages = _messageLogic.GetConversationMessages()
-            };
-            
+                List<MessageModel> messages = _messageLogic.ViewMessagesPatient(
+                    AccountType.CareRecipient,
+                    userId);
+                messageViewModel.Messages.AddRange(messages);
+                messageViewModel.CoupleId = _messageLogic.GetConversationPatient(userId);
+            }
+            return View(messageViewModel);
+        }
+
+        
+        public IActionResult ViewMessage(int id)
+        {
+            MessageViewModel messageViewModel = new MessageViewModel();
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+            if (User.IsInRole("Doctor"))
+            {
+                messageViewModel.Messages =
+                    new List<MessageModel>(_messageLogic.ViewMessagesDoctor(
+                        AccountType.Doctor,
+                        userId,
+                        id
+                    ));
+            }
             return View(messageViewModel);
         }
 
         [HttpPost]
         public IActionResult SendMessage(MessageViewModel messageViewModel)
         {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
             MessageModel message = new MessageModel
             {
+                SenderId =  userId,
                 Title = messageViewModel.Title,
-                Content = messageViewModel.Content
-            }; 
-
-            int senderId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+                Content = messageViewModel.Content,
+                CoupleId = messageViewModel.CoupleId
+            };
 
             _messageLogic.SendMessage(message);
 

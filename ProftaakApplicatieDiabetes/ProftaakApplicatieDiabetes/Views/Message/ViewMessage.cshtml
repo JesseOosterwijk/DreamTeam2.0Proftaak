@@ -1,4 +1,5 @@
 ﻿@using Models
+@using ProftaakApplicatieDiabetes.ViewModels
 @model ProftaakApplicatieDiabetes.ViewModels.MessageViewModel
 @{
     ViewData["Title"] = "Message";
@@ -15,6 +16,7 @@
 
 <form asp-action="SendMessage">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input data-val="true" id="CoupleId" name="CoupleId" type="hidden" value="@Model.CoupleId">
     <div class="form-group">
         <label asp-for="Title" class="control-label"></label>
         <input asp-for="Title" class="form-control" required="" />
@@ -25,19 +27,10 @@
         <input asp-for="Content" class="form-control" required="" />
         <span asp-validation-for="Content" class="text-danger"></span>
     </div>
-
     <div class="form-group">
         <input type="submit" value="Send Message" class="btn btn-default" />
     </div>
 </form>
-@if (ViewBag.WasMessageSendSuccessfully != null)
-{
-    if (!ViewBag.WasMessageSendSuccessfully)
-    {
-        <p>Your message was not sent successfully</p>
-    }
-}
-
 @foreach (MessageModel message in Model.Messages)
 {
     <h3><b>@message.Title</b></h3>

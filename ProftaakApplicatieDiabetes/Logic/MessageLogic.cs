@@ -40,8 +40,8 @@ namespace Logic
                     {
                         StartChat(doctorId, patientId);
                         coupleId = GetConversationPatient(patientId);
-                        messages = GetConversationMessages(coupleId);
                     }
+                    messages = GetConversationMessages(coupleId);
                 }
             }
             return messages;
