@@ -13,6 +13,7 @@ namespace Models
         public string Residence { get; set; }
         public string EmailAddress { get; set; }
         public DateTime BirthDate { get; set; }
+        public int Weight { get; set; }
         public Gender UserGender { get; }
         public AccountType UserAccountType { get; }
         public bool Status { get; set; }
@@ -25,7 +26,7 @@ namespace Models
                
         }
 
-        public User(int userId, int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, DateTime dateOfBirth, bool status)
+        public User(int userId, int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, DateTime dateOfBirth, int weight, bool status)
         {
             UserId = userId;
             BSN = userBSN;
@@ -38,10 +39,11 @@ namespace Models
             Residence = residence;
             UserGender = gender;
             BirthDate = dateOfBirth;
+            Weight = weight;
             Status = status;
         }
 
-        public User(int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, DateTime dateOfBirth, bool status)
+        public User(int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, DateTime dateOfBirth, int weight, bool status)
         {
             BSN = userBSN;
             UserAccountType = accountType;
@@ -53,11 +55,12 @@ namespace Models
             Residence = residence;
             UserGender = gender;
             BirthDate = dateOfBirth;
+            Weight = weight;
             Status = status;
         }
 
 
-        protected User(int bsn, string firstName, string lastName, string address, string residence, string emailAddress, DateTime birthDate, Gender userGender, bool status, AccountType accountType, string password)
+        protected User(int bsn, string firstName, string lastName, string address, string residence, string emailAddress, DateTime birthDate, Gender userGender, bool status, AccountType accountType, int weight, string password)
         {
             BSN = bsn;
             FirstName = firstName;
@@ -69,6 +72,7 @@ namespace Models
             UserGender = userGender;
             Status = status;
             UserAccountType = accountType;
+            Weight = weight;
             Password = password;
         }
 

@@ -162,7 +162,7 @@ namespace Data.Contexts
             try
             {
                 string query =
-                    "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password " +
+                    "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password, Weight " +
                     "FROM [User] " +
                     "WHERE Email = @email";
 
@@ -175,7 +175,7 @@ namespace Data.Contexts
                 SqlCommand cmd = new SqlCommand(query, _conn);
                 emailParam.Value = email;
                 cmd.Parameters.Add(emailParam);
-                User currentUser = new CareRecipient(1, "a", "b", "c,", "d", "f", Convert.ToDateTime("1988/12/20"), Enums.Gender.Male, true, Enums.AccountType.CareRecipient, "");
+                User currentUser = new CareRecipient(1, "a", "b", "c,", "d", "f", Convert.ToDateTime("1988/12/20"), Enums.Gender.Male, true, Enums.AccountType.CareRecipient, 85, "");
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -184,21 +184,21 @@ namespace Data.Contexts
                         Enums.Gender gender = (Enums.Gender)Enum.Parse(typeof(Enums.Gender), reader.GetString(5));
 
 
-                        if (accountType == "Administrator")
-                        {
-                            currentUser = new Administrator(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.Administrator, reader.GetString(11));
-                        }
-                        else if (accountType == "Doctor")
-                        {
-                            currentUser = new Doctor(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.Doctor, reader.GetString(11));
-                        }
-                        else
-                        {
-                            currentUser = new CareRecipient(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.CareRecipient, reader.GetString(11));
-                        }
+                        //if (accountType == "Administrator")
+                        //{
+                        //    currentUser = new Administrator(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
+                        //        reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.Administrator, reader.GetInt32(12), reader.GetString(11));
+                        //}
+                        //else if (accountType == "Doctor")
+                        //{
+                        //    currentUser = new Doctor(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
+                        //        reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.Doctor, reader.GetInt32(12), reader.GetString(11));
+                        //}
+                        //else
+                        //{
+                        //    currentUser = new CareRecipient(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
+                        //        reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.CareRecipient, reader.GetInt32(12), reader.GetString(11));
+                        //}
 
                         return currentUser;
                     }
@@ -220,7 +220,7 @@ namespace Data.Contexts
             try
             {
                 string query =
-                    "SELECT AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password " +
+                    "SELECT AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password, Weight " +
                     "FROM [User] " +
                     "WHERE [UserID] = @UserId";
                 _conn.Open();
@@ -244,18 +244,19 @@ namespace Data.Contexts
                 string address = dt.Rows[0].ItemArray[6].ToString();
                 string city = dt.Rows[0].ItemArray[8].ToString();
                 bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[9].ToString());
+                int weight = Convert.ToInt32(dt.Rows[0].ItemArray[11]);
                 string password = dt.Rows[0].ItemArray[10].ToString();
                 switch (accountType)
                 {
                     case "Administrator":
                         return new Administrator(bsn, firstName, lastName, address, city, email,
-                        birthDate, gender, status, Enums.AccountType.Administrator, password);
+                        birthDate, gender, status, Enums.AccountType.Administrator, weight, password);
                     case "CareRecipient":
                         return new CareRecipient(bsn, firstName, lastName, address, city, email,
-                        birthDate, gender, status, Enums.AccountType.CareRecipient, password);
+                        birthDate, gender, status, Enums.AccountType.CareRecipient, weight, password);
                     case "Doctor":
                         return new Doctor(bsn, firstName, lastName, address, city, email,
-                        birthDate, gender, status, Enums.AccountType.Doctor, password);
+                        birthDate, gender, status, Enums.AccountType.Doctor, weight, password);
                     default:
                         throw new AggregateException("User not found");
                 }
@@ -276,7 +277,7 @@ namespace Data.Contexts
             try
             {
                 string query =
-                    "SELECT UserID, BSN, AccountType, FirstName, LastName, DateOfBirth, Gender, Address, Residence, Status, Password " +
+                    "SELECT UserID, BSN, AccountType, FirstName, LastName, DateOfBirth, Gender, Address, Residence, Status, Password, Weight " +
                     "FROM [User] " +
                     "WHERE [Email] = @Email";
                 _conn.Open();
@@ -302,6 +303,7 @@ namespace Data.Contexts
                 string address = dt.Rows[0].ItemArray[7].ToString();
                 string city = dt.Rows[0].ItemArray[8].ToString();
                 bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[9]);
+                int weight = Convert.ToInt32(dt.Rows[0].ItemArray[11]);
                 string hashedPassword = dt.Rows[0].ItemArray[10].ToString();
 
 
@@ -312,13 +314,13 @@ namespace Data.Contexts
                 {
                     case "Administrator":
                         return new Administrator(userId, firstName, lastName, address, city, emailAdress,
-                            birthDate, gender, status, Enums.AccountType.Administrator, hashedPassword);
+                            birthDate, gender, status, Enums.AccountType.Administrator, weight, hashedPassword);
                     case "CareRecipient":
                         return new CareRecipient(userId, BSN, Enums.AccountType.CareRecipient, firstName, lastName, emailAdress, hashedPassword, address, city,
-                            gender, birthDate, status);
+                            gender, birthDate, weight, status);
                     case "Doctor":
                         return new Doctor(userId, BSN, Enums.AccountType.Doctor, firstName, lastName, emailAdress, hashedPassword, address, city,
-                            gender, birthDate, status);
+                            gender, birthDate, weight, status);
                     default:
                         throw new AggregateException("User not found");
                 }

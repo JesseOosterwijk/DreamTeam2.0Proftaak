@@ -23,6 +23,7 @@ namespace ProftaakApplicatieDiabetes.Models
         public bool Status { get; set; }
         public User Doctor { get; set; }
         public bool ShareInfo { get; set; }
+        public int Weight { get; set; }
 
         public IEnumerable<User> Users { get; set; }
 
@@ -39,6 +40,7 @@ namespace ProftaakApplicatieDiabetes.Models
             UserGender = user.UserGender.ToString();
             BirthDate = user.BirthDate.Date;
             Status = user.Status;
+            Weight = user.Weight;
         }
 
         public UserViewModel()
