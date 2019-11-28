@@ -10,6 +10,7 @@ namespace ProftaakApplicatieDiabetes.Models
         public enum AccountType { CareRecipient, Volunteer, Professional, Admin }
 
         public enum Gender { Man, Vrouw, Anders }
+        public int Weight { get; set; }
         public int UserId { get; set; }
 
         [StringLength(4, ErrorMessage = "The ThumbnailPhotoFileName value cannot exceed 4 characters. ")]
@@ -37,7 +38,7 @@ namespace ProftaakApplicatieDiabetes.Models
         public User Doctor { get; set; }
 
         public bool ShareInfo { get; set; }
-        public int Weight { get; set; }
+
 
         public IEnumerable<User> Users { get; set; }
 
@@ -52,9 +53,9 @@ namespace ProftaakApplicatieDiabetes.Models
             Address = user.Address;
             Residence = user.Residence;
             UserGender = user.UserGender.ToString();
+            Weight = user.Weight;
             BirthDate = user.BirthDate.Date;
             Status = user.Status;
-            Weight = user.Weight;
         }
 
         public UserViewModel()
