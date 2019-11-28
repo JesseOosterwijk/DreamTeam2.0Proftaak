@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using ProftaakApplicatieDiabetes.ViewModels;
 using Logic.Interface;
 using Models;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
+    [Authorize]
     public class MessageController : Controller
     {
         private readonly IMessageLogic _messageLogic;

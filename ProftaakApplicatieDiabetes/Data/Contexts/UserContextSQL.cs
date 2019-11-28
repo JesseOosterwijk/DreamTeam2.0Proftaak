@@ -215,51 +215,29 @@ namespace Data.Contexts
             }
         }
 
-        public User GetUserById(int bsn)
+        public User GetUserById(int id)
         {
+            var user = new User();
             try
             {
                 string query =
-                    "SELECT AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password, Weight " +
+                    "SELECT * " +
                     "FROM [User] " +
                     "WHERE [UserID] = @UserId";
                 _conn.Open();
 
-                SqlDataAdapter cmd = new SqlDataAdapter
+                using (SqlCommand cmd = new SqlCommand(query, _conn))
                 {
-                    SelectCommand = new SqlCommand(query, _conn)
-                };
+                    cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = id;
 
-                cmd.SelectCommand.Parameters.Add("@UserId", SqlDbType.Int).Value = bsn;
-
-                DataTable dt = new DataTable();
-                cmd.Fill(dt);
-
-                string accountType = dt.Rows[0].ItemArray[0].ToString();
-                string firstName = dt.Rows[0].ItemArray[1].ToString();
-                string lastName = dt.Rows[0].ItemArray[2].ToString();
-                DateTime birthDate = Convert.ToDateTime(dt.Rows[0].ItemArray[3].ToString());
-                Enums.Gender gender = (Enums.Gender)Enum.Parse(typeof(Enums.Gender), dt.Rows[0].ItemArray[4].ToString());
-                string email = dt.Rows[0].ItemArray[5].ToString();
-                string address = dt.Rows[0].ItemArray[6].ToString();
-                string city = dt.Rows[0].ItemArray[8].ToString();
-                bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[9].ToString());
-                int weight = Convert.ToInt32(dt.Rows[0].ItemArray[11]);
-                string password = dt.Rows[0].ItemArray[10].ToString();
-                switch (accountType)
-                {
-                    case "Administrator":
-                        return new Administrator(bsn, firstName, lastName, address, city, email,
-                        birthDate, gender, status, Enums.AccountType.Administrator, weight, password);
-                    case "CareRecipient":
-                        return new CareRecipient(bsn, firstName, lastName, address, city, email,
-                        birthDate, gender, status, Enums.AccountType.CareRecipient, weight, password);
-                    case "Doctor":
-                        return new Doctor(bsn, firstName, lastName, address, city, email,
-                        birthDate, gender, status, Enums.AccountType.Doctor, weight, password);
-                    default:
-                        throw new AggregateException("User not found");
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        user.FirstName = (string)rdr["FirstName"];
+                        user.LastName = (string)rdr["LastName"];
+                    }
                 }
+                return user;
             }
             catch (Exception e)
             {

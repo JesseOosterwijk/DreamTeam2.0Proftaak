@@ -10,6 +10,7 @@
         <thead>
             <tr>
                 <th style="color:black">First Name</th>
+                <th style="color:black">Last Name</th>
                 <th style="color:black"></th>
             </tr>
         </thead>
@@ -18,6 +19,7 @@
             <tbody>
                 <tr>
                     <td>@patient.FirstName</td>
+                    <td>@patient.LastName</td>
                     <td>@Html.ActionLink("See calculations", "GetPatientData", "Doctor", new { patientId = patient.UserId }, null)</td>
                 </tr>
             </tbody>
