@@ -14,6 +14,66 @@ namespace Data.Contexts
     {
         private readonly SqlConnection _conn = Connection.GetConnection();
 
+
+        public List<User> GetAllUsers()
+        {
+            try
+            {
+                List<User> users = new List<User>();
+
+                _conn.Open();
+                SqlCommand cmd = new SqlCommand("GetAllUsers", _conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int userId = (int)dr["UserId"];
+                    int userBSN = (int)dr["BSN"];
+                    Enums.AccountType accountType = (Enums.AccountType)Enum.Parse(typeof(Enums.AccountType), dr["AccountType"].ToString());
+                    string firstName = dr["FirstName"].ToString();
+                    string lastName = dr["LastName"].ToString();
+                    string email = dr["Email"].ToString();
+                    string password = dr["Password"].ToString();
+                    string address = dr["Address"].ToString();
+                    string residence = dr["Residence"].ToString();
+                    Enums.Gender gender = (Enums.Gender)Enum.Parse(typeof(Enums.Gender), dr["Gender"].ToString());
+                    DateTime birthDate = (DateTime)dr["DateOfBirth"];
+                    int weight = (int)dr["Weight"];
+                    bool status = Convert.ToBoolean(dr["Status"].ToString());
+                    if (accountType == Enums.AccountType.Admin)
+                    {
+                        User user = new Administrator(userId, userBSN, accountType, firstName, lastName, email, password, address, residence, gender, birthDate, weight, status);
+                        users.Add(user);
+                    }
+                    else if (accountType == Enums.AccountType.Doctor)
+                    {
+                        User user = new Doctor(userId, userBSN, accountType, firstName, lastName, email, password, address, residence, gender, birthDate, weight, status);
+                        users.Add(user);
+                    }
+                    else
+                    {
+                        User user = new CareRecipient(userId, userBSN, accountType, firstName, lastName, email, password, address, residence, gender, birthDate, weight, status);
+                        users.Add(user);
+                    }
+                }
+                return users;
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
         public void CreateUser(User newUser)
         {
             try
@@ -186,21 +246,21 @@ namespace Data.Contexts
                         Enums.Gender gender = (Enums.Gender)Enum.Parse(typeof(Enums.Gender), reader.GetString(5));
 
 
-                        //if (accountType == "Administrator")
-                        //{
-                        //    currentUser = new Administrator(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
-                        //        reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.Administrator, reader.GetInt32(12), reader.GetString(11));
-                        //}
-                        //else if (accountType == "Doctor")
-                        //{
-                        //    currentUser = new Doctor(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
-                        //        reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.Doctor, reader.GetInt32(12), reader.GetString(11));
-                        //}
-                        //else
-                        //{
-                        //    currentUser = new CareRecipient(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
-                        //        reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.CareRecipient, reader.GetInt32(12), reader.GetString(11));
-                        //}
+                        if (accountType == "Administrator")
+                        {
+                            currentUser = new Administrator(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
+                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.Admin, reader.GetInt32(12), reader.GetString(11));
+                        }
+                        else if (accountType == "Doctor")
+                        {
+                            currentUser = new Doctor(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
+                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.Doctor, reader.GetInt32(12), reader.GetString(11));
+                        }
+                        else
+                        {
+                            currentUser = new CareRecipient(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
+                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.CareRecipient, reader.GetInt32(12), reader.GetString(11));
+                        }
 
                         return currentUser;
                     }
@@ -295,7 +355,7 @@ namespace Data.Contexts
                 {
                     case "Administrator":
                         return new Administrator(userId, firstName, lastName, address, city, emailAdress,
-                            birthDate, gender, status, Enums.AccountType.Administrator, weight, hashedPassword);
+                            birthDate, gender, status, Enums.AccountType.Admin, weight, hashedPassword);
                     case "CareRecipient":
                         return new CareRecipient(userId, BSN, Enums.AccountType.CareRecipient, firstName, lastName, emailAdress, hashedPassword, address, city,
                             gender, birthDate, weight, status);

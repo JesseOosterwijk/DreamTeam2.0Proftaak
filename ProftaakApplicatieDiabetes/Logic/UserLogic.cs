@@ -1,7 +1,7 @@
 ﻿using Data.Interfaces;
 using Logic.Interface;
 using Models;
-
+using System.Collections.Generic;
 
 namespace Logic
 {
@@ -50,6 +50,11 @@ namespace Logic
             newUser.Password = Hasher.SecurePasswordHasher.Hash(newUser.Password);
 
             _user.CreateUser(newUser);
+        }
+
+        public List<User> GetAllUsers()
+        {
+            return _user.GetAllUsers();
         }
 
 

@@ -13,7 +13,6 @@ namespace ProftaakApplicatieDiabetes.Models
         public int Weight { get; set; }
         public int UserId { get; set; }
 
-        [StringLength(4, ErrorMessage = "The ThumbnailPhotoFileName value cannot exceed 4 characters. ")]
         public int UserBSN { get; set; }
 
         public string FirstName { get; set; }
@@ -38,7 +37,6 @@ namespace ProftaakApplicatieDiabetes.Models
         public User Doctor { get; set; }
 
         public bool ShareInfo { get; set; }
-
 
         public IEnumerable<User> Users { get; set; }
 

@@ -16,7 +16,7 @@ namespace DiabetesTests
         [TestMethod]
         public void CreateUser_ValidDatabaseCall()
         {
-            User mockUser = new Mock<User>(226044440, Enums.AccountType.CareRecipient, "", "Oosterwijk", "jesse.oosterwijk@outlook.com", "testpassword", "Kleidonk 1", "Beuningen", Enums.Gender.Male, DateTime.Today, false).Object;
+            User mockUser = new Mock<User>(226044440, Enums.AccountType.CareRecipient, "", "Oosterwijk", "jesse.oosterwijk@outlook.com", "testpassword", "Kleidonk 1", "Beuningen", Enums.Gender.Male, DateTime.Today, 85, false).Object;
             UserLogic _logic = new UserLogic(mockContext.Object);
             mockContext.Setup(x => x.CreateUser(mockUser));
 

@@ -4,6 +4,6 @@
     {
         CareRecipient,
         Doctor,
-        Administrator
+        Admin
     }
 }
