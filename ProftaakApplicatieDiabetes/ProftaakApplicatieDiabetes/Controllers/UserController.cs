@@ -175,11 +175,24 @@ namespace ProftaakApplicatieDiabetes.Controllers
         public IActionResult SettingsMenu()
         {
             var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+            UserViewModel model = new UserViewModel
+            {
+                FirstName = _userLogic.GetUserById(userId).FirstName,
+                LastName = _userLogic.GetUserById(userId).LastName,
+                Weight = _userLogic.GetUserById(userId).Weight,
+                EmailAddress = _userLogic.GetUserById(userId).EmailAddress,
+            };
+            return View(model);
+        }
+
+        public IActionResult InfoSharing()
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
 
             if (_accountLogic.SharingIsEnabled(userId) == true)
             {
                 ViewBag.Description = "Gegevens delen staat op dit moment aan";
-                 return View();
+                return View();
             }
             else
             {
@@ -188,12 +201,23 @@ namespace ProftaakApplicatieDiabetes.Controllers
             }
         }
 
+        public IActionResult UpdateUserInfo()
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+
+            UserViewModel model = new UserViewModel
+            {
+                Weight = _userLogic.GetUserById(userId).Weight
+            };
+            return View(model);
+        }
+
         public IActionResult AllowInfoShare(int patientId)
         {
             _accountLogic.AllowInfoSharing(patientId);
 
             ViewBag.Result = "Het delen van gegevens is ingeschakeld";
-            return View("SettingsMenu");
+            return RedirectToAction("InfoSharing");
         }
 
         public IActionResult DisableInfoShare(int patientId)
@@ -201,7 +225,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
             _accountLogic.DisableInfoSharing(patientId);
 
             ViewBag.Result = "Het delen van gegevens is uitgeschakeld";
-            return View("SettingsMenu");
+            return RedirectToAction("InfoSharing");
         }
 
         [HttpPost]
@@ -209,7 +233,8 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             var patientId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
             _accountLogic.UpdateWeight(model.Weight, patientId);
-            return View("SettingsMenu");
+
+            return RedirectToAction("UpdateUserInfo");
         }
 
         public IActionResult Forbidden() => View();

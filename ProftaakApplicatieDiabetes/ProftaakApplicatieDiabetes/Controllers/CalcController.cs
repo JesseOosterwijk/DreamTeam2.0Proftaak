@@ -9,6 +9,7 @@ using ProftaakApplicatieDiabetes.Models;
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
+    [Authorize(Policy = "CareRecipient")]
     public class CalcController : Controller
     {
         private readonly ICalculationLogic calcLogic;
@@ -33,6 +34,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
             {
                 Weight = userLogic.GetUserById(Id).Weight
             };
+            ViewBag.Result = TempData["Result"];
 
             return View(model);
         }
@@ -48,9 +50,9 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             model.Id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
             model.Weight = userLogic.GetUserById(model.Id).Weight;
-            ViewBag.Result = Math.Round(calcLogic.CalculateMealtimeDose(new Calculation(model.Id, model.Weight, model.TotalCarbs, model.CurrentBloodsugar, model.TargetBloodSugar)));
+            TempData["Result"] = Math.Round(calcLogic.CalculateMealtimeDose(new Calculation(model.Id, model.Weight, model.TotalCarbs, model.CurrentBloodsugar, model.TargetBloodSugar)));
 
-            return View();
+            return RedirectToAction("Calculate");
         }
     }
 }

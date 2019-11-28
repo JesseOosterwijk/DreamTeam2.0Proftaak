@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
+    [Authorize(Policy = "Admin")]
     public class AdminController : Controller
     {
         private readonly UserLogic _userLogic;

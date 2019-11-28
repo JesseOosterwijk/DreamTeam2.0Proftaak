@@ -98,8 +98,10 @@ namespace Data.Contexts
 
                 using (SqlCommand cmd = new SqlCommand(query, _conn))
                 {
+                    _conn.Open();
+
                     cmd.Parameters.AddWithValue("@Weight", weight);
-                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@UserId", id);
 
                     cmd.ExecuteNonQuery();
                 }

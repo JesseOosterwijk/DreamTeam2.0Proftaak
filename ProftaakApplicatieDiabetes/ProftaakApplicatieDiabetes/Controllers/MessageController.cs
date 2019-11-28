@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
+    [Authorize]
     public class MessageController : Controller
     {
         private readonly IMessageLogic _messageLogic;
@@ -24,7 +25,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
             {
                 Messages = _messageLogic.GetMessages(userId, _messageLogic.GetReceiverId(_messageLogic.GetAccountType(), userId))
             };
-            
+
             return View(messageViewModel);
         }
 

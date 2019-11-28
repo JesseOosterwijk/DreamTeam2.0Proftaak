@@ -1,13 +1,9 @@
 ﻿@model ProftaakApplicatieDiabetes.Models.UserViewModel
 
-@{
-    ViewData["Title"] = "SettingsMenu";
-}
-
 <div class="row">
     <!-- side nav-->
     <aside class="col-sm-6 col-md-3 card  my-4">
-        <h3>Settings</h3>
+        <h3>Settings pagina's</h3>
         <hr />
         <ul>
             <li>
@@ -30,11 +26,21 @@
             </li>
         </ul>
     </aside>
-
-    <h3>Uw informatie:</h3>
-    <div>Voornaam: @Model.FirstName</div>
-    <div>Achternaam: @Model.LastName</div>
-    <div>Gewicht: @Model.Weight</div>
-    <div>Email: @Model.EmailAddress</div>
+    <h3>Uw gewicht is nu @Model.Weight</h3>
+    <form asp-action="UpdateWeight" method="post" id="profilechange">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for=Weight class="control-label"></label>
+            <input asp-for="Weight" type="number" class="form-control" style="width: 200px"/>
+            <span asp-validation-for="Weight" class="text-danger"></span>
+        </div>
+        <br />
+        <div style="margin-right: 40px"class="form-group" >
+            <div class="col-xs-offset-4 col-xs-8">
+                <button type="submit" class="button">Bewerken</button>
+            </div>
+        </div>
+    </form>
 
 </div>
+
