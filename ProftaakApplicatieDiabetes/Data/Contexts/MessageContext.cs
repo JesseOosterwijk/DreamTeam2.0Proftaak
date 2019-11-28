@@ -12,7 +12,30 @@ namespace Data.Contexts
 
         public void SendMessage(MessageModel message)
         {
+            try
+            {
+                string query = "INSERT INTO Message (Content, Title, DateOf, CoupleId, SenderId) VALUES (@Content, @Title, @DateOf, @CoupleId, @SenderId) ";
+                using (SqlCommand com = new SqlCommand(query, _conn))
+                {
+                    _conn.Open();
 
+                    com.Parameters.AddWithValue("@Content", message.Content);
+                    com.Parameters.AddWithValue("@Title", message.Title);
+                    com.Parameters.AddWithValue("@DateOf", message.DateOfX);
+                    com.Parameters.AddWithValue("@CoupleId", message.CoupleId);
+                    com.Parameters.AddWithValue("@SenderId", message.SenderId);
+
+                    com.ExecuteNonQuery();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                _conn.Close();
+            }
         }
 
         public List<MessageModel> GetConversationMessages(int coupleId)
@@ -21,7 +44,6 @@ namespace Data.Contexts
             return messages;
         }
 
-        //TO BE REFACTORED
         public int GetDoctorIdFromPatientId(int patientId)
         {
             int doctorId = 0;
@@ -52,19 +74,19 @@ namespace Data.Contexts
 
         public int GetConversationPatient(int patientId)
         {
-            int doctorId = 0;
+            int coupleId = 0;
             try
             {
-                string query = "SELECT DoctorId FROM ProfessionaltoPatient WHERE PatientId = @patientId";
+                string query = "SELECT CoupleId FROM UserMessage WHERE PatientId = @patientId";
 
                 SqlCommand command = new SqlCommand(query, _conn);
-
                 command.Parameters.AddWithValue("@patientId", patientId);
+
                 _conn.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    doctorId = reader.GetInt32(reader.GetOrdinal("DoctorId"));
+                    coupleId = reader.GetInt32(reader.GetOrdinal("CoupleId"));
                 }
             }
             catch (Exception e)
@@ -75,23 +97,25 @@ namespace Data.Contexts
             {
                 _conn.Close();
             }
-            return doctorId;
+            return coupleId;
         }
 
         public int GetConversationDoctor(int doctorId, int patientId)
         {
+            int coupleId = 0;
             try
             {
-                string query = "SELECT DoctorId FROM ProfessionaltoPatient WHERE PatientId = @patientId";
+                string query = "SELECT CoupleId FROM UserMessage WHERE PatientId = @patientId AND DoctorId = @doctorId";
 
                 SqlCommand command = new SqlCommand(query, _conn);
-
                 command.Parameters.AddWithValue("@patientId", patientId);
+                command.Parameters.AddWithValue("@doctorId", doctorId);
+
                 _conn.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    doctorId = reader.GetInt32(reader.GetOrdinal("DoctorId"));
+                    coupleId = reader.GetInt32(reader.GetOrdinal("CoupleId"));
                 }
             }
             catch (Exception e)
@@ -102,7 +126,7 @@ namespace Data.Contexts
             {
                 _conn.Close();
             }
-            return doctorId;
+            return coupleId;
         }
 
         public void StartChat(int senderId, int receiverId)

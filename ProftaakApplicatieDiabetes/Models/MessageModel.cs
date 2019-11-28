@@ -7,7 +7,7 @@ namespace Models
     {
         public int MessageId { get; set; }
         public int SenderId { get; set; }
-        public int ReceiverId { get; set; }
+        public int CoupleId { get; set; }
         public string Content { get; set; }
         public string Title { get; set; }
         public DateTime DateOfX { get; set; }
@@ -21,7 +21,7 @@ namespace Models
         public MessageModel(int senderId, int receiverId, string content, string title, DateTime dateOfX)
         {
             SenderId = senderId;
-            ReceiverId = receiverId;
+            CoupleId = receiverId;
             Content = content;
             Title = title;
             DateOfX = dateOfX;
