@@ -5,7 +5,7 @@ namespace ProftaakApplicatieDiabetes.Models
 {
     public class CalcViewModel
     {
-        public int userBSN { get; set; }
+        public int Id { get; set; }
 
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Your current weight must be numeral and can't be 0.")]
         [Display(Name = "Current weight")]

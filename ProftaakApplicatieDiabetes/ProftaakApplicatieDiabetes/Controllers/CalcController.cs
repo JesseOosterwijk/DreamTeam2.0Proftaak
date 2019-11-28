@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Logic;
+using Logic.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -11,10 +12,13 @@ namespace ProftaakApplicatieDiabetes.Controllers
     public class CalcController : Controller
     {
         private readonly ICalculationLogic calcLogic;
+        private readonly IUserLogic userLogic;
 
-        public CalcController(ICalculationLogic _calcLogic)
+        public CalcController(ICalculationLogic _calcLogic, IUserLogic _userLogic)
         {
             calcLogic = _calcLogic;
+            userLogic = _userLogic;
+            
         }
         public IActionResult Index()
         {
@@ -23,7 +27,14 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
         public IActionResult Calculate()
         {
-            return View();
+            var Id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
+            CalcViewModel model = new CalcViewModel
+            {
+                Weight = userLogic.GetUserById(Id).Weight
+            };
+
+            return View(model);
         }
 
         public IActionResult Results(CalcViewModel model)
@@ -35,8 +46,9 @@ namespace ProftaakApplicatieDiabetes.Controllers
         [HttpPost]
         public IActionResult Calculate(CalcViewModel model)
         {
-            model.userBSN = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
-            ViewBag.Result = Math.Round(calcLogic.CalculateMealtimeDose(new Calculation(model.userBSN, model.Weight, model.TotalCarbs, model.CurrentBloodsugar, model.TargetBloodSugar)));
+            model.Id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+            model.Weight = userLogic.GetUserById(model.Id).Weight;
+            ViewBag.Result = Math.Round(calcLogic.CalculateMealtimeDose(new Calculation(model.Id, model.Weight, model.TotalCarbs, model.CurrentBloodsugar, model.TargetBloodSugar)));
 
             return View();
         }

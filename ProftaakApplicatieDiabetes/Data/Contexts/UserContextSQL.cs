@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Data.Interfaces;
+using Data.Memory;
 using Models;
 
 namespace Data.Contexts
@@ -236,6 +237,7 @@ namespace Data.Contexts
                     {
                         user.FirstName = (string)rdr["FirstName"];
                         user.LastName = (string)rdr["LastName"];
+                        user.Weight = (int)rdr["Weight"];
                     }
                 }
                 return user;

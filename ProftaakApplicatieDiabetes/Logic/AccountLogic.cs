@@ -36,5 +36,10 @@ namespace Logic
                 return false;
             }
         }
+
+        public void UpdateWeight(int weight, int id)
+        {
+            _context.UpdateWeight(weight, id);
+        }
     }
 }
