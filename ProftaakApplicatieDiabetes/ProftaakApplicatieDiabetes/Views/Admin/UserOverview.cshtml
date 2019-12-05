@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ProftaakApplicatieDiabetes.Models.UserViewModel>
+﻿@using Models
+@model ProftaakApplicatieDiabetes.Models.UserViewModel
 
 @{
     ViewData["Title"] = "UserOverview";
@@ -23,7 +24,7 @@
             </th>
     </thead>
     <tbody>
-        @foreach (ProftaakApplicatieDiabetes.Models.UserViewModel item in Model)
+        @foreach (IUser item in Model.Users)
         {
             <tr>
                 <td>
