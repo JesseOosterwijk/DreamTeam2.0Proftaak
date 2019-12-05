@@ -5,8 +5,12 @@
     ViewData["Title"] = "Message";
 }
 
+@if (Model.CoupleId == 0)
+{
+    <h2>You are not linked to a doctor</h2>
+}
 
-@if (Model.Messages.Count() == 0)
+else if (!Model.Messages.Any())
 {
     <h2>There are no messages if this is incorrect reload the page</h2>
 }
@@ -35,17 +39,13 @@
 {
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
+            <h5 class="card-title"><B>@message.Title</B></h5>
+            <h6 class="card-subtitle mb-2 text-muted">@message.SenderName</h6>
+            <p class="card-text">@message.Content</p>
+            <h6 class="card-subtitle mb-2 text-muted">@message.DateOfX</h6>
+
         </div>
     </div>
-    <h3><b>@message.Title</b></h3>
-    <p>@message.Content </p>
-    <p>@message.DateOfX</p>
-    <p>@message.SenderName</p>
     <hr />
 }
 <a asp-controller="Home" asp-action="Index">Back to Home</a>
