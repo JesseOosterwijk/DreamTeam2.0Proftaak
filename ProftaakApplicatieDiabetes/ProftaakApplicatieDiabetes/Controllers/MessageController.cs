@@ -4,11 +4,13 @@ using Enums;
 using Microsoft.AspNetCore.Mvc;
 using ProftaakApplicatieDiabetes.ViewModels;
 using Logic.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Models;
 
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
+    [Authorize]
     public class MessageController : Controller
     {
         private readonly IMessageLogic _messageLogic;
@@ -16,22 +18,6 @@ namespace ProftaakApplicatieDiabetes.Controllers
         public MessageController(IMessageLogic messageLogic)
         {
             _messageLogic = messageLogic;
-        }
-
-        [HttpGet]
-        public IActionResult ViewMessage()
-        {
-            MessageViewModel messageViewModel = new MessageViewModel();
-            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
-            if (User.IsInRole("CareRecipient"))
-            {
-                List<MessageModel> messages = _messageLogic.ViewMessagesPatient(
-                    AccountType.CareRecipient,
-                    userId);
-                messageViewModel.Messages.AddRange(messages);
-                messageViewModel.CoupleId = _messageLogic.GetConversationPatient(userId);
-            }
-            return View(messageViewModel);
         }
 
         
@@ -47,6 +33,15 @@ namespace ProftaakApplicatieDiabetes.Controllers
                         userId,
                         id
                     ));
+                messageViewModel.CoupleId = _messageLogic.GetConversationDoctor(userId, id);
+            }
+            if (User.IsInRole("CareRecipient"))
+            {
+                List<MessageModel> messages = _messageLogic.ViewMessagesPatient(
+                    AccountType.CareRecipient,
+                    userId);
+                messageViewModel.Messages.AddRange(messages);
+                messageViewModel.CoupleId = _messageLogic.GetConversationPatient(userId);
             }
             return View(messageViewModel);
         }
