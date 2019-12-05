@@ -46,6 +46,18 @@ namespace DiabetesTests
         }
 
         [TestMethod]
+        public void ViewMessagesPatient_NoCoupleId_ResultEmtyList()
+        {
+            //Arrange
+            InstanceLogic();
+            var expected = 0;
+            //Act
+            var result = _messageLogic.ViewMessagesPatient(Enums.AccountType.CareRecipient, 6);
+            //Assert
+            Assert.AreEqual(expected, result.Count);
+        }
+
+        [TestMethod]
         public void ViewMessagesPatient_AccountTypeDoctor_ResultEmtyList()
         {
             //Arrange
@@ -124,7 +136,34 @@ namespace DiabetesTests
             Assert.AreEqual(expected, result.Count);
         }
 
+        [TestMethod]
+        public void GetConversationPatient_ReseveRightPatient()
+        {
+            //Arrange
+            InstanceLogic();
+            var patientId = 5;
+            var expect = 3;
 
+            //Act
+            var result = _messageLogic.GetConversationPatient(patientId);
+
+            //Assert
+            Assert.AreEqual(expect, result);
+        }
+        [TestMethod]
+        public void GetConversationPatient_NonExsistingPatient()
+        {
+            //Arrange
+            InstanceLogic();
+            var nonExistingPatientId = 10;
+            var expect = 0;
+
+            //Act
+            var result = _messageLogic.GetConversationPatient(nonExistingPatientId);
+
+            //Assert
+            Assert.AreEqual(expect, result);
+        }
 
     }
 }
