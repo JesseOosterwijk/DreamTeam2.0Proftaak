@@ -13,12 +13,12 @@ namespace DiabetesTests
     [TestClass]
     public class MessageTests
     {
-        /*
+        
         IMessageLogic _messageLogic;
         IMessageContext _messageContext;
         
         
-        public MessageTests()
+        private void InstanceLogic()
         {
             _messageContext = new MessageContextMemory();
             _messageLogic = new MessageLogic(_messageContext);
@@ -29,28 +29,24 @@ namespace DiabetesTests
          public void ViewMessagesPatient_DoRightMessagesArrive()
          {
             //Arrange
-            var Expected = new int[4];
-            Expected[0] = 4;
-            Expected[1] = 5;
-            Expected[2] = 6;
-            Expected[3] = 7;
+            InstanceLogic();
+
+            var Expected = new List<int>();
+            Expected.Add(1);
+            Expected.Add(2);
+            Expected.Add(3);
             
             //Act
             var messageResult = _messageLogic.ViewMessagesPatient(Enums.AccountType.CareRecipient, 1);
-            var intResult = new List<int>();
-
-            foreach(MessageModel message in messageResult)
-            {
-                intResult.Add(message.MessageId);
-            }
-            intResult.ToArray();
 
             //Assert
-            Assert.AreEqual(intResult[0], Expected[0]);
-            Assert.AreEqual(intResult[1], Expected[1]);
-            Assert.AreEqual(intResult[2], Expected[2]);
-            Assert.AreEqual(intResult[3], Expected[3]);
+            Assert.AreEqual(Expected[0], messageResult[0].MessageId);
+            Assert.AreEqual(Expected[1], messageResult[1].MessageId);
+            Assert.AreEqual(Expected[2], messageResult[2].MessageId);
+            Assert.AreEqual(3, messageResult.Count);
          }
-         */
+         
+        
+         
     }
 }

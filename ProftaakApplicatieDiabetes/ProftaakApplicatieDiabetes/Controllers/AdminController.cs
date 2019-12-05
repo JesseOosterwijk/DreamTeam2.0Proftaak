@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using ProftaakApplicatieDiabetes.Models;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {

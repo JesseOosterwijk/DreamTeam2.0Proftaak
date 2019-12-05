@@ -24,7 +24,7 @@ namespace Data.Memory
             _messages.Add(new MessageModel(8, 4, 3, "Test Bericht Content 7", "TestTitle 7", new DateTime(2019, 12, 18, 7, 34, 0)));
             _messages.Add(new MessageModel(9, 4, 3, "Test Bericht Content 8", "TestTitle 8", new DateTime(2019, 12, 18, 7, 34, 0)));
             _messages.Add(new MessageModel(10, 5, 3, "Test Bericht Content 9", "TestTitle 9", new DateTime(2019, 12, 18, 7, 34, 0)));
-            _messages.Add(new MessageModel(11, 5, 3, "Test Bericht Content 10", "TestTitle 10", new DateTime(2019, 12, 18, 7, 94, 0)));
+            _messages.Add(new MessageModel(11, 5, 3, "Test Bericht Content 10", "TestTitle 10", new DateTime(2019, 12, 18, 7, 44, 0)));
         }
 
 
