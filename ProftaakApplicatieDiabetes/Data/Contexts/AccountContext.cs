@@ -1,9 +1,8 @@
 ﻿using Data.Interfaces;
 using Models;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Text;
+using System.Data;
 
 namespace Data.Contexts
 {
@@ -110,6 +109,31 @@ namespace Data.Contexts
             {
 
                 throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+        
+        public void UpdateStatus(int id, bool status)
+        {
+            try
+            {
+                string query = "UPDATE [User] SET Status = @Status WHERE UserId = @UserId";
+
+                _conn.Open();
+                using (SqlCommand cmd = new SqlCommand(query, _conn))
+                {
+                    cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = id;
+                    cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = status;
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("User not edited");
             }
             finally
             {

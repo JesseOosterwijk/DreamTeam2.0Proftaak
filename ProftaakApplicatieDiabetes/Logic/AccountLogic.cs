@@ -41,5 +41,10 @@ namespace Logic
         {
             _context.UpdateWeight(weight, id);
         }
+
+        public void UpdateStatus(int id, bool status)
+        {
+            _context.UpdateStatus(id, status);
+        }
     }
 }

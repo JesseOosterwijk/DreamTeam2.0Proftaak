@@ -26,20 +26,26 @@
     <tbody>
         @foreach (IUser item in Model.Users)
         {
-            <tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            @if (item.Status)
+            {
                 <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
+                    @Html.ActionLink("Blokkeren", "DisableUser", item)
                 </td>
+            }
+            else
+            {
                 <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
+                    @Html.ActionLink("Deblokkeren", "DisableUser", item)
                 </td>
-                <td>
-                    @Html.ActionLink("Verander Wachtwoord", "ChangePassword", item)
-                </td>
-                <td>
-                    @Html.ActionLink("Verwijder gegevens", "DeleteData", item)
-                </td>
-            </tr>
+            }
+        </tr>
         }
     </tbody>
 </table>
