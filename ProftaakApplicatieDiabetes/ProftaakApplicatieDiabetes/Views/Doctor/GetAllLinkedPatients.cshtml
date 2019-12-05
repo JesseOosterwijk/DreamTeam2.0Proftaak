@@ -12,6 +12,7 @@
                 <th style="color:black">First Name</th>
                 <th style="color:black">Last Name</th>
                 <th style="color:black"></th>
+                <th style="color:black">Message</th>
             </tr>
         </thead>
         @foreach (User patient in Model.Users)
@@ -21,6 +22,7 @@
                     <td>@patient.FirstName</td>
                     <td>@patient.LastName</td>
                     <td>@Html.ActionLink("See calculations", "GetPatientData", "Doctor", new { patientId = patient.UserId }, null)</td>
+                    <td>@Html.ActionLink("Chat", "ViewMessage", "Message", new { id = patient.UserId }, null)</td>
                 </tr>
             </tbody>
         }
