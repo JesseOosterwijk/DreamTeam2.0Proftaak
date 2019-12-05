@@ -96,11 +96,6 @@ namespace Logic
             return coupleId;
         }
 
-        public AccountType GetAccountType()
-        {
-            return AccountType.CareRecipient;
-        }
-
         public void StartChat(int doctorId, int patientId)
         {
             _messageContext.StartChat(doctorId, patientId);

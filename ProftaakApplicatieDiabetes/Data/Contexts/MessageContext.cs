@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using Data.Interfaces;
 using Models;
 
@@ -43,7 +44,9 @@ namespace Data.Contexts
             List<MessageModel> messages = new List<MessageModel>();
             try
             {
-                string query = "SELECT MessageId, Content, Title, DateOf, SenderId FROM [Message] WHERE CoupleId = @CoupleId";
+                string query = "SELECT MessageId, Content, Title, DateOf, SenderId, [User].FirstName, [User].LastName " +
+                               "FROM [Message] INNER JOIN [User] ON [Message].SenderId = [User].UserId " +
+                               "WHERE CoupleId = @CoupleId";
 
                 SqlCommand command = new SqlCommand(query, _conn);
 
@@ -59,7 +62,12 @@ namespace Data.Contexts
                         reader.GetString(reader.GetOrdinal("Content")),
                         reader.GetString(reader.GetOrdinal("Title")),
                         reader.GetDateTime(reader.GetOrdinal("DateOf"))
-                    ));
+                    )
+                    {
+                        SenderName = reader.GetString(reader.GetOrdinal("FirstName")),
+                    });
+                    var lastName = reader.GetString(reader.GetOrdinal("LastName"));
+                    messages.Last().SenderName += " " + lastName;
                 }
             }
             catch (Exception e)

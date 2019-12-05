@@ -7,6 +7,7 @@ namespace Models
     {
         public int MessageId { get; set; }
         public int SenderId { get; set; }
+        public string SenderName { get; set; }
         public int CoupleId { get; set; }
         public string Content { get; set; }
         public string Title { get; set; }

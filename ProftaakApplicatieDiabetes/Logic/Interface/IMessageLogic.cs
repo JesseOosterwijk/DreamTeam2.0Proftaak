@@ -11,7 +11,6 @@ namespace Logic.Interface
         List<MessageModel> ViewMessagesDoctor(AccountType type, int doctorId, int patientId);
         int GetConversationPatient(int patientId);
         int GetConversationDoctor(int doctorId, int patientId);
-        AccountType GetAccountType();
         void StartChat(int doctorId, int patientId);
     }
 }
