@@ -18,7 +18,6 @@
                 @if (User.IsInRole("Doctor"))
                 {
                     <a asp-action="GetAllLinkedPatients" asp-controller="Doctor" class="button" style="margin-left: 100px">Patient Overview</a>
-                    <a asp-action="ViewMessage" asp-controller="Message" class="button">Chat</a>
                 }
             }
 
