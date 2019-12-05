@@ -79,6 +79,7 @@ namespace Data.Memory
                 case 1: return 2;
                 case 3: return 2;
                 case 5: return 4;
+                case 6: return 6;
                 default: return 0;
             }
                 
