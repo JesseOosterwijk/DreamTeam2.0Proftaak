@@ -12,10 +12,12 @@ namespace ProftaakApplicatieDiabetes.Controllers
     public class AdminController : Controller
     {
         private readonly IUserLogic _userLogic;
+        private readonly IAccountLogic _accountLogic;
 
-        public AdminController(IUserLogic userLogic)
+        public AdminController(IUserLogic userLogic, IAccountLogic accountLogic)
         {
             _userLogic = userLogic;
+            _accountLogic = accountLogic;
         }
 
         public IActionResult Index()
@@ -33,6 +35,30 @@ namespace ProftaakApplicatieDiabetes.Controllers
             }
 
             return View("UserOverview", users);
+        }
+
+        public ActionResult ChangePassword()
+        {
+            return View("ChangePasswordView");
+        }
+
+        public ActionResult DisableUser(User user)
+        {
+            bool status = true;
+
+            if (user.Status)
+            {
+                status = false;
+            }
+
+            UserViewModel userViewModel = new UserViewModel
+            {
+                Users = _userLogic.GetAllUsers()
+            };
+
+            _accountLogic.UpdateStatus(user.UserId, status);
+         
+            return View("UserOverview");
         }
     }
 }

@@ -314,6 +314,23 @@ namespace Data.Contexts
             }
         }
 
+        public void DisableUser(int userId)
+        {
+            try
+            {
+                _conn.Open();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
         public User CheckValidityUser(string emailAdress, string password)
         {
             try
