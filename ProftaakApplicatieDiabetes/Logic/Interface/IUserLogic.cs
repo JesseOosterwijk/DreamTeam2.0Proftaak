@@ -1,5 +1,5 @@
 ﻿using Models;
-
+using System.Collections.Generic;
 
 namespace Logic.Interface
 {
@@ -12,5 +12,6 @@ namespace Logic.Interface
         bool CheckIfEmailIsValid(string userEmail);
         User CheckValidityUser(string emailAddress, string password);
         void CreateUser(User newUser);
+        List<User> GetAllUsers();
     }
 }

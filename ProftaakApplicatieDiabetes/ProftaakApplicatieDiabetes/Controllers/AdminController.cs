@@ -1,4 +1,6 @@
 ﻿using Logic;
+using Logic.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using ProftaakApplicatieDiabetes.Models;
@@ -9,9 +11,9 @@ namespace ProftaakApplicatieDiabetes.Controllers
     [Authorize(Policy = "Admin")]
     public class AdminController : Controller
     {
-        private readonly UserLogic _userLogic;
+        private readonly IUserLogic _userLogic;
 
-        public AdminController(UserLogic userLogic)
+        public AdminController(IUserLogic userLogic)
         {
             _userLogic = userLogic;
         }

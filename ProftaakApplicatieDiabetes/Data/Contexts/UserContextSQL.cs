@@ -354,7 +354,7 @@ namespace Data.Contexts
 
                 switch (accountType)
                 {
-                    case "Administrator":
+                    case "Admin":
                         return new Administrator(userId, firstName, lastName, address, city, emailAdress,
                             birthDate, gender, status, Enums.AccountType.Admin, weight, hashedPassword);
                     case "CareRecipient":
