@@ -40,16 +40,16 @@
         <div>Achternaam: @Model.LastName</div>
         <div>Gewicht: @Model.Weight</div>
         <div>Email: @Model.EmailAddress</div>
-        @*<div>Rol: @Model.UserAccountType</div>*@
+        <div>Rol: @Model.Type</div>
         @if (User.IsInRole("CareRecipient"))
         {
             @if (Model.ShareInfo == true)
             {
-                <div>Uw informatie wordt gedeeld met uw doktor</div>
+                <div><b>Uw informatie wordt gedeeld met uw doktor</b></div>
             }
             @if (Model.ShareInfo == false)
             {
-                <div>Uw informatie wordt NIET gedeeld met uw doktor</div>
+                <div><b>Uw informatie wordt NIET gedeeld met uw doktor</b></div>
             }
         }
     </div>

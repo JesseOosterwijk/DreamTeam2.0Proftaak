@@ -43,6 +43,7 @@ namespace ProftaakApplicatieDiabetes.Models
 
         public string UserGender { get; set; }
 
+        public string Type { get; set; }
         public Enums.AccountType UserAccountType { get; set; }
 
         public bool Status { get; set; }

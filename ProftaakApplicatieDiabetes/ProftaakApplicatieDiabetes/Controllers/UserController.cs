@@ -73,7 +73,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
                     case Enums.AccountType.Admin:
                         return RedirectToAction("Index", "Admin");
                     case Enums.AccountType.CareRecipient:
-                        return RedirectToAction("ViewMessage", "Message");
+                        return RedirectToAction("Index", "Home");
                     case Enums.AccountType.Doctor:
                         return RedirectToAction("Index", "Home");
                     default:
@@ -175,16 +175,10 @@ namespace ProftaakApplicatieDiabetes.Controllers
         public IActionResult SettingsMenu()
         {
             var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
-            var accountType = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value);
-            UserViewModel model = new UserViewModel
-            {
-                FirstName = _userLogic.GetUserById(userId).FirstName,
-                LastName = _userLogic.GetUserById(userId).LastName,
-                Weight = _userLogic.GetUserById(userId).Weight,
-                EmailAddress = _userLogic.GetUserById(userId).EmailAddress,
-                ShareInfo = _accountLogic.SharingIsEnabled(userId),
-                //UserAccountType = (Enums.AccountType)accountType
-            };
+            var accountType = (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value);
+            UserViewModel model = new UserViewModel(_userLogic.GetUserById(userId));
+
+            model.Type = accountType.ToString();
             return View(model);
         }
 
