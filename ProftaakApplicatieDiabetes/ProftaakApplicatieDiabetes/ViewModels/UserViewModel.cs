@@ -11,20 +11,31 @@ namespace ProftaakApplicatieDiabetes.Models
 
         public enum Gender { Man, Vrouw, Anders }
 
+        [Required(ErrorMessage = "Gewicht vereist!")]
         public int Weight { get; set; }
 
         public int UserId { get; set; }
 
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "BSN ")]
+        [Required(ErrorMessage = "BSN Required!")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3})$", ErrorMessage = "Zorg ervoor dat uw BSN klopt")]
         public int UserBSN { get; set; }
 
+        [Required(ErrorMessage = "Voornaam vereist!")]
         public string FirstName { get; set; }
 
+        [Required(ErrorMessage = "Achternaam vereist!")]
         public string LastName { get; set; }
 
+        [Required(ErrorMessage = "Adres vereist!")]
         public string Address { get; set; }
 
+        [Required(ErrorMessage = "Woonplaats vereist!")]
         public string Residence { get; set; }
 
+        [DataType(DataType.EmailAddress)]
+        [Required(ErrorMessage = "EmailAddress vereist!")]
         public string EmailAddress { get; set; }
 
         [DataType(DataType.Date)]

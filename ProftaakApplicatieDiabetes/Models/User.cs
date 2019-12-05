@@ -15,7 +15,7 @@ namespace Models
         public DateTime BirthDate { get; set; }
         public int Weight { get; set; }
         public Gender UserGender { get; }
-        public AccountType UserAccountType { get; }
+        public AccountType UserAccountType { get; set; }
         public bool Status { get; set; }
         public string Password { get; set; }
         public User Doctor { get; set; }

@@ -28,13 +28,12 @@ namespace ProftaakApplicatieDiabetes.Controllers
         [HttpGet]
         public ActionResult UserOverview()
         {
-            List<UserViewModel> users = new List<UserViewModel>();
-            foreach (User user in _userLogic.GetAllUsers())
+            UserViewModel uvm = new UserViewModel()
             {
-                users.Add(new UserViewModel(user));
-            }
+                Users = _userLogic.GetAllUsers()
+            };
 
-            return View("UserOverview", users);
+            return View("UserOverview", uvm);
         }
 
         public ActionResult ChangePassword()
