@@ -47,11 +47,11 @@ namespace ProftaakApplicatieDiabetes
             });
 
             services.AddScoped<IUserContext, UserContextSQL>();
+            services.AddScoped<IUserLogic, UserLogic>();
             services.AddScoped<ICalculationContext, CalculationContext>();
             services.AddScoped<ICalculationLogic, CalculationLogic>();
             services.AddScoped<IMessageLogic, MessageLogic>();
             services.AddScoped<IMessageContext, MessageContext>();
-            services.AddScoped<IUserLogic, UserLogic>();
             services.AddScoped<IDoctorContext, DoctorContext>();
             services.AddScoped<IDoctorLogic, DoctorLogic>();
             services.AddScoped<IAccountLogic, AccountLogic>();
