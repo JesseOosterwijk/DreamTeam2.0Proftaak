@@ -1,0 +1,46 @@
+﻿@model ProftaakApplicatieDiabetes.Models.UserViewModel
+
+<div class="row">
+    <!-- side nav-->
+    <aside class="col-sm-6 col-md-3 card  my-4">
+        <h3>Settings pagina's</h3>
+        <hr />
+        <ul>
+            <li>
+                <a href="/User/SettingsMenu" class="active">
+                    <span class="fa fa-gear"></span>
+                    Gebruikers info
+                </a>
+            </li>
+            <li>
+                <a href="/User/InfoSharing" class="active">
+                    <span class="fa fa-gear"></span>
+                    Data delen
+                </a>
+            </li>
+            <li>
+                <a href="/User/UpdateUserInfo">
+                    <span class="fa fa-wrench"></span>
+                    Gebruiker aanpassen
+                </a>
+            </li>
+        </ul>
+    </aside>
+    <h3>Uw gewicht is nu @Model.Weight</h3>
+    <form asp-action="UpdateWeight" method="post" id="profilechange">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for=Weight class="control-label"></label>
+            <input asp-for="Weight" type="number" class="form-control" style="width: 200px"/>
+            <span asp-validation-for="Weight" class="text-danger"></span>
+        </div>
+        <br />
+        <div style="margin-right: 40px"class="form-group" >
+            <div class="col-xs-offset-4 col-xs-8">
+                <button type="submit" class="button">Bewerken</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+

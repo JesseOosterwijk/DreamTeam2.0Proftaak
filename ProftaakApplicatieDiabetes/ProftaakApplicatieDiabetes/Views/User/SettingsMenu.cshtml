@@ -1,0 +1,40 @@
+﻿@model ProftaakApplicatieDiabetes.Models.UserViewModel
+
+@{
+    ViewData["Title"] = "SettingsMenu";
+}
+
+<div class="row">
+    <!-- side nav-->
+    <aside class="col-sm-6 col-md-3 card  my-4">
+        <h3>Settings</h3>
+        <hr />
+        <ul>
+            <li>
+                <a href="/User/SettingsMenu" class="active">
+                    <span class="fa fa-gear"></span>
+                    Gebruikers info
+                </a>
+            </li>
+            <li>
+                <a href="/User/InfoSharing" class="active">
+                    <span class="fa fa-gear"></span>
+                    Data delen
+                </a>
+            </li>
+            <li>
+                <a href="/User/UpdateUserInfo">
+                    <span class="fa fa-wrench"></span>
+                    Gebruiker aanpassen
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+    <h3>Uw informatie:</h3>
+    <div>Voornaam: @Model.FirstName</div>
+    <div>Achternaam: @Model.LastName</div>
+    <div>Gewicht: @Model.Weight</div>
+    <div>Email: @Model.EmailAddress</div>
+
+</div>

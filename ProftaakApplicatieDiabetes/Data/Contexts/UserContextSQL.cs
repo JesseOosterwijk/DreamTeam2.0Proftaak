@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Data.Interfaces;
+using Data.Memory;
 using Models;
 
 namespace Data.Contexts
@@ -12,6 +13,66 @@ namespace Data.Contexts
     public class UserContextSQL : IUserContext
     {
         private readonly SqlConnection _conn = Connection.GetConnection();
+
+
+        public List<User> GetAllUsers()
+        {
+            try
+            {
+                List<User> users = new List<User>();
+
+                _conn.Open();
+                SqlCommand cmd = new SqlCommand("GetAllUsers", _conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int userId = (int)dr["UserId"];
+                    int userBSN = (int)dr["BSN"];
+                    Enums.AccountType accountType = (Enums.AccountType)Enum.Parse(typeof(Enums.AccountType), dr["AccountType"].ToString());
+                    string firstName = dr["FirstName"].ToString();
+                    string lastName = dr["LastName"].ToString();
+                    string email = dr["Email"].ToString();
+                    string password = dr["Password"].ToString();
+                    string address = dr["Address"].ToString();
+                    string residence = dr["Residence"].ToString();
+                    Enums.Gender gender = (Enums.Gender)Enum.Parse(typeof(Enums.Gender), dr["Gender"].ToString());
+                    DateTime birthDate = (DateTime)dr["DateOfBirth"];
+                    int weight = (int)dr["Weight"];
+                    bool status = Convert.ToBoolean(dr["Status"].ToString());
+                    if (accountType == Enums.AccountType.Admin)
+                    {
+                        User user = new Administrator(userId, userBSN, accountType, firstName, lastName, email, password, address, residence, gender, birthDate, weight, status);
+                        users.Add(user);
+                    }
+                    else if (accountType == Enums.AccountType.Doctor)
+                    {
+                        User user = new Doctor(userId, userBSN, accountType, firstName, lastName, email, password, address, residence, gender, birthDate, weight, status);
+                        users.Add(user);
+                    }
+                    else
+                    {
+                        User user = new CareRecipient(userId, userBSN, accountType, firstName, lastName, email, password, address, residence, gender, birthDate, weight, status);
+                        users.Add(user);
+                    }
+                }
+                return users;
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
 
         public void CreateUser(User newUser)
         {
@@ -28,8 +89,8 @@ namespace Data.Contexts
                     cmd.Parameters.AddWithValue("@Address", SqlDbType.NVarChar).Value = newUser.Address;
                     cmd.Parameters.AddWithValue("@DateOfBirth", SqlDbType.DateTime).Value = newUser.BirthDate;
                     cmd.Parameters.AddWithValue("@Residence", SqlDbType.NVarChar).Value = newUser.Residence;
-                    cmd.Parameters.AddWithValue("@Gender", SqlDbType.Bit).Value = newUser.UserGender;
                     cmd.Parameters.AddWithValue("@Weight", SqlDbType.Int).Value = newUser.Weight;
+                    cmd.Parameters.AddWithValue("@Gender", SqlDbType.Bit).Value = newUser.UserGender;
                     cmd.Parameters.AddWithValue("@Password", SqlDbType.NVarChar).Value = newUser.Password;
                     cmd.Parameters.AddWithValue("@AccountType", SqlDbType.NVarChar).Value = newUser.UserAccountType.ToString();
                     cmd.Parameters.AddWithValue("@Status", SqlDbType.Bit).Value = true;
@@ -163,7 +224,7 @@ namespace Data.Contexts
             try
             {
                 string query =
-                    "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password " +
+                    "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password, Weight " +
                     "FROM [User] " +
                     "WHERE Email = @email";
 
@@ -176,7 +237,7 @@ namespace Data.Contexts
                 SqlCommand cmd = new SqlCommand(query, _conn);
                 emailParam.Value = email;
                 cmd.Parameters.Add(emailParam);
-                User currentUser = new CareRecipient(1, "a", "b", "c,", "d", "f", Convert.ToDateTime("1988/12/20"), Enums.Gender.Male, true, Enums.AccountType.CareRecipient, "");
+                User currentUser = new CareRecipient(1, "a", "b", "c,", "d", "f", Convert.ToDateTime("1988/12/20"), Enums.Gender.Male, true, Enums.AccountType.CareRecipient, 85, "");
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -188,17 +249,17 @@ namespace Data.Contexts
                         if (accountType == "Administrator")
                         {
                             currentUser = new Administrator(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.Administrator, reader.GetString(11));
+                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.Admin, reader.GetInt32(12), reader.GetString(11));
                         }
                         else if (accountType == "Doctor")
                         {
                             currentUser = new Doctor(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.Doctor, reader.GetString(11));
+                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.Doctor, reader.GetInt32(12), reader.GetString(11));
                         }
                         else
                         {
                             currentUser = new CareRecipient(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.CareRecipient, reader.GetString(11));
+                                reader.GetDateTime(4), gender, reader.GetBoolean(10), Enums.AccountType.CareRecipient, reader.GetInt32(12), reader.GetString(11));
                         }
 
                         return currentUser;
@@ -216,50 +277,31 @@ namespace Data.Contexts
             }
         }
 
-        public User GetUserById(int bsn)
+        public User GetUserById(int id)
         {
+            var user = new User();
             try
             {
                 string query =
-                    "SELECT AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password " +
+                    "SELECT * " +
                     "FROM [User] " +
                     "WHERE [UserID] = @UserId";
                 _conn.Open();
 
-                SqlDataAdapter cmd = new SqlDataAdapter
+                using (SqlCommand cmd = new SqlCommand(query, _conn))
                 {
-                    SelectCommand = new SqlCommand(query, _conn)
-                };
+                    cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = id;
 
-                cmd.SelectCommand.Parameters.Add("@UserId", SqlDbType.Int).Value = bsn;
-
-                DataTable dt = new DataTable();
-                cmd.Fill(dt);
-
-                string accountType = dt.Rows[0].ItemArray[0].ToString();
-                string firstName = dt.Rows[0].ItemArray[1].ToString();
-                string lastName = dt.Rows[0].ItemArray[2].ToString();
-                DateTime birthDate = Convert.ToDateTime(dt.Rows[0].ItemArray[3].ToString());
-                Enums.Gender gender = (Enums.Gender)Enum.Parse(typeof(Enums.Gender), dt.Rows[0].ItemArray[4].ToString());
-                string email = dt.Rows[0].ItemArray[5].ToString();
-                string address = dt.Rows[0].ItemArray[6].ToString();
-                string city = dt.Rows[0].ItemArray[8].ToString();
-                bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[9].ToString());
-                string password = dt.Rows[0].ItemArray[10].ToString();
-                switch (accountType)
-                {
-                    case "Administrator":
-                        return new Administrator(bsn, firstName, lastName, address, city, email,
-                        birthDate, gender, status, Enums.AccountType.Administrator, password);
-                    case "CareRecipient":
-                        return new CareRecipient(bsn, firstName, lastName, address, city, email,
-                        birthDate, gender, status, Enums.AccountType.CareRecipient, password);
-                    case "Doctor":
-                        return new Doctor(bsn, firstName, lastName, address, city, email,
-                        birthDate, gender, status, Enums.AccountType.Doctor, password);
-                    default:
-                        throw new AggregateException("User not found");
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        user.FirstName = (string)rdr["FirstName"];
+                        user.LastName = (string)rdr["LastName"];
+                        user.Weight = (int)rdr["Weight"];
+                        user.EmailAddress = (string)rdr["Email"];
+                    }
                 }
+                return user;
             }
             catch (Exception e)
             {
@@ -303,8 +345,8 @@ namespace Data.Contexts
                 string address = dt.Rows[0].ItemArray[7].ToString();
                 string city = dt.Rows[0].ItemArray[8].ToString();
                 bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[9]);
+                int weight = Convert.ToInt32(dt.Rows[0].ItemArray[11]);
                 string hashedPassword = dt.Rows[0].ItemArray[10].ToString();
-                int weight = (int)dt.Rows[0].ItemArray[11];
 
 
                 if (!Hasher.SecurePasswordHasher.Verify(password, hashedPassword))
@@ -314,13 +356,13 @@ namespace Data.Contexts
                 {
                     case "Administrator":
                         return new Administrator(userId, firstName, lastName, address, city, emailAdress,
-                            birthDate, gender, status, Enums.AccountType.Administrator, hashedPassword);
+                            birthDate, gender, status, Enums.AccountType.Admin, weight, hashedPassword);
                     case "CareRecipient":
                         return new CareRecipient(userId, BSN, Enums.AccountType.CareRecipient, firstName, lastName, emailAdress, hashedPassword, address, city,
-                            gender, weight, birthDate, status);
+                            gender, birthDate, weight, status);
                     case "Doctor":
                         return new Doctor(userId, BSN, Enums.AccountType.Doctor, firstName, lastName, emailAdress, hashedPassword, address, city,
-                            gender, weight, birthDate, status);
+                            gender, birthDate, weight, status);
                     default:
                         throw new AggregateException("User not found");
                 }

@@ -6,25 +6,23 @@ using Models;
 using ProftaakApplicatieDiabetes.ViewModels;
 using ProftaakApplicatieDiabetes.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
+    [Authorize(Policy = "Doctor")]
     public class DoctorController : Controller
     {
         private readonly IDoctorLogic _doctorLogic;
+        private readonly IAccountLogic _accountLogic;
+        private readonly IUserLogic _userLogic;
 
-        public DoctorController(IDoctorLogic doctorLogic)
+        public DoctorController(IDoctorLogic doctorLogic, IAccountLogic accountLogic, IUserLogic userLogic)
         {
             _doctorLogic = doctorLogic;
+            _accountLogic = accountLogic;
+            _userLogic = userLogic;
         }
-        //hardcoded for now
-        //private int _doctorId = 7;
-
-        //public IActionResult PatientDataOverviewView()
-        //{
-        //    DoctorPatientSelectViewmodel viewModel = new DoctorPatientSelectViewmodel((List<User>)_doctorLogic.GetPatientsFromDoctorId(_doctorId));
-        //    return View(viewModel);
-        //}
 
         public IActionResult GetAllLinkedPatients()
         {
@@ -42,8 +40,18 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             DoctorPatientSelectViewmodel model = new DoctorPatientSelectViewmodel()
             {
+                FirstName = _userLogic.GetUserById(patientId).FirstName,
+                LastName = _userLogic.GetUserById(patientId).LastName,
                 Calculations = _doctorLogic.GetPatientData(patientId)
             };
+            if (_accountLogic.SharingIsEnabled(patientId))
+            {
+                ViewBag.Message = "";
+            }
+            else
+            {
+                ViewBag.Message = "Deze patiënt wil zijn gegevens op dit moment niet delen";
+            }
 
             return View(model);
         }

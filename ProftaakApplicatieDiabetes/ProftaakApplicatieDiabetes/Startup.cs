@@ -35,8 +35,8 @@ namespace ProftaakApplicatieDiabetes
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.AccessDeniedPath = "/Home/ErrorForbidden";
-                    options.LoginPath = "/Home/ErrorNotLoggedIn";
+                    options.AccessDeniedPath = "/User/Forbidden";
+                    options.LoginPath = "/User/Login";
                 });
 
             services.AddAuthorization(options =>
@@ -45,6 +45,7 @@ namespace ProftaakApplicatieDiabetes
                 options.AddPolicy("CareRecipient", p => p.RequireAuthenticatedUser().RequireRole("CareRecipient"));
                 options.AddPolicy("Doctor", p => p.RequireAuthenticatedUser().RequireRole("Doctor"));
             });
+
             services.AddScoped<IUserContext, UserContextSQL>();
             services.AddScoped<ICalculationContext, CalculationContext>();
             services.AddScoped<ICalculationLogic, CalculationLogic>();
@@ -53,6 +54,8 @@ namespace ProftaakApplicatieDiabetes
             services.AddScoped<IUserLogic, UserLogic>();
             services.AddScoped<IDoctorContext, DoctorContext>();
             services.AddScoped<IDoctorLogic, DoctorLogic>();
+            services.AddScoped<IAccountLogic, AccountLogic>();
+            services.AddScoped<IAccountContext, AccountContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

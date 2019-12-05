@@ -1,4 +1,5 @@
 ﻿using Models;
+using System.Collections.Generic;
 
 namespace Data.Interfaces
 {
@@ -11,6 +12,7 @@ namespace Data.Interfaces
         bool CheckIfEmailIsValid(string userEmail);
         User CheckValidityUser(string emailAddress, string password);
         void CreateUser(User user);
+        List<User> GetAllUsers();
 
     }
 }

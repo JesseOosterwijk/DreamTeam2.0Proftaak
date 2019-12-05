@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Logic.Interface;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using ProftaakApplicatieDiabetes.Models;
@@ -11,13 +13,16 @@ using ProftaakApplicatieDiabetes.ViewModels;
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly IUserLogic _userLogic;
+        private readonly IAccountLogic _accountLogic;
 
-        public UserController(IUserLogic userLogic)
+        public UserController(IUserLogic userLogic, IAccountLogic accountLogic)
         {
             _userLogic = userLogic;
+            _accountLogic = accountLogic;
         }
 
         public IActionResult Index()
@@ -26,6 +31,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
@@ -33,6 +39,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public ActionResult Login(LoginViewModel userViewModel)
         {
             try
@@ -63,7 +70,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
                 switch (newCustomer.UserAccountType)
                 {
-                    case Enums.AccountType.Administrator:
+                    case Enums.AccountType.Admin:
                         return RedirectToAction("Index", "Admin");
                     case Enums.AccountType.CareRecipient:
                         return RedirectToAction("ViewMessage", "Message");
@@ -97,12 +104,14 @@ namespace ProftaakApplicatieDiabetes.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult CreateAccount()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult CreateAccount(UserViewModel userViewModel, string password, string passwordValidation)
         {
             try
@@ -116,28 +125,24 @@ namespace ProftaakApplicatieDiabetes.Controllers
                             switch (userViewModel.UserAccountType)
                             {
                                 case Enums.AccountType.CareRecipient:
-                                    _userLogic.CreateUser(new CareRecipient(userViewModel.UserBSN, Enums.AccountType.CareRecipient, userViewModel.FirstName, 
-                                        userViewModel.LastName, userViewModel.EmailAddress, password, userViewModel.Address, userViewModel.Residence, 
-                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), userViewModel.Weight, 
-                                        Convert.ToDateTime(userViewModel.BirthDate), true));
+                                    _userLogic.CreateUser(new CareRecipient(userViewModel.UserBSN, userViewModel.FirstName, userViewModel.LastName, 
+                                        userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate), 
+                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), true, Enums.AccountType.CareRecipient, userViewModel.Weight, password));
                                     break;
-                                case Enums.AccountType.Administrator:
-                                    _userLogic.CreateUser(new Administrator(userViewModel.UserBSN, Enums.AccountType.Administrator, userViewModel.FirstName,
-                                        userViewModel.LastName, userViewModel.EmailAddress, password, userViewModel.Address, userViewModel.Residence,
-                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), userViewModel.Weight,
-                                        Convert.ToDateTime(userViewModel.BirthDate), true));
+                                case Enums.AccountType.Admin:
+                                    _userLogic.CreateUser(new Administrator(userViewModel.UserBSN, userViewModel.FirstName, userViewModel.LastName, 
+                                        userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate), 
+                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), true, Enums.AccountType.Admin, userViewModel.Weight, password));
                                     break;
                                 case Enums.AccountType.Doctor:
-                                    _userLogic.CreateUser(new Doctor(userViewModel.UserBSN, Enums.AccountType.Doctor, userViewModel.FirstName,
-                                        userViewModel.LastName, userViewModel.EmailAddress, password, userViewModel.Address, userViewModel.Residence,
-                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), userViewModel.Weight,
-                                        Convert.ToDateTime(userViewModel.BirthDate), true));
+                                    _userLogic.CreateUser(new Doctor(userViewModel.UserBSN, userViewModel.FirstName, userViewModel.LastName, 
+                                        userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate), 
+                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), true, Enums.AccountType.Doctor, userViewModel.Weight, password));
                                     break;
                                 default:
-                                    _userLogic.CreateUser(new CareRecipient(userViewModel.UserBSN, Enums.AccountType.CareRecipient, userViewModel.FirstName,
-                                        userViewModel.LastName, userViewModel.EmailAddress, password, userViewModel.Address, userViewModel.Residence,
-                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), userViewModel.Weight,
-                                        Convert.ToDateTime(userViewModel.BirthDate), true));
+                                    _userLogic.CreateUser(new CareRecipient(userViewModel.UserBSN, userViewModel.FirstName, userViewModel.LastName,
+                                       userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate), 
+                                       (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), true, Enums.AccountType.CareRecipient, userViewModel.Weight, password));
                                     break;
                             }
                         }
@@ -166,5 +171,73 @@ namespace ProftaakApplicatieDiabetes.Controllers
             }
             return RedirectToAction("Login");
         }
+
+        public IActionResult SettingsMenu()
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+            UserViewModel model = new UserViewModel
+            {
+                FirstName = _userLogic.GetUserById(userId).FirstName,
+                LastName = _userLogic.GetUserById(userId).LastName,
+                Weight = _userLogic.GetUserById(userId).Weight,
+                EmailAddress = _userLogic.GetUserById(userId).EmailAddress,
+            };
+            return View(model);
+        }
+
+        public IActionResult InfoSharing()
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+
+            if (_accountLogic.SharingIsEnabled(userId) == true)
+            {
+                ViewBag.Description = "Gegevens delen staat op dit moment aan";
+                return View();
+            }
+            else
+            {
+                ViewBag.Description = "Gegevens delen staat op dit moment uit";
+                return View();
+            }
+        }
+
+        public IActionResult UpdateUserInfo()
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+
+            UserViewModel model = new UserViewModel
+            {
+                Weight = _userLogic.GetUserById(userId).Weight
+            };
+            return View(model);
+        }
+
+        public IActionResult AllowInfoShare(int patientId)
+        {
+            _accountLogic.AllowInfoSharing(patientId);
+
+            ViewBag.Result = "Het delen van gegevens is ingeschakeld";
+            return RedirectToAction("InfoSharing");
+        }
+
+        public IActionResult DisableInfoShare(int patientId)
+        {
+            _accountLogic.DisableInfoSharing(patientId);
+
+            ViewBag.Result = "Het delen van gegevens is uitgeschakeld";
+            return RedirectToAction("InfoSharing");
+        }
+
+        [HttpPost]
+        public IActionResult UpdateWeight(UserViewModel model)
+        {
+            var patientId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+            _accountLogic.UpdateWeight(model.Weight, patientId);
+
+            return RedirectToAction("UpdateUserInfo");
+        }
+
+        public IActionResult Forbidden() => View();
+
     }
-}
+} 

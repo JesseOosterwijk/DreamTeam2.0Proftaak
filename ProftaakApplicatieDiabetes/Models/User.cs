@@ -13,33 +13,20 @@ namespace Models
         public string Residence { get; set; }
         public string EmailAddress { get; set; }
         public DateTime BirthDate { get; set; }
+        public int Weight { get; set; }
         public Gender UserGender { get; }
         public AccountType UserAccountType { get; }
         public bool Status { get; set; }
         public string Password { get; set; }
-        public int Weight { get; set; }
         public User Doctor { get; set; }
+        public bool InfoSharing { get; set; }
 
         public User()
         {
                
         }
 
-        protected User(string firstName, string lastName, string address, string residence, string emailAddress, DateTime birthDate, Gender userGender, bool status, AccountType accountType, string password)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            Address = address;
-            Residence = residence;
-            EmailAddress = emailAddress;
-            BirthDate = birthDate;
-            UserGender = userGender;
-            Status = status;
-            UserAccountType = accountType;
-            Password = password;
-        }
-
-        public User(int userId, int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, int weight, DateTime dateOfBirth, bool status)
+        public User(int userId, int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, DateTime dateOfBirth, int weight, bool status)
         {
             UserId = userId;
             BSN = userBSN;
@@ -51,12 +38,12 @@ namespace Models
             Address = address;
             Residence = residence;
             UserGender = gender;
-            Weight = weight;
             BirthDate = dateOfBirth;
+            Weight = weight;
             Status = status;
         }
 
-        public User(int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, int weight, DateTime dateOfBirth, bool status)
+        public User(int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, DateTime dateOfBirth, int weight, bool status)
         {
             BSN = userBSN;
             UserAccountType = accountType;
@@ -67,13 +54,13 @@ namespace Models
             Address = address;
             Residence = residence;
             UserGender = gender;
-            Weight = weight;
             BirthDate = dateOfBirth;
+            Weight = weight;
             Status = status;
         }
 
 
-        protected User(int bsn, string firstName, string lastName, string address, string residence, string emailAddress, DateTime birthDate, Gender userGender, bool status, AccountType accountType, string password)
+        public User(int bsn, string firstName, string lastName, string address, string residence, string emailAddress, DateTime birthDate, Gender userGender, bool status, AccountType accountType, int weight, string password)
         {
             BSN = bsn;
             FirstName = firstName;
@@ -85,23 +72,8 @@ namespace Models
             UserGender = userGender;
             Status = status;
             UserAccountType = accountType;
-            Password = password;
-        }
-
-        public User(int userId, int userBSN, AccountType accountType, string firstName, string lastName, string email, string address, string residence, Gender gender, int weight, DateTime dateOfBirth, bool status)
-        {
-            UserId = userId;
-            BSN = userBSN;
-            UserAccountType = accountType;
-            FirstName = firstName;
-            LastName = lastName;
-            EmailAddress = email;
-            Address = address;
-            Residence = residence;
-            UserGender = gender;
             Weight = weight;
-            BirthDate = dateOfBirth;
-            Status = status;
+            Password = password;
         }
 
         public User(int userId, string firstName, AccountType accountType)

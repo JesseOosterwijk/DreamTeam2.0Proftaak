@@ -29,6 +29,14 @@
                         <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                         @if (User.Identity.IsAuthenticated)
                         {
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li><a asp-area="" asp-controller="Admin" asp-action="UserOverview">Useroverview</a></li>
+                            }
+                            @if (User.IsInRole("CareRecipient"))
+                            {
+                                <li><a asp-area="" asp-controller="User" asp-action="SettingsMenu">Settings</a></li>
+                            }
                             <li><a asp-area="" asp-controller="User" asp-action="Logout">Logout</a></li>
                         }
                         else
