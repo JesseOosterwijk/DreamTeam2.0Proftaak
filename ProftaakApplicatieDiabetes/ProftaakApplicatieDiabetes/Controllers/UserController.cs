@@ -175,16 +175,20 @@ namespace ProftaakApplicatieDiabetes.Controllers
         public IActionResult SettingsMenu()
         {
             var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+            var accountType = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value);
             UserViewModel model = new UserViewModel
             {
                 FirstName = _userLogic.GetUserById(userId).FirstName,
                 LastName = _userLogic.GetUserById(userId).LastName,
                 Weight = _userLogic.GetUserById(userId).Weight,
                 EmailAddress = _userLogic.GetUserById(userId).EmailAddress,
+                ShareInfo = _accountLogic.SharingIsEnabled(userId),
+                //UserAccountType = (Enums.AccountType)accountType
             };
             return View(model);
         }
 
+        [Authorize(Policy = "CareRecipient")]
         public IActionResult InfoSharing()
         {
             var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
@@ -201,6 +205,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
             }
         }
 
+        [Authorize(Policy = "CareRecipient")]
         public IActionResult UpdateUserInfo()
         {
             var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
@@ -212,6 +217,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
             return View(model);
         }
 
+        [Authorize(Policy = "CareRecipient")]
         public IActionResult AllowInfoShare(int patientId)
         {
             _accountLogic.AllowInfoSharing(patientId);
@@ -220,6 +226,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
             return RedirectToAction("InfoSharing");
         }
 
+        [Authorize(Policy = "CareRecipient")]
         public IActionResult DisableInfoShare(int patientId)
         {
             _accountLogic.DisableInfoSharing(patientId);
@@ -229,6 +236,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "CareRecipient")]
         public IActionResult UpdateWeight(UserViewModel model)
         {
             var patientId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);

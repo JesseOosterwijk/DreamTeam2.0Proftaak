@@ -6,7 +6,7 @@
 
 <div class="row">
     <!-- side nav-->
-    <aside class="col-sm-6 col-md-3 card  my-4">
+    <aside class="col-sm-6 col-md-3 card  my-4" style="height:100%">
         <h3>Settings</h3>
         <hr />
         <ul>
@@ -16,25 +16,42 @@
                     Gebruikers info
                 </a>
             </li>
-            <li>
-                <a href="/User/InfoSharing" class="active">
-                    <span class="fa fa-gear"></span>
-                    Data delen
-                </a>
-            </li>
-            <li>
-                <a href="/User/UpdateUserInfo">
-                    <span class="fa fa-wrench"></span>
-                    Gebruiker aanpassen
-                </a>
-            </li>
+            @if (User.IsInRole("CareRecipient"))
+            {
+                <li>
+                    <a href="/User/InfoSharing" class="active">
+                        <span class="fa fa-gear"></span>
+                        Data delen
+                    </a>
+                </li>
+                <li>
+                    <a href="/User/UpdateUserInfo">
+                        <span class="fa fa-wrench"></span>
+                        Gebruiker aanpassen
+                    </a>
+                </li>
+            }
         </ul>
     </aside>
 
     <h3>Uw informatie:</h3>
-    <div>Voornaam: @Model.FirstName</div>
-    <div>Achternaam: @Model.LastName</div>
-    <div>Gewicht: @Model.Weight</div>
-    <div>Email: @Model.EmailAddress</div>
+    <div class="col-sm-8 col-md-6 card  my-5">
+        <div>Voornaam: @Model.FirstName</div>
+        <div>Achternaam: @Model.LastName</div>
+        <div>Gewicht: @Model.Weight</div>
+        <div>Email: @Model.EmailAddress</div>
+        @*<div>Rol: @Model.UserAccountType</div>*@
+        @if (User.IsInRole("CareRecipient"))
+        {
+            @if (Model.ShareInfo == true)
+            {
+                <div>Uw informatie wordt gedeeld met uw doktor</div>
+            }
+            @if (Model.ShareInfo == false)
+            {
+                <div>Uw informatie wordt NIET gedeeld met uw doktor</div>
+            }
+        }
+    </div>
 
 </div>
