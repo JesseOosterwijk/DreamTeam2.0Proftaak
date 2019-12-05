@@ -14,14 +14,14 @@ namespace DiabetesTests
     public class MessageTests
     {
         
-        IMessageLogic _messageLogic;
-        IMessageContext _messageContext;
+        private IMessageLogic _iMessageLogic;
+        private IMessageContext _iMessageContext;
         
         
         private void InstanceLogic()
         {
-            _messageContext = new MessageContextMemory();
-            _messageLogic = new MessageLogic(_messageContext);
+            _iMessageContext = new MessageContextMemory();
+            _iMessageLogic = new MessageLogic(_iMessageContext);
         }
        
 
@@ -36,7 +36,7 @@ namespace DiabetesTests
            expected.Add(2);
            expected.Add(3);            
            //Act
-           var messageResult = _messageLogic.ViewMessagesPatient(Enums.AccountType.CareRecipient, 1);
+           var messageResult = _iMessageLogic.ViewMessagesPatient(Enums.AccountType.CareRecipient, 1);
 
            //Assert
            Assert.AreEqual(expected[0], messageResult[0].MessageId);
@@ -46,47 +46,47 @@ namespace DiabetesTests
         }
 
         [TestMethod]
-        public void ViewMessagesPatient_NoCoupleId_ResultEmtyList()
+        public void ViewMessagesPatient_NoCoupleId_ResultEmptyList()
         {
             //Arrange
             InstanceLogic();
             var expected = 0;
             //Act
-            var result = _messageLogic.ViewMessagesPatient(Enums.AccountType.CareRecipient, 6);
+            var result = _iMessageLogic.ViewMessagesPatient(Enums.AccountType.CareRecipient, 6);
             //Assert
             Assert.AreEqual(expected, result.Count);
         }
 
         [TestMethod]
-        public void ViewMessagesPatient_AccountTypeDoctor_ResultEmtyList()
+        public void ViewMessagesPatient_AccountTypeDoctor_ResultEmptyList()
         {
             //Arrange
             InstanceLogic();
             var expected = 0;
             //Act
-            var Result = _messageLogic.ViewMessagesPatient(Enums.AccountType.Doctor, 2);
+            var result = _iMessageLogic.ViewMessagesPatient(Enums.AccountType.Doctor, 2);
 
             //Assert
-            Assert.AreEqual(expected, Result.Count);
+            Assert.AreEqual(expected, result.Count);
 
         }
 
         [TestMethod]
-        public void ViewMessagesPatient_InexcistandPatient_ResultEmtyList()
+        public void ViewMessagesPatient_NonexistantPatient_ResultEmptyList()
         {
             //Arrange
             InstanceLogic();
             var expected = 0;
             var NonExistingPatientId = 12;
             //Act
-            var result = _messageLogic.ViewMessagesPatient(Enums.AccountType.CareRecipient, NonExistingPatientId);
+            var result = _iMessageLogic.ViewMessagesPatient(Enums.AccountType.CareRecipient, NonExistingPatientId);
 
             //Assert
             Assert.AreEqual(expected, result.Count);
         }
 
         [TestMethod]
-        public void ViewMessgagesDoctor__DoRightMessagesArrive()
+        public void ViewMessagesDoctor__DoRightMessagesArrive()
         {
             //Arrange
             InstanceLogic();
@@ -98,46 +98,46 @@ namespace DiabetesTests
             var expectedLength = 4;
 
             //Act
-            var Result = _messageLogic.ViewMessagesDoctor(Enums.AccountType.Doctor, 2, 3);
+            var result = _iMessageLogic.ViewMessagesDoctor(Enums.AccountType.Doctor, 2, 3);
 
             //Assert
-            Assert.AreEqual(expectedLength, Result.Count);
-            Assert.AreEqual(expected[0], Result[0].MessageId);
-            Assert.AreEqual(expected[1], Result[1].MessageId);
-            Assert.AreEqual(expected[2], Result[2].MessageId);
-            Assert.AreEqual(expected[3], Result[3].MessageId);
+            Assert.AreEqual(expectedLength, result.Count);
+            Assert.AreEqual(expected[0], result[0].MessageId);
+            Assert.AreEqual(expected[1], result[1].MessageId);
+            Assert.AreEqual(expected[2], result[2].MessageId);
+            Assert.AreEqual(expected[3], result[3].MessageId);
         }
 
         [TestMethod]
-        public void ViewMessagesDoctor_AccountTypeDoctor_ResultEmtyList()
+        public void ViewMessagesDoctor_AccountTypeDoctor_ResultEmptyList()
         {
             //Arrange
             InstanceLogic();
             var expected = 0;
             //Act
-            var Result = _messageLogic.ViewMessagesDoctor(Enums.AccountType.CareRecipient,1,2);
+            var result = _iMessageLogic.ViewMessagesDoctor(Enums.AccountType.CareRecipient,1,2);
 
             //Assert
-            Assert.AreEqual(expected, Result.Count);
+            Assert.AreEqual(expected, result.Count);
 
         }
 
         [TestMethod]
-        public void ViewMessagesdoctor_InexcistandPatient_ResultEmtyList()
+        public void ViewMessagesDoctor_NonexistantPatient_ResultEmptyList()
         {
             //Arrange
             InstanceLogic();
             var expected = 0;
             var NonExistingDoctorId = 12;
             //Act
-            var result = _messageLogic.ViewMessagesDoctor(Enums.AccountType.Doctor, NonExistingDoctorId, 1);
+            var result = _iMessageLogic.ViewMessagesDoctor(Enums.AccountType.Doctor, NonExistingDoctorId, 1);
 
             //Assert
             Assert.AreEqual(expected, result.Count);
         }
 
         [TestMethod]
-        public void GetConversationPatient_ReseveRightPatient()
+        public void GetConversationPatient_ReserveRightPatient()
         {
             //Arrange
             InstanceLogic();
@@ -145,13 +145,13 @@ namespace DiabetesTests
             var expect = 3;
 
             //Act
-            var result = _messageLogic.GetConversationPatient(patientId);
+            var result = _iMessageLogic.GetConversationPatient(patientId);
 
             //Assert
             Assert.AreEqual(expect, result);
         }
         [TestMethod]
-        public void GetConversationPatient_NonExsistingPatient()
+        public void GetConversationPatient_NonExistantPatient()
         {
             //Arrange
             InstanceLogic();
@@ -159,7 +159,7 @@ namespace DiabetesTests
             var expect = 0;
 
             //Act
-            var result = _messageLogic.GetConversationPatient(nonExistingPatientId);
+            var result = _iMessageLogic.GetConversationPatient(nonExistingPatientId);
 
             //Assert
             Assert.AreEqual(expect, result);
