@@ -1,4 +1,5 @@
-﻿using Data.Contexts;
+﻿using System;
+using Data.Contexts;
 using Data.Interfaces;
 using Logic;
 using Logic.Interface;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebSocketManager;
 
 namespace ProftaakApplicatieDiabetes
 {
@@ -24,6 +26,9 @@ namespace ProftaakApplicatieDiabetes
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddWebSocketManager();
+            services.AddSingleton<ChatManager>();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -59,7 +64,7 @@ namespace ProftaakApplicatieDiabetes
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -75,6 +80,9 @@ namespace ProftaakApplicatieDiabetes
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseWebSockets();
+            app.MapWebSocketManager("/chat", serviceProvider.GetService<ChatHandler>());
+
             app.UseAuthentication();
 
             app.UseMvc(routes =>
@@ -83,7 +91,6 @@ namespace ProftaakApplicatieDiabetes
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
         }
     }
 }

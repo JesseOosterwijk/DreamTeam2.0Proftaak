@@ -9,6 +9,7 @@ namespace Models.Interfaces
         int MessageId { get; set; }
         string Content { get; set; }
         string Title { get; set; }
+        string SocketId { get; set; }
         DateTime DateOfX { get; set; }
     }
 }

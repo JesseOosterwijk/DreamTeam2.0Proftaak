@@ -4,38 +4,31 @@
 @{
     ViewData["Title"] = "Message";
 }
-
-
-@if (Model.Messages.Count() == 0)
-{
-    <h2>There are no messages if this is incorrect reload the page</h2>
-}
-
-
-<h2>Message</h2>
-
-<form asp-action="SendMessage">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input data-val="true" id="CoupleId" name="CoupleId" type="hidden" value="@Model.CoupleId">
-    <div class="form-group">
-        <label asp-for="Title" class="control-label"></label>
-        <input asp-for="Title" class="form-control" required="" />
-        <span asp-validation-for="Title" class="text-danger"></span>
+<link href="~/css/site.css" rel="stylesheet" />
+@inject ChatManager ChatManager
+<div class="row top-space">
+    <div class="col-lg-12">
+        
+        <ul id="messages">
+            @foreach (var item in ChatManager.Messages)
+            {
+                //Configure this to your personal taste
+                <li>@item.SocketId said: @item.Content at: @item.DateOfX</li>
+            }
+        </ul>
+        <input class="form-control" id="message-content"/>
+        <input class="form-control" id="message-title"/>
+        @foreach (MessageModel message in ChatManager.Messages)
+        {
+            <b>@message.Title</b>
+            <p>@message.Content </p>
+            <p>@message.DateOfX</p>
+            <hr />
+        }
     </div>
-    <div class="form-group">
-        <label asp-for="Content" class="control-label"></label>
-        <input asp-for="Content" class="form-control" required="" />
-        <span asp-validation-for="Content" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Send Message" class="btn btn-default" />
-    </div>
-</form>
-@foreach (MessageModel message in Model.Messages)
-{
-    <h3><b>@message.Title</b></h3>
-    <p>@message.Content </p>
-    <p>@message.DateOfX</p>
-    <hr />
-}
+</div>
+
 <a asp-controller="Home" asp-action="Index">Back to Home</a>
+@section Scripts {
+    <script data-main="scripts/main" src="https://rawgit.com/radu-matei/websocket-manager/master/src/WebSocketManager.Client.TS/dist/WebSocketManager.js"></script>
+}
