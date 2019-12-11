@@ -2,6 +2,7 @@
 using Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
@@ -12,7 +13,7 @@ namespace Data.Memory
         private List<Calculation> testCalcs = new List<Calculation>();
         private List<Couple> testCouples = new List<Couple>();
 
-        public List<Calculation> UnsortedTestCalcs()
+        public List<Calculation> TestCalcs()
         {
             IEnumerable<Calculation> list = new List<Calculation>(testCalcs);
             return list.ToList();

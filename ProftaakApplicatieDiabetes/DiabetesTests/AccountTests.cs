@@ -58,5 +58,16 @@ namespace DiabetesTests
             Assert.IsInstanceOfType(result, typeof(bool));
             Assert.AreNotEqual(mockUser.Object.InfoSharing, result);
         }
+
+        [TestMethod]
+        public void WeightIsUpdated_DatabaseCall()
+        {
+            Mock<IAccountContext> mockContext = new Mock<IAccountContext>();
+            AccountLogic _logic = new AccountLogic(mockContext.Object);
+            mockContext.Setup(x => x.UpdateWeight(70, 9));
+
+            _logic.UpdateWeight(70, 9);
+            mockContext.Verify(x => x.UpdateWeight(70, 9), Times.Once);
+        }
     }
 }

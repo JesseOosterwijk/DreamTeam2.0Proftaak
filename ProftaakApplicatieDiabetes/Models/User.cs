@@ -82,5 +82,11 @@ namespace Models
             FirstName = firstName;
             UserAccountType = accountType;
         }
+
+        public User(int userId, int weight)
+        {
+            UserId = userId;
+            Weight = weight;
+        }
     }
 }
