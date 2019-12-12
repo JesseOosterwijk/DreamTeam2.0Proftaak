@@ -1,11 +1,12 @@
-﻿using Logic;
-using Logic.Interface;
+﻿using Logic.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using ProftaakApplicatieDiabetes.Models;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using ProftaakApplicatieDiabetes.ViewModels;
+using System;
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
@@ -37,19 +38,9 @@ namespace ProftaakApplicatieDiabetes.Controllers
             return View("UserOverview", uvm);
         }
 
-        public ActionResult ChangePassword()
-        {
-            return View("ChangePasswordView");
-        }
-
         public ActionResult DisableUser(User user)
         {
-            bool status = true;
-
-            if (user.Status)
-            {
-                status = false;
-            }
+            bool status = !user.Status;
 
             UserViewModel userViewModel = new UserViewModel
             {
@@ -57,8 +48,20 @@ namespace ProftaakApplicatieDiabetes.Controllers
             };
 
             _accountLogic.UpdateStatus(user.UserId, status);
-         
-            return View("UserOverview");
+
+            return View("UserOverview", userViewModel);
+        }
+
+        public ActionResult ChangePassword(User user)
+        {
+            string changedPassword = _accountLogic.ChangePassword(user.UserId);
+
+            UserViewModel userViewModel = new UserViewModel
+            {
+                Users = _userLogic.GetAllUsers()
+            };
+
+            return View("UserOverview", userViewModel);
         }
     }
 }

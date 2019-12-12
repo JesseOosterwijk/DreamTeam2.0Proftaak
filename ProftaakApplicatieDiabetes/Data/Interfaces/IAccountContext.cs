@@ -11,5 +11,6 @@ namespace Data.Interfaces
         bool SharingIsEnabled(int userId);
         void UpdateWeight(int weight, int id);
         void UpdateStatus(int id, bool status);
+        string ChangePassword(int id);
     }
 }
