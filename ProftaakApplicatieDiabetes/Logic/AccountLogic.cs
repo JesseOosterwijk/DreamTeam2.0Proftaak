@@ -51,5 +51,15 @@ namespace Logic
         {
             return _context.ChangePassword(id);
         }
+
+        public void EnableInfoDelete(int userId)
+        {
+            _context.EnableInfoDelete(userId);
+        }
+
+        public void DisableInfoDelete(int userId)
+        {
+            _context.DisableInfoDelete(userId);
+        }
     }
 }

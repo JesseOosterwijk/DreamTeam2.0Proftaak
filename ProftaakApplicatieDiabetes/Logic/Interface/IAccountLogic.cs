@@ -12,5 +12,7 @@ namespace Logic.Interface
         void UpdateWeight(int weight, int id);
         void UpdateStatus(int id, bool status);
         string ChangePassword(int id);
+        void EnableInfoDelete(int userId);
+        void DisableInfoDelete(int userId);
     }
 }
