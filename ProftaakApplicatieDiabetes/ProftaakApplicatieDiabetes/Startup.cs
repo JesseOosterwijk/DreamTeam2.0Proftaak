@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProftaakApplicatieDiabetes.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace ProftaakApplicatieDiabetes
 {
@@ -31,6 +33,7 @@ namespace ProftaakApplicatieDiabetes
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -74,7 +77,7 @@ namespace ProftaakApplicatieDiabetes
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            
             app.UseAuthentication();
 
             app.UseMvc(routes =>
@@ -83,7 +86,6 @@ namespace ProftaakApplicatieDiabetes
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
         }
     }
 }
