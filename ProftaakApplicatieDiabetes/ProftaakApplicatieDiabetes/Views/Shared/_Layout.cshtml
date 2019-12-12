@@ -31,7 +31,7 @@
                         {
                             @if (User.IsInRole("Admin"))
                             {
-                                <li><a asp-area="" asp-controller="Admin" asp-action="UserOverview">Useroverview</a></li>
+                                <li><a asp-area="" asp-controller="Admin" asp-action="UserOverview">User overview</a></li>
                             }
                              <li><a asp-area="" asp-controller="User" asp-action="SettingsMenu">Settings</a></li>
                             <li><a asp-area="" asp-controller="User" asp-action="Logout">Logout</a></li>
@@ -39,7 +39,7 @@
                         else
                         {
                             <li><a asp-area="" asp-controller="User" asp-action="Login">Login</a></li>
-                            <li><a asp-area="" asp-controller="User" asp-action="CreateAccount">Registreer</a></li>
+                            <li><a asp-area="" asp-controller="User" asp-action="CreateAccount">Register</a></li>
                         }
 
                     </ul>

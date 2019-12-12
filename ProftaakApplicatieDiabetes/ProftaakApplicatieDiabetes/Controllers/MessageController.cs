@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Enums;
 using Microsoft.AspNetCore.Mvc;
 using ProftaakApplicatieDiabetes.ViewModels;
 using Logic.Interface;
-using Models;
 using Microsoft.AspNetCore.Authorization;
+using Models;
+
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
@@ -17,30 +20,52 @@ namespace ProftaakApplicatieDiabetes.Controllers
             _messageLogic = messageLogic;
         }
 
-        public IActionResult ViewMessage()
+        
+        public IActionResult ViewMessage(int id)
         {
+            MessageViewModel messageViewModel = new MessageViewModel();
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
-
-            MessageViewModel messageViewModel = new MessageViewModel()
+            if (User.IsInRole("Doctor"))
             {
-                Messages = _messageLogic.GetMessages(userId, _messageLogic.GetReceiverId(_messageLogic.GetAccountType(), userId))
-            };
-
+                messageViewModel.Messages =
+                    new List<MessageModel>(_messageLogic.ViewMessagesDoctor(
+                        AccountType.Doctor,
+                        userId,
+                        id
+                    ));
+                messageViewModel.OtherUserId = id;
+                messageViewModel.CoupleId = _messageLogic.GetConversationDoctor(userId, id);
+            }
+            if (User.IsInRole("CareRecipient"))
+            {
+                List<MessageModel> messages = _messageLogic.ViewMessagesPatient(
+                    AccountType.CareRecipient,
+                    userId);
+                messageViewModel.Messages.AddRange(messages);
+                messageViewModel.CoupleId = _messageLogic.GetConversationPatient(userId);
+            }
             return View(messageViewModel);
         }
 
         [HttpPost]
         public IActionResult SendMessage(MessageViewModel messageViewModel)
         {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
             MessageModel message = new MessageModel
             {
+                SenderId =  userId,
                 Title = messageViewModel.Title,
-                Content = messageViewModel.Content
-            }; 
+                Content = messageViewModel.Content,
+                CoupleId = messageViewModel.CoupleId
+            };
 
-            int senderId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+            _messageLogic.SendMessage(message);
 
-            _messageLogic.SendMessage(message, senderId, _messageLogic.GetReceiverId(_messageLogic.GetAccountType(), senderId));
+            if (User.IsInRole("Doctor"))
+            {
+                return RedirectToAction("ViewMessage", new {id = messageViewModel.OtherUserId});
+            }
 
             return RedirectToAction("ViewMessage");
         }

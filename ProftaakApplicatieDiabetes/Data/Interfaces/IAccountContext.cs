@@ -13,5 +13,6 @@ namespace Data.Interfaces
         void UpdateStatus(int id, bool status);
         void EnableInfoDelete(int userId);
         void DisableInfoDelete(int userId);
+        string ChangePassword(int id);
     }
 }

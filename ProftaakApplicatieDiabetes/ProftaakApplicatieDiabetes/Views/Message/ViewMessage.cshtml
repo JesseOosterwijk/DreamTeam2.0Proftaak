@@ -1,11 +1,16 @@
 ﻿@using Models
+@using ProftaakApplicatieDiabetes.ViewModels
 @model ProftaakApplicatieDiabetes.ViewModels.MessageViewModel
 @{
     ViewData["Title"] = "Message";
 }
 
+@if (Model.CoupleId == 0)
+{
+    <h2>You are not linked to a doctor</h2>
+}
 
-@if (Model.Messages.Count() == 0)
+else if (!Model.Messages.Any())
 {
     <h2>There are no messages if this is incorrect reload the page</h2>
 }
@@ -15,6 +20,8 @@
 
 <form asp-action="SendMessage">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input data-val="true" id="CoupleId" name="CoupleId" type="hidden" value="@Model.CoupleId">
+    <input data-val="true" id="OtherUserId" name="OtherUserId" type="hidden" value="@Model.OtherUserId">
     <div class="form-group">
         <label asp-for="Title" class="control-label"></label>
         <input asp-for="Title" class="form-control" required="" />
@@ -25,24 +32,21 @@
         <input asp-for="Content" class="form-control" required="" />
         <span asp-validation-for="Content" class="text-danger"></span>
     </div>
-
     <div class="form-group">
         <input type="submit" value="Send Message" class="btn btn-default" />
     </div>
 </form>
-@if (ViewBag.WasMessageSendSuccessfully != null)
-{
-    if (!ViewBag.WasMessageSendSuccessfully)
-    {
-        <p>Your message was not sent successfully</p>
-    }
-}
-
 @foreach (MessageModel message in Model.Messages)
 {
-    <h3><b>@message.Title</b></h3>
-    <p>@message.Content </p>
-    <p>@message.DateOfX</p>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title"><B>@message.Title</B></h5>
+            <h6 class="card-subtitle mb-2 text-muted">@message.SenderName</h6>
+            <p class="card-text">@message.Content</p>
+            <h6 class="card-subtitle mb-2 text-muted">@message.DateOfX</h6>
+
+        </div>
+    </div>
     <hr />
 }
 <a asp-controller="Home" asp-action="Index">Back to Home</a>

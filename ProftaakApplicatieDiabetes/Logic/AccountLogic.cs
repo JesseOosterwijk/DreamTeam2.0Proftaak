@@ -47,6 +47,11 @@ namespace Logic
             _context.UpdateStatus(id, status);
         }
 
+        public string ChangePassword(int id)
+        {
+            return _context.ChangePassword(id);
+        }
+
         public void EnableInfoDelete(int userId)
         {
             _context.EnableInfoDelete(userId);
