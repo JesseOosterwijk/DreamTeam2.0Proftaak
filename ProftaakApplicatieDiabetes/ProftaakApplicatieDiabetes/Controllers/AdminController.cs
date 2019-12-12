@@ -64,6 +64,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             _accountLogic.DeleteUser(user);
 
+
             return RedirectToAction("UserOverview");
         }
     }
