@@ -6,8 +6,10 @@ namespace Data.Interfaces
     public interface IMessageContext
     {
         void SendMessage(MessageModel message);
-        List<MessageModel> GetMessages(int senderId, int receiverId);
+        List<MessageModel> GetConversationMessages(int coupleId);
         int GetDoctorIdFromPatientId(int patientId);
+        int GetConversationPatient(int patientId);
+        int GetConversationDoctor(int doctorId, int patientId);
         void StartChat(int senderId, int receiverId);
     }
 }

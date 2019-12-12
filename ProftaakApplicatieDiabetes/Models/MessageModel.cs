@@ -7,7 +7,8 @@ namespace Models
     {
         public int MessageId { get; set; }
         public int SenderId { get; set; }
-        public int ReceiverId { get; set; }
+        public string SenderName { get; set; }
+        public int CoupleId { get; set; }
         public string Content { get; set; }
         public string Title { get; set; }
         public DateTime DateOfX { get; set; }
@@ -18,10 +19,11 @@ namespace Models
             Content = content;
         }
 
-        public MessageModel(int senderId, int receiverId, string content, string title, DateTime dateOfX)
+        public MessageModel(int messageId, int senderId, int coupleId, string content, string title, DateTime dateOfX)
         {
+            MessageId = messageId;
             SenderId = senderId;
-            ReceiverId = receiverId;
+            CoupleId = coupleId;
             Content = content;
             Title = title;
             DateOfX = dateOfX;

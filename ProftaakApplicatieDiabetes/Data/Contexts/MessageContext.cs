@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using Data.Interfaces;
 using Models;
 
@@ -12,39 +13,74 @@ namespace Data.Contexts
 
         public void SendMessage(MessageModel message)
         {
+            try
+            {
+                string query = "INSERT INTO Message (Content, Title, DateOf, CoupleId, SenderId) VALUES (@Content, @Title, @DateOf, @CoupleId, @SenderId) ";
+                using (SqlCommand com = new SqlCommand(query, _conn))
+                {
+                    _conn.Open();
 
-            //try
-            //{
-            //    string query =
-            //        "INSERT INTO Message (SenderId, ReceiverId, Content, Title, DateOf) VALUES (@senderID, @receiverID, @content, @title, @dateOf)";
+                    com.Parameters.AddWithValue("@Content", message.Content);
+                    com.Parameters.AddWithValue("@Title", message.Title);
+                    com.Parameters.AddWithValue("@DateOf", message.DateOfX);
+                    com.Parameters.AddWithValue("@CoupleId", message.CoupleId);
+                    com.Parameters.AddWithValue("@SenderId", message.SenderId);
 
-            //    using (SqlCommand command = new SqlCommand(query, _conn))
-            //    {
-            //        _conn.Open();
-            //        command.Parameters.AddWithValue("@senderID", message.SenderId);
-            //        command.Parameters.AddWithValue("@receiverID", message.ReceiverId);
-            //        command.Parameters.AddWithValue("@content", message.Content);
-            //        command.Parameters.AddWithValue("@title", message.Title);
-            //        command.Parameters.AddWithValue("@dateOf", message.DateOfX);
-
-            //        command.ExecuteNonQuery();
-            //    }
-            //}
-            //catch (Exception)
-            //{
-            //    _conn.Close();
-            //    return false;
-            //}
-            //finally
-            //{
-            //    _conn.Close();
-            //}
-
-            //return true;
-
+                    com.ExecuteNonQuery();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                _conn.Close();
+            }
         }
 
-        //TO BE REFACTORED
+        public List<MessageModel> GetConversationMessages(int coupleId)
+        {
+            List<MessageModel> messages = new List<MessageModel>();
+            try
+            {
+                string query = "SELECT MessageId, Content, Title, DateOf, SenderId, [User].FirstName, [User].LastName " +
+                               "FROM [Message] INNER JOIN [User] ON [Message].SenderId = [User].UserId " +
+                               "WHERE CoupleId = @CoupleId";
+
+                SqlCommand command = new SqlCommand(query, _conn);
+
+                command.Parameters.AddWithValue("@CoupleId", coupleId);
+                _conn.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    messages.Add(new MessageModel(
+                        reader.GetInt32(reader.GetOrdinal("MessageId")),
+                        reader.GetInt32(reader.GetOrdinal("SenderId")),
+                        coupleId,
+                        reader.GetString(reader.GetOrdinal("Content")),
+                        reader.GetString(reader.GetOrdinal("Title")),
+                        reader.GetDateTime(reader.GetOrdinal("DateOf"))
+                    )
+                    {
+                        SenderName = reader.GetString(reader.GetOrdinal("FirstName")),
+                    });
+                    var lastName = reader.GetString(reader.GetOrdinal("LastName"));
+                    messages.Last().SenderName += " " + lastName;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                _conn.Close();
+            }
+            return messages;
+        }
+
         public int GetDoctorIdFromPatientId(int patientId)
         {
             int doctorId = 0;
@@ -61,91 +97,99 @@ namespace Data.Contexts
                 {
                     doctorId = reader.GetInt32(reader.GetOrdinal("DoctorId"));
                 }
-
-                _conn.Close();
-                return doctorId;
             }
             catch (Exception e)
             {
-                _conn.Close();
-                throw e;
-            }
-        }
-
-        public List<MessageModel> GetMessages(int senderId, int receiverId)
-        {
-
-            List<MessageModel> messages = new List<MessageModel>();
-            return messages;
-            //try
-            //{
-            //    string query = "SELECT SenderId, ReceiverId, Content, Title, DateOf FROM Message WHERE SenderId = @senderID AND ReceiverId = @receiverID";
-
-            //    using (SqlCommand command = new SqlCommand(query, _conn))
-            //    {
-            //        _conn.Open();
-
-            //        command.Parameters.AddWithValue("@senderID", senderId);
-            //        command.Parameters.AddWithValue("@receiverID", receiverId);
-
-            //        SqlDataReader reader = command.ExecuteReader();
-            //        while (reader.Read())
-            //        {
-            //            MessageModel message = new MessageModel
-            //            {
-            //                SenderId = (int)reader["SenderID"],
-            //                ReceiverId = (int)reader["ReceiverId"],
-            //                Content = (string)reader["Content"],
-            //                Title = (string)reader["Title"],
-            //                DateOfX = (DateTime)reader["DateOf"]
-            //            };
-
-            //            messages.Add(message);
-            //        }
-            //        reader.Close();
-            //        return messages;
-            //    }
-            //}
-            //catch (Exception)
-            //{                
-            //    _conn.Close();
-            //    return messages;
-            //}
-            //finally
-            //{
-            //    _conn.Close();
-            //}          
-        }
-
-        public void StartChat(int senderId, int receiverId)
-        {
-            try
-            {
-                string query = "Insert into [UserMessage] (ReceiverId, SenderId) Values (@ReceiverId, @SenderId)";
-
-                using (SqlCommand com = new SqlCommand(query, _conn))
-                {
-                    _conn.Open();
-
-                    com.Parameters.AddWithValue("@SenderId", senderId);
-                    com.Parameters.AddWithValue("@ReceiverId", receiverId);
-
-                    com.ExecuteNonQuery();
-                }
-            }
-            catch (Exception)
-            {
-                _conn.Close();
+                Console.WriteLine(e);
             }
             finally
             {
                 _conn.Close();
             }
+            return doctorId;
         }
 
-        private void GetCouple()
+        public int GetConversationPatient(int patientId)
         {
+            int coupleId = 0;
+            try
+            {
+                string query = "SELECT CoupleId FROM UserMessage WHERE PatientId = @patientId";
 
+                SqlCommand command = new SqlCommand(query, _conn);
+                command.Parameters.AddWithValue("@patientId", patientId);
+
+                _conn.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    coupleId = reader.GetInt32(reader.GetOrdinal("CoupleId"));
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                _conn.Close();
+            }
+            return coupleId;
+        }
+
+        public int GetConversationDoctor(int doctorId, int patientId)
+        {
+            int coupleId = 0;
+            try
+            {
+                string query = "SELECT CoupleId FROM UserMessage WHERE PatientId = @patientId AND DoctorId = @doctorId";
+
+                SqlCommand command = new SqlCommand(query, _conn);
+                command.Parameters.AddWithValue("@patientId", patientId);
+                command.Parameters.AddWithValue("@doctorId", doctorId);
+
+                _conn.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    coupleId = reader.GetInt32(reader.GetOrdinal("CoupleId"));
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                _conn.Close();
+            }
+            return coupleId;
+        }
+
+        public void StartChat(int doctorId, int patientId)
+        {
+            try
+            {
+                string query = "INSERT INTO [UserMessage] (DoctorId, PatientId) VALUES (@DoctorId, @PatientId)";
+
+                using (SqlCommand com = new SqlCommand(query, _conn))
+                {
+                    _conn.Open();
+
+                    com.Parameters.AddWithValue("@DoctorId", doctorId);
+                    com.Parameters.AddWithValue("@PatientId", patientId);
+
+                    com.ExecuteNonQuery();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                _conn.Close();
+            }
         }
     }
 }
