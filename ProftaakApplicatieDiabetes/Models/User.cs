@@ -44,6 +44,24 @@ namespace Models
             Status = status;
         }
 
+        public User(int userId, int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, DateTime dateOfBirth, int weight, bool status, bool infoDelete)
+        {
+            UserId = userId;
+            BSN = userBSN;
+            UserAccountType = accountType;
+            FirstName = firstName;
+            LastName = lastName;
+            EmailAddress = email;
+            Password = password;
+            Address = address;
+            Residence = residence;
+            UserGender = gender;
+            BirthDate = dateOfBirth;
+            Weight = weight;
+            Status = status;
+            InfoDeleteAllow = infoDelete;
+        }
+
         public User(int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, DateTime dateOfBirth, int weight, bool status)
         {
             BSN = userBSN;
