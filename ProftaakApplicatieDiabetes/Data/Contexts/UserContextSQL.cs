@@ -341,12 +341,11 @@ namespace Data.Contexts
                 MailAddress fromAddress = new MailAddress("maildiabetesdreamteam@gmail.com", "NoReply Dreamteam 2.0");
                 MailAddress toAddress = new MailAddress(emailaddress);
                 const string subject = "New password";
-                string body = "L.S., \n" +
+                string body = "L.S.,\n" +
                                     "U heeft een nieuw wachtwoord aangevraagd!\n" +
-                                    "Uw nieuwe wachtwoord is: " + newPassword + ".\n " +
-                                    "Met vriendelijke groet, \n" +
+                                    "Uw nieuwe wachtwoord is: " + newPassword + ".\n" +
+                                    "Met vriendelijke groet,\n" +
                                     "Het administratorteam van DreamTeam 2.0";
-
                 SmtpClient smtp = new SmtpClient
                 {
                     Host = "smtp.gmail.com",
