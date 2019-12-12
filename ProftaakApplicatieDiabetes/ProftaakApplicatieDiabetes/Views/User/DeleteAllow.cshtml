@@ -1,6 +1,10 @@
 ﻿@using System.Security.Claims;
 @model ProftaakApplicatieDiabetes.Models.UserViewModel
 
+@{
+    ViewData["Title"] = "DeleteAllow";
+}
+
 <div class="row">
     <!-- side nav-->
     <aside class="col-sm-6 col-md-3 card  my-4">
@@ -39,9 +43,9 @@
         <h3>@ViewBag.Description</h3>
         <br />
         <div class="container" style="margin-left:200px;">
-            @Html.ActionLink("Gegevens delen aanzetten", "AllowInfoShare", "User", new { patientId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value }, new { @class = "button", style = "position:inherit" })
+            @Html.ActionLink("Gegevens verwijderen toestaan", "EnableInfoDelete", "User", new { patientId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value }, new { @class = "button", style = "margin-top: 20px; width:500px" })
 
-            @Html.ActionLink("Gegevens delen uitzetten", "DisableInfoShare", "User", new { patientId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value }, new { @class = "button", style = "position:inherit" })
+            @Html.ActionLink("Gegevens verwijderen niet toestaan", "DisableInfoDelete", "User", new { patientId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value }, new { @class = "button", style = "margin-top: 20px; width: 500px" })
         </div>
     </section>
 

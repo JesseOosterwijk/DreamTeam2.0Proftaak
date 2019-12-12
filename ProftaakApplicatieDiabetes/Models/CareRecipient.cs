@@ -10,7 +10,7 @@ namespace Models
 
         }
 
-        public CareRecipient(int userId, int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, DateTime dateOfBirth, int weight, bool status) : base(userId, userBSN, accountType, firstName, lastName, email, password, address, residence, gender, dateOfBirth, weight, status)
+        public CareRecipient(int userId, int userBSN, AccountType accountType, string firstName, string lastName, string email, string password, string address, string residence, Gender gender, DateTime dateOfBirth, int weight, bool status, bool infoDelete) : base(userId, userBSN, accountType, firstName, lastName, email, password, address, residence, gender, dateOfBirth, weight, status, infoDelete)
         {
         }
     }

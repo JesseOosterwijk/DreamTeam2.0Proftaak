@@ -57,6 +57,10 @@ namespace Logic
             return _user.GetAllUsers();
         }
 
+        public bool SendEmail(string emailAddress, string newPassword)
+        {
+            return _user.SendEmail(emailAddress, newPassword);
+        }
 
     }
 }

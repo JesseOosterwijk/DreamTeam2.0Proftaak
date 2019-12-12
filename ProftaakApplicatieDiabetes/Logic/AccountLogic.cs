@@ -1,5 +1,6 @@
 ﻿using Data.Interfaces;
 using Logic.Interface;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -50,6 +51,36 @@ namespace Logic
         public string ChangePassword(int id)
         {
             return _context.ChangePassword(id);
+        }
+
+        public void EnableInfoDelete(int userId)
+        {
+            _context.EnableInfoDelete(userId);
+        }
+
+        public void DisableInfoDelete(int userId)
+        {
+            _context.DisableInfoDelete(userId);
+        }
+
+        public bool DeleteInfoIsEnabled(int userId)
+        {
+            if (_context.DeleteInfoIsEnabled(userId))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void DeleteUser(User user)
+        {
+            if (DeleteInfoIsEnabled(user.UserId))
+            {
+                _context.DeleteUser(user);
+            }
         }
     }
 }
