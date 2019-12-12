@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,5 +15,7 @@ namespace Logic.Interface
         string ChangePassword(int id);
         void EnableInfoDelete(int userId);
         void DisableInfoDelete(int userId);
+        bool DeleteInfoIsEnabled(int userId);
+        void DeleteUser(User user);
     }
 }

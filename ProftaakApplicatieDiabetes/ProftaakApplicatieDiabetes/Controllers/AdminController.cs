@@ -32,7 +32,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             UserViewModel uvm = new UserViewModel()
             {
-                Users = _userLogic.GetAllUsers()
+                Users = _userLogic.GetAllUsers(),
             };
 
             return View("UserOverview", uvm);
@@ -62,6 +62,13 @@ namespace ProftaakApplicatieDiabetes.Controllers
             };
 
             return View("UserOverview", userViewModel);
+        }
+
+        public IActionResult DeleteUser(User user)
+        {
+            _accountLogic.DeleteUser(user);
+
+            return View();
         }
     }
 }

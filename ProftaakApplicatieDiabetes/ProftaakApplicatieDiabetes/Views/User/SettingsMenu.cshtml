@@ -57,6 +57,14 @@
             {
                 <div><b>Uw informatie wordt NIET gedeeld met uw doktor</b></div>
             }
+            @if (Model.DeleteAllow == true)
+            {
+                <div><b>De administrator heeft toestemming om uw informatie te verwijderen</b></div>
+            }
+            @if (Model.DeleteAllow == false)
+            {
+                <div><b>De administrator heeft GEEN toestemming om uw informatie te verwijderen</b></div>
+            }
         }
     </div>
 

@@ -1,7 +1,52 @@
-﻿
+﻿@using System.Security.Claims;
+@model ProftaakApplicatieDiabetes.Models.UserViewModel
+
 @{
     ViewData["Title"] = "DeleteAllow";
 }
 
-<h2>DeleteAllow</h2>
+<div class="row">
+    <!-- side nav-->
+    <aside class="col-sm-6 col-md-3 card  my-4">
+        <h3>Settings pagina's</h3>
+        <hr />
+        <ul>
+            <li>
+                <a href="/User/SettingsMenu" class="active">
+                    <span class="fa fa-gear"></span>
+                    Gebruikers info
+                </a>
+            </li>
+            <li>
+                <a href="/User/InfoSharing" class="active">
+                    <span class="fa fa-gear"></span>
+                    Data delen
+                </a>
+            </li>
+            <li>
+                <a href="/User/DeleteAllow" class="active">
+                    <span class="fa fa-gear"></span>
+                    Data verwijderen toestaan
+                </a>
+            </li>
+            <li>
+                <a href="/User/UpdateUserInfo">
+                    <span class="fa fa-wrench"></span>
+                    Gebruiker aanpassen
+                </a>
+            </li>
+        </ul>
+    </aside>
 
+    <section class="col-sm-6 col-md-8 offset-md-1" id="main-content">
+        <h3>@ViewBag.Result</h3>
+        <h3>@ViewBag.Description</h3>
+        <br />
+        <div class="container" style="margin-left:200px;">
+            @Html.ActionLink("Gegevens verwijderen toestaan", "EnableInfoDelete", "User", new { patientId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value }, new { @class = "button", style = "margin-top: 20px; width:500px" })
+
+            @Html.ActionLink("Gegevens verwijderen niet toestaan", "DisableInfoDelete", "User", new { patientId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value }, new { @class = "button", style = "margin-top: 20px; width: 500px" })
+        </div>
+    </section>
+
+</div>
