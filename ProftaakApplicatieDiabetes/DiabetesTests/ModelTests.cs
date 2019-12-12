@@ -2,8 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProftaakApplicatieDiabetes.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DiabetesTests
 {
