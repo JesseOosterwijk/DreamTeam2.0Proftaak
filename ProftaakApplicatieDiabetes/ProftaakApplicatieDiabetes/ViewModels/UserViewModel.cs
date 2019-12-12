@@ -40,7 +40,6 @@ namespace ProftaakApplicatieDiabetes.Models
 
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Geboortedag vereist!")]
-        //[Range(typeof(DateTime), DateTime.MinValue.ToString(), DateTime.Today.ToString())]
         public DateTime BirthDate { get; set; }
 
         public string UserGender { get; set; }
@@ -53,6 +52,8 @@ namespace ProftaakApplicatieDiabetes.Models
         public User Doctor { get; set; }
 
         public bool ShareInfo { get; set; }
+
+        public bool DeleteAllow { get; set; }
 
         public IEnumerable<User> Users { get; set; }
 
@@ -71,6 +72,7 @@ namespace ProftaakApplicatieDiabetes.Models
             BirthDate = user.BirthDate.Date;
             Status = user.Status;
             ShareInfo = user.InfoSharing;
+            DeleteAllow = user.InfoDeleteAllow;
         }
 
         public UserViewModel()

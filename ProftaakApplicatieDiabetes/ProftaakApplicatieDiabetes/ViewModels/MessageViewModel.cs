@@ -15,11 +15,6 @@ namespace ProftaakApplicatieDiabetes.ViewModels
 
         public List<MessageModel> Messages { get; set; } = new List<MessageModel>();
 
-        public bool WasSendMessageSuccess { get; set; }
-
-        public MessageViewModel()
-        {
-            WasSendMessageSuccess = true;
-        }
+        public int OtherUserId { get; set; }
     }
 }

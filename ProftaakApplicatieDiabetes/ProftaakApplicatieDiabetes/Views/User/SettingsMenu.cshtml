@@ -25,6 +25,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="/User/DeleteAllow" class="active">
+                        <span class="fa fa-gear"></span>
+                        Data verwijderen toestaan
+                    </a>
+                </li>
+                <li>
                     <a href="/User/UpdateUserInfo">
                         <span class="fa fa-wrench"></span>
                         Gebruiker aanpassen
@@ -50,6 +56,14 @@
             @if (Model.ShareInfo == false)
             {
                 <div><b>Uw informatie wordt NIET gedeeld met uw doktor</b></div>
+            }
+            @if (Model.DeleteAllow == true)
+            {
+                <div><b>De administrator heeft toestemming om uw informatie te verwijderen</b></div>
+            }
+            @if (Model.DeleteAllow == false)
+            {
+                <div><b>De administrator heeft GEEN toestemming om uw informatie te verwijderen</b></div>
             }
         }
     </div>

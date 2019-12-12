@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using ProftaakApplicatieDiabetes.Models;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
-using ProftaakApplicatieDiabetes.ViewModels;
-using System;
 
 namespace ProftaakApplicatieDiabetes.Controllers
 {
@@ -32,7 +28,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             UserViewModel uvm = new UserViewModel()
             {
-                Users = _userLogic.GetAllUsers()
+                Users = _userLogic.GetAllUsers(),
             };
 
             return View("UserOverview", uvm);
@@ -55,13 +51,21 @@ namespace ProftaakApplicatieDiabetes.Controllers
         public ActionResult ChangePassword(User user)
         {
             string changedPassword = _accountLogic.ChangePassword(user.UserId);
-
+            _userLogic.SendEmail(user.EmailAddress, changedPassword);
             UserViewModel userViewModel = new UserViewModel
             {
                 Users = _userLogic.GetAllUsers()
             };
 
             return View("UserOverview", userViewModel);
+        }
+
+        public IActionResult DeleteUser(User user)
+        {
+            _accountLogic.DeleteUser(user);
+
+
+            return RedirectToAction("UserOverview");
         }
     }
 }

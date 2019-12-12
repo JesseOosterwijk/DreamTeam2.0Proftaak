@@ -176,10 +176,24 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
             var accountType = (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value);
-            UserViewModel model = new UserViewModel(_userLogic.GetUserById(userId));
+            UserViewModel model = new UserViewModel(_userLogic.GetUserById(userId))
+            {
+                Type = accountType.ToString(),
+                ShareInfo = _accountLogic.SharingIsEnabled(userId),
+                DeleteAllow = _accountLogic.DeleteInfoIsEnabled(userId)
+            };
+            return View(model);
+        }
 
-            model.Type = accountType.ToString();
-            model.ShareInfo = _accountLogic.SharingIsEnabled(userId);
+        [Authorize(Policy = "CareRecipient")]
+        public IActionResult UpdateUserInfo()
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+
+            UserViewModel model = new UserViewModel
+            {
+                Weight = _userLogic.GetUserById(userId).Weight
+            };
             return View(model);
         }
 
@@ -201,23 +215,10 @@ namespace ProftaakApplicatieDiabetes.Controllers
         }
 
         [Authorize(Policy = "CareRecipient")]
-        public IActionResult UpdateUserInfo()
-        {
-            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
-
-            UserViewModel model = new UserViewModel
-            {
-                Weight = _userLogic.GetUserById(userId).Weight
-            };
-            return View(model);
-        }
-
-        [Authorize(Policy = "CareRecipient")]
         public IActionResult AllowInfoShare(int patientId)
         {
             _accountLogic.AllowInfoSharing(patientId);
 
-            ViewBag.Result = "Het delen van gegevens is ingeschakeld";
             return RedirectToAction("InfoSharing");
         }
 
@@ -226,8 +227,40 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             _accountLogic.DisableInfoSharing(patientId);
 
-            ViewBag.Result = "Het delen van gegevens is uitgeschakeld";
             return RedirectToAction("InfoSharing");
+        }
+
+        [Authorize(Policy = "CareRecipient")]
+        public IActionResult DeleteAllow()
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+
+            if (_accountLogic.DeleteInfoIsEnabled(userId) == true)
+            {
+                ViewBag.Description = "Gegevens verwijderen wordt op dit moment toegestaan";
+                return View();
+            }
+            else
+            {
+                ViewBag.Description = "Gegevens verwijderen wordt op dit moment niet toegestaan";
+                return View();
+            }
+        }
+
+        [Authorize(Policy = "CareRecipient")]
+        public IActionResult EnableInfoDelete(int patientId)
+        {
+            _accountLogic.EnableInfoDelete(patientId);
+
+            return RedirectToAction("DeleteAllow");
+        }
+
+        [Authorize(Policy = "CareRecipient")]
+        public IActionResult DisableInfoDelete(int patientId)
+        {
+            _accountLogic.DisableInfoDelete(patientId);
+
+            return RedirectToAction("DeleteAllow");
         }
 
         [HttpPost]
