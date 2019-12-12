@@ -271,10 +271,11 @@ namespace Data.Contexts
         {
             try
             {
-                string query = "DELETE FROM [Review] WHERE [ReviewID] = " + user.UserId;
+                string query = "DELETE FROM [User] WHERE UserId = @UserId";
                 using (SqlCommand com = new SqlCommand(query, _conn))
                 {
                     _conn.Open();
+                    com.Parameters.AddWithValue("@UserId", user.UserId);
                     com.ExecuteNonQuery();
                     _conn.Close();
                 }
