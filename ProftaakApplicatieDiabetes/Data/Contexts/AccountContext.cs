@@ -156,7 +156,7 @@ namespace Data.Contexts
                         UserId = (int)rdr["UserId"],
                         InfoDeleteAllow = (bool)rdr["InfoDeleteAllow"]
                     };
-                    if (user.InfoSharing == false)
+                    if (user.InfoDeleteAllow == false)
                     {
                         rdr.Close();
                         _conn.Close();
@@ -256,6 +256,29 @@ namespace Data.Contexts
                     cmd.ExecuteNonQuery();
                 }
                 return password;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
+        public void DeleteUser(User user)
+        {
+            try
+            {
+                string query = "DELETE FROM [User] WHERE UserId = @UserId";
+                using (SqlCommand com = new SqlCommand(query, _conn))
+                {
+                    _conn.Open();
+                    com.Parameters.AddWithValue("@UserId", user.UserId);
+                    com.ExecuteNonQuery();
+                    _conn.Close();
+                }
             }
             catch (Exception)
             {

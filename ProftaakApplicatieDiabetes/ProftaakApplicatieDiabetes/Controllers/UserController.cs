@@ -180,6 +180,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
 
             model.Type = accountType.ToString();
             model.ShareInfo = _accountLogic.SharingIsEnabled(userId);
+            model.DeleteAllow = _accountLogic.DeleteInfoIsEnabled(userId);
             return View(model);
         }
 
@@ -217,7 +218,6 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             _accountLogic.AllowInfoSharing(patientId);
 
-            ViewBag.Result = "Het delen van gegevens is ingeschakeld";
             return RedirectToAction("InfoSharing");
         }
 
@@ -226,7 +226,6 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             _accountLogic.DisableInfoSharing(patientId);
 
-            ViewBag.Result = "Het delen van gegevens is uitgeschakeld";
             return RedirectToAction("InfoSharing");
         }
 
@@ -235,14 +234,14 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
 
-            if (_accountLogic.SharingIsEnabled(userId) == true)
+            if (_accountLogic.DeleteInfoIsEnabled(userId) == true)
             {
-                ViewBag.Description = "Gegevens delen staat op dit moment aan";
+                ViewBag.Description = "Gegevens verwijderen wordt op dit moment toegestaan";
                 return View();
             }
             else
             {
-                ViewBag.Description = "Gegevens delen staat op dit moment uit";
+                ViewBag.Description = "Gegevens verwijderen wordt op dit moment niet toegestaan";
                 return View();
             }
         }
@@ -252,8 +251,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             _accountLogic.EnableInfoDelete(patientId);
 
-            ViewBag.Result = "Het toestaan van gegevens verwijderen staat aan";
-            return RedirectToAction("InfoSharing");
+            return RedirectToAction("DeleteAllow");
         }
 
         [Authorize(Policy = "CareRecipient")]
@@ -261,8 +259,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             _accountLogic.DisableInfoDelete(patientId);
 
-            ViewBag.Result = "Het toestaan van gegevens verwijderen staat uit";
-            return RedirectToAction("InfoSharing");
+            return RedirectToAction("DeleteAllow");
         }
 
         [HttpPost]

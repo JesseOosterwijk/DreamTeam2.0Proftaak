@@ -53,6 +53,8 @@ namespace ProftaakApplicatieDiabetes.Models
 
         public bool ShareInfo { get; set; }
 
+        public bool DeleteAllow { get; set; }
+
         public IEnumerable<User> Users { get; set; }
 
         public UserViewModel(User user)
@@ -70,6 +72,7 @@ namespace ProftaakApplicatieDiabetes.Models
             BirthDate = user.BirthDate.Date;
             Status = user.Status;
             ShareInfo = user.InfoSharing;
+            DeleteAllow = user.InfoDeleteAllow;
         }
 
         public UserViewModel()
