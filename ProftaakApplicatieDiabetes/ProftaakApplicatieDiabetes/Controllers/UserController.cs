@@ -184,6 +184,18 @@ namespace ProftaakApplicatieDiabetes.Controllers
         }
 
         [Authorize(Policy = "CareRecipient")]
+        public IActionResult UpdateUserInfo()
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+
+            UserViewModel model = new UserViewModel
+            {
+                Weight = _userLogic.GetUserById(userId).Weight
+            };
+            return View(model);
+        }
+
+        [Authorize(Policy = "CareRecipient")]
         public IActionResult InfoSharing()
         {
             var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
@@ -201,18 +213,6 @@ namespace ProftaakApplicatieDiabetes.Controllers
         }
 
         [Authorize(Policy = "CareRecipient")]
-        public IActionResult UpdateUserInfo()
-        {
-            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
-
-            UserViewModel model = new UserViewModel
-            {
-                Weight = _userLogic.GetUserById(userId).Weight
-            };
-            return View(model);
-        }
-
-        [Authorize(Policy = "CareRecipient")]
         public IActionResult AllowInfoShare(int patientId)
         {
             _accountLogic.AllowInfoSharing(patientId);
@@ -227,6 +227,41 @@ namespace ProftaakApplicatieDiabetes.Controllers
             _accountLogic.DisableInfoSharing(patientId);
 
             ViewBag.Result = "Het delen van gegevens is uitgeschakeld";
+            return RedirectToAction("InfoSharing");
+        }
+
+        [Authorize(Policy = "CareRecipient")]
+        public IActionResult DeleteAllow()
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+
+            if (_accountLogic.SharingIsEnabled(userId) == true)
+            {
+                ViewBag.Description = "Gegevens delen staat op dit moment aan";
+                return View();
+            }
+            else
+            {
+                ViewBag.Description = "Gegevens delen staat op dit moment uit";
+                return View();
+            }
+        }
+
+        [Authorize(Policy = "CareRecipient")]
+        public IActionResult EnableInfoDelete(int patientId)
+        {
+            _accountLogic.EnableInfoDelete(patientId);
+
+            ViewBag.Result = "Het toestaan van gegevens verwijderen staat aan";
+            return RedirectToAction("InfoSharing");
+        }
+
+        [Authorize(Policy = "CareRecipient")]
+        public IActionResult DisableInfoDelete(int patientId)
+        {
+            _accountLogic.DisableInfoDelete(patientId);
+
+            ViewBag.Result = "Het toestaan van gegevens verwijderen staat uit";
             return RedirectToAction("InfoSharing");
         }
 

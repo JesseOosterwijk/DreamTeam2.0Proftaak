@@ -46,5 +46,15 @@ namespace Logic
         {
             _context.UpdateStatus(id, status);
         }
+
+        public void EnableInfoDelete(int userId)
+        {
+            _context.EnableInfoDelete(userId);
+        }
+
+        public void DisableInfoDelete(int userId)
+        {
+            _context.DisableInfoDelete(userId);
+        }
     }
 }
