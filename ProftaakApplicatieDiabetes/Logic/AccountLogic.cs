@@ -1,12 +1,6 @@
 ﻿using Data.Interfaces;
 using Logic.Interface;
-<<<<<<< HEAD
-=======
 using Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
->>>>>>> f0195e281c00f3af562f5d470aad4a487a638e44
 
 namespace Logic
 {
