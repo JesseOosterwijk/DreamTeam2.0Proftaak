@@ -13,7 +13,7 @@
                 @if (User.IsInRole("CareRecipient"))
                 {
                     <a asp-action="Calculate" asp-controller="Calc" class="button">Calculate</a>
-                    <a asp-action="ViewMessage" asp-controller="Message" class="button">Chat</a>
+                    <a asp-action="ViewMessage" id="SeeChat" asp-controller="Message" class="button">Chat</a>
                 }
                 @if (User.IsInRole("Doctor"))
                 {

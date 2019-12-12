@@ -33,7 +33,7 @@ else if (!Model.Messages.Any())
         <span asp-validation-for="Content" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <input type="submit" value="Send Message" class="btn btn-default" />
+        <input type="submit" id="SendMessage" value="Send Message" class="btn btn-default" />
     </div>
 </form>
 @foreach (MessageModel message in Model.Messages)
