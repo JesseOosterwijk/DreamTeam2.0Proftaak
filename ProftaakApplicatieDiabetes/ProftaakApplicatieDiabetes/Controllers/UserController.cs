@@ -71,7 +71,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
                 switch (newCustomer.UserAccountType)
                 {
                     case Enums.AccountType.Admin:
-                        return RedirectToAction("Index", "Admin");
+                        return RedirectToAction("UserOverView", "Admin");
                     case Enums.AccountType.CareRecipient:
                         return RedirectToAction("Index", "Home");
                     case Enums.AccountType.Doctor:
