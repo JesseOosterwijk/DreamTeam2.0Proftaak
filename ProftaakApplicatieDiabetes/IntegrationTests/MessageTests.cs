@@ -29,7 +29,6 @@ namespace Tests
         private void AcceptCooky()
         {
             _driver.FindElement(By.Id("AcceptCookie")).Click();
-            _driver.FindElement(By.Id("Login")).Click();
         }
 
         private void LoginAsPatient()
@@ -61,6 +60,8 @@ namespace Tests
             LoadHome();
 
             AcceptCooky();
+            _driver.FindElement(By.Id("Login")).Click();
+
 
             LoginAsPatient();
 
@@ -74,6 +75,8 @@ namespace Tests
         {
             LoadHome();
             AcceptCooky();
+            _driver.FindElement(By.Id("Login")).Click();
+
             LoginAsPatient();
 
             _driver.FindElement(By.Id("SeeChat")).Click();
@@ -88,10 +91,35 @@ namespace Tests
         }
 
         [Test]
+        public void PatientSendDoctorReadMessage()
+        {
+            LoadHome();
+            AcceptCooky();
+            _driver.FindElement(By.Id("Login")).Click();
+
+            LoginAsPatient();
+            _driver.FindElement(By.Id("SeeChat")).Click();
+            DateTime currentDateTime = DateTime.Now;
+            SendMessage(currentDateTime);
+
+            _driver.FindElement(By.Id("Logout")).Click();
+            _driver.FindElement(By.Id("Login")).Click();
+
+            LoginAsDoctor();
+            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/71");
+
+            Assert.True(_driver.PageSource.Contains("title " + currentDateTime));
+            Assert.True(_driver.PageSource.Contains("content " + currentDateTime));
+            Assert.AreEqual("Message - ProftaakApplicatieDiabetes", _driver.Title);
+        }
+
+        [Test]
         public void LoadDoctorMessage()
         {
             LoadHome();
             AcceptCooky();
+            _driver.FindElement(By.Id("Login")).Click();
+
             LoginAsDoctor();
             _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/71");
 
@@ -103,6 +131,8 @@ namespace Tests
         {
             LoadHome();
             AcceptCooky();
+            _driver.FindElement(By.Id("Login")).Click();
+
             LoginAsDoctor();
             _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/71");
             DateTime currentDateTime = DateTime.Now;
@@ -113,6 +143,30 @@ namespace Tests
             Assert.True(_driver.PageSource.Contains("content " + currentDateTime));
             Assert.AreEqual("Message - ProftaakApplicatieDiabetes", _driver.Title);
         }
+
+        [Test]
+        public void DoctorSendPatientReadMessage()
+        {
+            LoadHome();
+            AcceptCooky();
+            _driver.FindElement(By.Id("Login")).Click();
+
+            LoginAsDoctor();
+            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/71");
+            DateTime currentDateTime = DateTime.Now;
+            SendMessage(currentDateTime);
+
+            _driver.FindElement(By.Id("Logout")).Click();
+            _driver.FindElement(By.Id("Login")).Click();
+
+            LoginAsPatient();
+            _driver.FindElement(By.Id("SeeChat")).Click();
+
+            Assert.True(_driver.PageSource.Contains("title " + currentDateTime));
+            Assert.True(_driver.PageSource.Contains("content " + currentDateTime));
+            Assert.AreEqual("Message - ProftaakApplicatieDiabetes", _driver.Title);
+        }
+
 
         [TearDown]
         public void TearDownTest()
