@@ -1,8 +1,5 @@
 ﻿using Data.Interfaces;
 using Logic.Interface;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Logic
 {

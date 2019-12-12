@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using Logic;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Logic.Interface;
-using Models;
 using ProftaakApplicatieDiabetes.ViewModels;
 using ProftaakApplicatieDiabetes.Models;
 using System.Linq;

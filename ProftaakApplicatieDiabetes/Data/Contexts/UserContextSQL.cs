@@ -338,17 +338,13 @@ namespace Data.Contexts
         {
             try
             {
-                MailAddress fromAddress = new MailAddress("maildiabetesapplication@gmail.com", "NoReply Dreamteam 2.0");
+                MailAddress fromAddress = new MailAddress("maildiabetesdreamteam@gmail.com", "NoReply Dreamteam 2.0");
                 MailAddress toAddress = new MailAddress(emailaddress);
-                string fromPassword = newPassword;
-                const string subject = "New professional acocunt";
-                string body = "Hello there," +
-                                    "" +
-                                    "U heeft een nieuw wachtwoord aangevraagd!" +
-                                    "Uw nieuwe wachtwoord is: " + newPassword +
-                                    "" +
-                                    "Met vriendelijke groet," +
-                                    "" +
+                const string subject = "New password";
+                string body = "L.S., \n" +
+                                    "U heeft een nieuw wachtwoord aangevraagd!\n" +
+                                    "Uw nieuwe wachtwoord is: " + newPassword + ".\n " +
+                                    "Met vriendelijke groet, \n" +
                                     "Het administratorteam van DreamTeam 2.0";
 
                 SmtpClient smtp = new SmtpClient
@@ -358,7 +354,7 @@ namespace Data.Contexts
                     EnableSsl = true,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                    Credentials = new NetworkCredential(fromAddress.Address, "domww112")
                 };
                 using (MailMessage message = new MailMessage(fromAddress, toAddress)
                 {
