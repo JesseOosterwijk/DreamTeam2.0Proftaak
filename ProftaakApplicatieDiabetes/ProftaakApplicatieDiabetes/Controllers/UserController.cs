@@ -176,11 +176,12 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
             var accountType = (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value);
-            UserViewModel model = new UserViewModel(_userLogic.GetUserById(userId));
-
-            model.Type = accountType.ToString();
-            model.ShareInfo = _accountLogic.SharingIsEnabled(userId);
-            model.DeleteAllow = _accountLogic.DeleteInfoIsEnabled(userId);
+            UserViewModel model = new UserViewModel(_userLogic.GetUserById(userId))
+            {
+                Type = accountType.ToString(),
+                ShareInfo = _accountLogic.SharingIsEnabled(userId),
+                DeleteAllow = _accountLogic.DeleteInfoIsEnabled(userId)
+            };
             return View(model);
         }
 

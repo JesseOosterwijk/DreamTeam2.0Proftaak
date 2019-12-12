@@ -40,7 +40,6 @@ namespace ProftaakApplicatieDiabetes.Models
 
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Geboortedag vereist!")]
-        //[Range(typeof(DateTime), DateTime.MinValue.ToString(), DateTime.Today.ToString())]
         public DateTime BirthDate { get; set; }
 
         public string UserGender { get; set; }
