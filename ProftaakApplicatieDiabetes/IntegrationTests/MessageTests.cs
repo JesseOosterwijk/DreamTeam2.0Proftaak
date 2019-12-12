@@ -93,7 +93,25 @@ namespace Tests
             LoadHome();
             AcceptCooky();
             LoginAsDoctor();
-            //SeePatientOverview
+            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/71");
+
+            Assert.AreEqual("Message - ProftaakApplicatieDiabetes", _driver.Title);
+        }
+
+        [Test]
+        public void DoctorSendMessage()
+        {
+            LoadHome();
+            AcceptCooky();
+            LoginAsDoctor();
+            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/71");
+            DateTime currentDateTime = DateTime.Now;
+
+            SendMessage(currentDateTime);
+
+            Assert.True(_driver.PageSource.Contains("title " + currentDateTime));
+            Assert.True(_driver.PageSource.Contains("content " + currentDateTime));
+            Assert.AreEqual("Message - ProftaakApplicatieDiabetes", _driver.Title);
         }
 
         [TearDown]
