@@ -33,6 +33,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
                         userId,
                         id
                     ));
+                messageViewModel.OtherUserId = id;
                 messageViewModel.CoupleId = _messageLogic.GetConversationDoctor(userId, id);
             }
             if (User.IsInRole("CareRecipient"))
@@ -60,6 +61,11 @@ namespace ProftaakApplicatieDiabetes.Controllers
             };
 
             _messageLogic.SendMessage(message);
+
+            if (User.IsInRole("Doctor"))
+            {
+                return RedirectToAction("ViewMessage", new {id = messageViewModel.OtherUserId});
+            }
 
             return RedirectToAction("ViewMessage");
         }
