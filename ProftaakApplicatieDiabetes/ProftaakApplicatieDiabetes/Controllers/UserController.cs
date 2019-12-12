@@ -179,6 +179,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
             UserViewModel model = new UserViewModel(_userLogic.GetUserById(userId));
 
             model.Type = accountType.ToString();
+            model.ShareInfo = _accountLogic.SharingIsEnabled(userId);
             return View(model);
         }
 

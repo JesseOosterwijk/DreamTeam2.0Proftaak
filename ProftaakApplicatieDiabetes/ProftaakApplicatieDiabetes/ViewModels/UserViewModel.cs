@@ -70,6 +70,7 @@ namespace ProftaakApplicatieDiabetes.Models
             Weight = user.Weight;
             BirthDate = user.BirthDate.Date;
             Status = user.Status;
+            ShareInfo = user.InfoSharing;
         }
 
         public UserViewModel()
