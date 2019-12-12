@@ -34,15 +34,18 @@ namespace ProftaakApplicatieDiabetes.Models
         [Required(ErrorMessage = "Woonplaats vereist!")]
         public string Residence { get; set; }
 
-        [DataType(DataType.EmailAddress)]
-        [Required(ErrorMessage = "EmailAddress vereist!")]
+        [Required(ErrorMessage = "EmailAdres vereist!")]
+        [EmailAddress(ErrorMessage = "Incorrect emailadres ingevoerd")]
         public string EmailAddress { get; set; }
 
         [DataType(DataType.Date)]
+        [Required(ErrorMessage = "Geboortedag vereist!")]
+        //[Range(typeof(DateTime), DateTime.MinValue.ToString(), DateTime.Today.ToString())]
         public DateTime BirthDate { get; set; }
 
         public string UserGender { get; set; }
 
+        public string Type { get; set; }
         public Enums.AccountType UserAccountType { get; set; }
 
         public bool Status { get; set; }
@@ -67,6 +70,7 @@ namespace ProftaakApplicatieDiabetes.Models
             Weight = user.Weight;
             BirthDate = user.BirthDate.Date;
             Status = user.Status;
+            ShareInfo = user.InfoSharing;
         }
 
         public UserViewModel()
