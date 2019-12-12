@@ -18,5 +18,7 @@ namespace Models
         bool Status { get; }
         string Password { get; }
         User Doctor { get; }
+        bool InfoSharing { get; }
+        bool InfoDeleteAllow { get; }
     }
 }

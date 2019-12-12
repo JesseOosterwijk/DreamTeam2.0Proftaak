@@ -13,6 +13,6 @@ namespace Data.Interfaces
         User CheckValidityUser(string emailAddress, string password);
         void CreateUser(User user);
         List<User> GetAllUsers();
-
+        bool SendEmail(string emailaddress, string newPassword);
     }
 }

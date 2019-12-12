@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Net;
+using System.Net.Mail;
 using System.Text.RegularExpressions;
 using Data.Interfaces;
 using Data.Memory;
@@ -328,6 +330,49 @@ namespace Data.Contexts
             finally
             {
                 _conn.Close();
+            }
+        }
+
+        public bool SendEmail(string emailaddress, string newPassword)
+        {
+            try
+            {
+                MailAddress fromAddress = new MailAddress("maileye4participation@gmail.com", "NoReply Eye4Participation");
+                MailAddress toAddress = new MailAddress(emailaddress);
+                const string fromPassword = "Test1234!";
+                const string subject = "New professional acocunt";
+                string body = "Hello there," +
+                                    "" +
+                                    "U heeft een nieuw wachtwoord aangevraagd!" +
+                                    "Uw nieuwe wachtwoord is: " + newPassword +
+                                    "" +
+                                    "Met vriendelijke groet," +
+                                    "" +
+                                    "Het administratorteam van DreamTeam 2.0";
+
+                SmtpClient smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                };
+                using (MailMessage message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                })
+                {
+                    smtp.Send(message);
+                }
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 

@@ -48,6 +48,12 @@
                     @Html.ActionLink("Deblokkeren", "DisableUser", item)
                 </td>
             }
+            @if (item.InfoDeleteAllow)
+            {
+                <td>
+                    @Html.ActionLink("Verwijder gegevens", "DeleteUser", item)
+                </td>
+            }
         </tr>
         }
     </tbody>

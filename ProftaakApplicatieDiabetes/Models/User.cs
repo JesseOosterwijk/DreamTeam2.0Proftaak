@@ -20,6 +20,7 @@ namespace Models
         public string Password { get; set; }
         public User Doctor { get; set; }
         public bool InfoSharing { get; set; }
+        public bool InfoDeleteAllow { get; set; }
 
         public User()
         {
