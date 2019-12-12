@@ -13,5 +13,6 @@ namespace Logic.Interface
         User CheckValidityUser(string emailAddress, string password);
         void CreateUser(User newUser);
         List<User> GetAllUsers();
+        bool SendEmail(string emailAddress, string newPassword);
     }
 }

@@ -20,9 +20,12 @@
                 Wachtwoord veranderen
             </th>
             <th>
+                Blokkeer gebruiker
+            </th>
+            <th>
                 Gegevens verwijderen
             </th>
-    </thead>
+</thead>
     <tbody>
         @foreach (IUser item in Model.Users)
         {
@@ -52,6 +55,12 @@
             {
                 <td>
                     @Html.ActionLink("Verwijder gegevens", "DeleteUser", item)
+                </td>
+            }
+            else
+            {
+                <td>
+                    Not allowed to delete info!
                 </td>
             }
         </tr>

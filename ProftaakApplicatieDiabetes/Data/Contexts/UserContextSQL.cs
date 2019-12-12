@@ -7,7 +7,6 @@ using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using Data.Interfaces;
-using Data.Memory;
 using Models;
 
 namespace Data.Contexts
@@ -47,6 +46,7 @@ namespace Data.Contexts
                     DateTime birthDate = (DateTime)dr["DateOfBirth"];
                     int weight = (int)dr["Weight"];
                     bool status = Convert.ToBoolean(dr["Status"].ToString());
+                    bool infoDelete = Convert.ToBoolean(dr["InfoDeleteAllow"].ToString());
                     if (accountType == Enums.AccountType.Admin)
                     {
                         User user = new Administrator(userId, userBSN, accountType, firstName, lastName, email, password, address, residence, gender, birthDate, weight, status);
@@ -59,7 +59,7 @@ namespace Data.Contexts
                     }
                     else
                     {
-                        User user = new CareRecipient(userId, userBSN, accountType, firstName, lastName, email, password, address, residence, gender, birthDate, weight, status);
+                        User user = new CareRecipient(userId, userBSN, accountType, firstName, lastName, email, password, address, residence, gender, birthDate, weight, status, infoDelete);
                         users.Add(user);
                     }
                 }
@@ -97,6 +97,7 @@ namespace Data.Contexts
                     cmd.Parameters.AddWithValue("@AccountType", SqlDbType.NVarChar).Value = newUser.UserAccountType.ToString();
                     cmd.Parameters.AddWithValue("@Status", SqlDbType.Bit).Value = true;
                     cmd.Parameters.AddWithValue("@InfoSharing", SqlDbType.Bit).Value = false;
+                    cmd.Parameters.AddWithValue("@InfoDeleteAllow", SqlDbType.Bit).Value = false;
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -337,9 +338,9 @@ namespace Data.Contexts
         {
             try
             {
-                MailAddress fromAddress = new MailAddress("maileye4participation@gmail.com", "NoReply Eye4Participation");
+                MailAddress fromAddress = new MailAddress("maildiabetesapplication@gmail.com", "NoReply Dreamteam 2.0");
                 MailAddress toAddress = new MailAddress(emailaddress);
-                const string fromPassword = "Test1234!";
+                string fromPassword = newPassword;
                 const string subject = "New professional acocunt";
                 string body = "Hello there," +
                                     "" +
@@ -381,7 +382,7 @@ namespace Data.Contexts
             try
             {
                 string query =
-                    "SELECT UserID, BSN, AccountType, FirstName, LastName, DateOfBirth, Gender, Address, Residence, Status, Password, Weight " +
+                    "SELECT UserID, BSN, AccountType, FirstName, LastName, DateOfBirth, Gender, Address, Residence, Status, Password, Weight, InfoDeleteAllow " +
                     "FROM [User] " +
                     "WHERE [Email] = @Email";
                 _conn.Open();
@@ -409,7 +410,7 @@ namespace Data.Contexts
                 bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[9]);
                 int weight = Convert.ToInt32(dt.Rows[0].ItemArray[11]);
                 string hashedPassword = dt.Rows[0].ItemArray[10].ToString();
-
+                bool infoDelete = Convert.ToBoolean(dt.Rows[0].ItemArray[12]);
 
                 if (!Hasher.SecurePasswordHasher.Verify(password, hashedPassword))
                     throw new ArgumentException("Password invalid");
@@ -421,7 +422,7 @@ namespace Data.Contexts
                             birthDate, weight, status);
                     case "CareRecipient":
                         return new CareRecipient(userId, BSN, Enums.AccountType.CareRecipient, firstName, lastName, emailAdress, hashedPassword, address, city,
-                            gender, birthDate, weight, status);
+                            gender, birthDate, weight, status, infoDelete);
                     case "Doctor":
                         return new Doctor(userId, BSN, Enums.AccountType.Doctor, firstName, lastName, emailAdress, hashedPassword, address, city,
                             gender, birthDate, weight, status);
