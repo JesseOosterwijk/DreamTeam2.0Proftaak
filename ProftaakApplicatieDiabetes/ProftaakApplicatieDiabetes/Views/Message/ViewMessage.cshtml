@@ -15,7 +15,6 @@ else if (!Model.Messages.Any())
     <h2>There are no messages if this is incorrect reload the page</h2>
 }
 
-
 <h2>Message</h2>
 <div class="container">
     <div class="row">
@@ -78,4 +77,9 @@ else if (!Model.Messages.Any())
         </div>
     <hr />
 }
-    <a asp-controller="Home" asp-action="Index">Back to Home</a>
+<div class="row">
+    <div class="col-6">
+        <ul id="messagesList"></ul>
+    </div>
+</div>
+<a asp-controller="Home" asp-action="Index">Back to Home</a>
