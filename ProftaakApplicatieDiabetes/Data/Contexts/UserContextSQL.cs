@@ -15,7 +15,6 @@ namespace Data.Contexts
     {
         private readonly SqlConnection _conn = Connection.GetConnection();
 
-
         public List<User> GetAllUsers()
         {
             try

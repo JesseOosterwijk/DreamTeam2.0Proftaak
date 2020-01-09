@@ -60,7 +60,7 @@
             @if (item.InfoDeleteAllow)
             {
                 <td>
-                    @Html.ActionLink("Verwijder gegevens", "DeleteUser", item)
+                    @Html.ActionLink("Verwijder gegevens", "DeleteUser", item, new { onclick = "Weet u zeker dat u deze gebruiker wil verwijderen?" })
                 </td>
             }
             else
