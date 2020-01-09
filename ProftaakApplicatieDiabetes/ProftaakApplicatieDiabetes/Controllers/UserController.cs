@@ -118,38 +118,38 @@ namespace ProftaakApplicatieDiabetes.Controllers
             {
                 if (password == passwordValidation)
                 {
-                    if (_userLogic.CheckIfUserAlreadyExists(userViewModel.EmailAddress))
+                    if (!(userViewModel.BirthDate > DateTime.Now))
                     {
-                        if (_userLogic.CheckIfEmailIsValid(userViewModel.EmailAddress))
+                        if (_userLogic.CheckIfUserAlreadyExists(userViewModel.EmailAddress) && _userLogic.CheckIfEmailIsValid(userViewModel.EmailAddress))
                         {
                             switch (userViewModel.UserAccountType)
                             {
                                 case Enums.AccountType.CareRecipient:
-                                    _userLogic.CreateUser(new CareRecipient(userViewModel.UserBSN, userViewModel.FirstName, userViewModel.LastName, 
-                                        userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate), 
+                                    _userLogic.CreateUser(new CareRecipient(userViewModel.UserBSN, userViewModel.FirstName, userViewModel.LastName,
+                                        userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate),
                                         (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), true, Enums.AccountType.CareRecipient, userViewModel.Weight, password));
                                     break;
                                 case Enums.AccountType.Doctor:
-                                    _userLogic.CreateUser(new Doctor(userViewModel.UserBSN, userViewModel.FirstName, userViewModel.LastName, 
-                                        userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate), 
+                                    _userLogic.CreateUser(new Doctor(userViewModel.UserBSN, userViewModel.FirstName, userViewModel.LastName,
+                                        userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate),
                                         (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), true, Enums.AccountType.Doctor, userViewModel.Weight, password));
                                     break;
                                 default:
                                     _userLogic.CreateUser(new CareRecipient(userViewModel.UserBSN, userViewModel.FirstName, userViewModel.LastName,
-                                       userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate), 
+                                       userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate),
                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), true, Enums.AccountType.CareRecipient, userViewModel.Weight, password));
                                     break;
                             }
                         }
                         else
                         {
-                            ViewBag.Message = "Foutieve email ingevoerd";
+                            ViewBag.Message = "Er bestaat al een account met deze e-mail of dit is geen correcte e-mail";
                             return View();
                         }
                     }
                     else
                     {
-                        ViewBag.Message = "Er bestaat al een account met deze e-mail";
+                        ViewBag.Message = "Je bent nog niet geboren";
                         return View();
                     }
                 }
@@ -271,4 +271,4 @@ namespace ProftaakApplicatieDiabetes.Controllers
         public IActionResult Forbidden() => View();
 
     }
-} 
+}
