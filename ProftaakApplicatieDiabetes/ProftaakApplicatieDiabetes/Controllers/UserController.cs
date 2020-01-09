@@ -129,11 +129,6 @@ namespace ProftaakApplicatieDiabetes.Controllers
                                         userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate), 
                                         (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), true, Enums.AccountType.CareRecipient, userViewModel.Weight, password));
                                     break;
-                                case Enums.AccountType.Admin:
-                                    _userLogic.CreateUser(new Administrator(userViewModel.UserBSN, userViewModel.FirstName, userViewModel.LastName, 
-                                        userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate), 
-                                        (Enums.Gender)Enum.Parse(typeof(Enums.Gender), userViewModel.UserGender), true, Enums.AccountType.Admin, userViewModel.Weight, password));
-                                    break;
                                 case Enums.AccountType.Doctor:
                                     _userLogic.CreateUser(new Doctor(userViewModel.UserBSN, userViewModel.FirstName, userViewModel.LastName, 
                                         userViewModel.Address, userViewModel.Residence, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate), 
