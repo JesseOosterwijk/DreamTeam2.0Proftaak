@@ -38,14 +38,9 @@ namespace ProftaakApplicatieDiabetes.Controllers
         {
             bool status = !user.Status;
 
-            UserViewModel userViewModel = new UserViewModel
-            {
-                Users = _userLogic.GetAllUsers()
-            };
-
             _accountLogic.UpdateStatus(user.UserId, status);
 
-            return View("UserOverview", userViewModel);
+            return RedirectToAction("UserOverview");
         }
 
         public ActionResult ChangePassword(User user)

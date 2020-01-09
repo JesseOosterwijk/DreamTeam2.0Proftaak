@@ -10,6 +10,8 @@ namespace IntegrationTests
 {
     class CalculationTests
     {
+        // When running tests: Make sure the cisco vpn is logged in and the application is running in nondebug-mode
+
         private IWebDriver _driver;
         public string _homeURL;
 
