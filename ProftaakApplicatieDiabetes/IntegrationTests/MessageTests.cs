@@ -6,9 +6,9 @@ using System.IO;
 using System.Reflection;
 using OpenQA.Selenium.Support.UI;
 
-namespace Tests
+namespace IntegrationTests
 {
-    public class Tests
+    public class MessageTests
     {
         private IWebDriver _driver;
         public string _homeURL;
