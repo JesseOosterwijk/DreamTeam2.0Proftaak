@@ -48,19 +48,19 @@
             @if (item.Status)
             {
                 <td>
-                    @Html.ActionLink("Blokkeren", "DisableUser", item)
+                    @Html.ActionLink("Blokkeren", "UpdateStatusUser", item)
                 </td>
             }
             else
             {
                 <td>
-                    @Html.ActionLink("Deblokkeren", "DisableUser", item)
+                    @Html.ActionLink("Deblokkeren", "UpdateStatusUser", item)
                 </td>
             }
             @if (item.InfoDeleteAllow)
             {
                 <td>
-                    @Html.ActionLink("Verwijder gegevens", "DeleteUser", item)
+                    @Html.ActionLink("Verwijder gegevens", "DeleteUser", item, new { onclick = "Weet u zeker dat u deze gebruiker wil verwijderen?" })
                 </td>
             }
             else

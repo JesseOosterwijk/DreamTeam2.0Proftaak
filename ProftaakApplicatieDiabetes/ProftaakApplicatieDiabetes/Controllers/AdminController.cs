@@ -34,7 +34,7 @@ namespace ProftaakApplicatieDiabetes.Controllers
             return View("UserOverview", uvm);
         }
 
-        public ActionResult DisableUser(User user)
+        public ActionResult UpdateStatusUser(User user)
         {
             bool status = !user.Status;
 
