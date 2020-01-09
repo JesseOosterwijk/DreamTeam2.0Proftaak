@@ -48,13 +48,13 @@
             @if (item.Status)
             {
                 <td>
-                    @Html.ActionLink("Blokkeren", "DisableUser", item)
+                    @Html.ActionLink("Blokkeren", "UpdateStatusUser", item)
                 </td>
             }
             else
             {
                 <td>
-                    @Html.ActionLink("Deblokkeren", "DisableUser", item)
+                    @Html.ActionLink("Deblokkeren", "UpdateStatusUser", item)
                 </td>
             }
             @if (item.InfoDeleteAllow)
