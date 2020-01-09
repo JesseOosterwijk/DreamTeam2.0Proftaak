@@ -34,14 +34,14 @@ namespace Tests
         private void LoginAsPatient()
         {
             //If test fails make sure user is registered
-            _driver.FindElement(By.Id("EmailAddress")).SendKeys("Test@test.Test");
+            _driver.FindElement(By.Id("EmailAddress")).SendKeys("patient@patient.patient");
             _driver.FindElement(By.Id("Password")).SendKeys("123");
             _driver.FindElement(By.Id("LoginUser")).Click();
         }
         private void LoginAsDoctor()
         {
             //If test fails make sure user is registered
-            _driver.FindElement(By.Id("EmailAddress")).SendKeys("JasperVerkoper@hotmail.com");
+            _driver.FindElement(By.Id("EmailAddress")).SendKeys("doctor@doctor.doctor");
             _driver.FindElement(By.Id("Password")).SendKeys("123");
             _driver.FindElement(By.Id("LoginUser")).Click();
         }
@@ -106,7 +106,7 @@ namespace Tests
             _driver.FindElement(By.Id("Login")).Click();
 
             LoginAsDoctor();
-            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/71");
+            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/1095");
 
             Assert.True(_driver.PageSource.Contains("title " + currentDateTime));
             Assert.True(_driver.PageSource.Contains("content " + currentDateTime));
@@ -121,7 +121,7 @@ namespace Tests
             _driver.FindElement(By.Id("Login")).Click();
 
             LoginAsDoctor();
-            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/71");
+            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/1095");
 
             Assert.AreEqual("Message - ProftaakApplicatieDiabetes", _driver.Title);
         }
@@ -134,7 +134,7 @@ namespace Tests
             _driver.FindElement(By.Id("Login")).Click();
 
             LoginAsDoctor();
-            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/71");
+            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/1095");
             DateTime currentDateTime = DateTime.Now;
 
             SendMessage(currentDateTime);
@@ -152,7 +152,7 @@ namespace Tests
             _driver.FindElement(By.Id("Login")).Click();
 
             LoginAsDoctor();
-            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/71");
+            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/1095");
             DateTime currentDateTime = DateTime.Now;
             SendMessage(currentDateTime);
 
