@@ -74,7 +74,7 @@ namespace ProftaakApplicatieDiabetes
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            
             app.UseAuthentication();
 
             app.UseMvc(routes =>
@@ -83,7 +83,6 @@ namespace ProftaakApplicatieDiabetes
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
         }
     }
 }
