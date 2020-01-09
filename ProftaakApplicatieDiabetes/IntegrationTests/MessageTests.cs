@@ -34,7 +34,7 @@ namespace Tests
         private void LoginAsPatient()
         {
             //If test fails make sure user is registered
-            _driver.FindElement(By.Id("EmailAddress")).SendKeys("Jasperkohlen@hotmail.com");
+            _driver.FindElement(By.Id("EmailAddress")).SendKeys("Test@test.Test");
             _driver.FindElement(By.Id("Password")).SendKeys("123");
             _driver.FindElement(By.Id("LoginUser")).Click();
         }
