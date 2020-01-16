@@ -34,14 +34,14 @@ namespace IntegrationTests
         private void LoginAsPatient()
         {
             //If test fails make sure user is registered
-            _driver.FindElement(By.Id("EmailAddress")).SendKeys("patient@patient.patient");
+            _driver.FindElement(By.Id("EmailAddress")).SendKeys("DemoPatient@gmail.com");
             _driver.FindElement(By.Id("Password")).SendKeys("123");
             _driver.FindElement(By.Id("LoginUser")).Click();
         }
         private void LoginAsDoctor()
         {
             //If test fails make sure user is registered
-            _driver.FindElement(By.Id("EmailAddress")).SendKeys("doctor@doctor.doctor");
+            _driver.FindElement(By.Id("EmailAddress")).SendKeys("DemoDoctor@gmail.com");
             _driver.FindElement(By.Id("Password")).SendKeys("123");
             _driver.FindElement(By.Id("LoginUser")).Click();
         }
@@ -52,6 +52,12 @@ namespace IntegrationTests
             _driver.FindElement(By.Id("Title")).SendKeys("title " + currentDateTime);
             _driver.FindElement(By.Id("Content")).SendKeys("content " + currentDateTime);
             _driver.FindElement(By.Id("SendMessage")).Click();
+        }
+
+        public void WaitForPageLoad()
+        {
+            WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(60));
+            wait.Until(webDriver => ((IJavaScriptExecutor)webDriver).ExecuteScript("return document.readyState").Equals("complete"));
         }
 
         [Test]
@@ -106,7 +112,9 @@ namespace IntegrationTests
             _driver.FindElement(By.Id("Login")).Click();
 
             LoginAsDoctor();
-            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/1095");
+            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/1112");
+
+            WaitForPageLoad();
 
             Assert.True(_driver.PageSource.Contains("title " + currentDateTime));
             Assert.True(_driver.PageSource.Contains("content " + currentDateTime));
@@ -121,7 +129,7 @@ namespace IntegrationTests
             _driver.FindElement(By.Id("Login")).Click();
 
             LoginAsDoctor();
-            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/1095");
+            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/1112");
 
             Assert.AreEqual("Message - ProftaakApplicatieDiabetes", _driver.Title);
         }
@@ -134,7 +142,7 @@ namespace IntegrationTests
             _driver.FindElement(By.Id("Login")).Click();
 
             LoginAsDoctor();
-            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/1095");
+            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/1112");
             DateTime currentDateTime = DateTime.Now;
 
             SendMessage(currentDateTime);
@@ -152,7 +160,7 @@ namespace IntegrationTests
             _driver.FindElement(By.Id("Login")).Click();
 
             LoginAsDoctor();
-            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/1095");
+            _driver.Navigate().GoToUrl("https://localhost:44316/Message/ViewMessage/1112");
             DateTime currentDateTime = DateTime.Now;
             SendMessage(currentDateTime);
 
@@ -161,6 +169,8 @@ namespace IntegrationTests
 
             LoginAsPatient();
             _driver.FindElement(By.Id("SeeChat")).Click();
+
+            WaitForPageLoad();
 
             Assert.True(_driver.PageSource.Contains("title " + currentDateTime));
             Assert.True(_driver.PageSource.Contains("content " + currentDateTime));
